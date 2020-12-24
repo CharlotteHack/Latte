@@ -1,4 +1,4 @@
 package com.salad.latte.Objects
 
-class Settings {
+class Settings(val email :String, val joinDate :String, val withdralStatus :String, val depositStatus :String) {
 }
