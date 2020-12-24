@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.salad.latte.DashboardFragment
 import com.salad.latte.HistoricalFragment
 import com.salad.latte.MainFragment
+import com.salad.latte.SettingsFragment
 
 class TabAdapter(
     var context: Context,
@@ -22,7 +23,7 @@ class TabAdapter(
                 HistoricalFragment()
             }
             2 -> {
-                MainFragment()
+                SettingsFragment()
             }
             else -> getItem(position)
         }
