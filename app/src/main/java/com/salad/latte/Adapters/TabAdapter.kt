@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.salad.latte.DashboardFragment
+import com.salad.latte.HistoricalFragment
 import com.salad.latte.MainFragment
 
 class TabAdapter(
@@ -14,10 +16,10 @@ class TabAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                MainFragment()
+                DashboardFragment()
             }
             1 -> {
-                MainFragment()
+                HistoricalFragment()
             }
             2 -> {
                 MainFragment()
