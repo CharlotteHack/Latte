@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switch_trade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -73,7 +73,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/toolbar3" />
 
             <TextView
-                android:id="@+id/tv_withdrawl"
+                android:id="@+id/tv_withdrawl_avail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -84,7 +84,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btn_withdraw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -102,7 +102,7 @@
                 android:text="Deposit Staus: Not Scheduled"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_withdrawl" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_withdrawl_avail" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -174,7 +174,7 @@
                 app:srcCompat="@drawable/user" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -185,7 +185,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar_personal" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/tv_joindate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Join Date: 12/23/2020"
@@ -193,10 +193,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Modify Account"
@@ -265,17 +265,17 @@
 
 
             <Button
-                android:id="@+id/button_privacy"
+                android:id="@+id/btn_privacy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Privacy Policy"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_disclosure" />
+                app:layout_constraintStart_toEndOf="@+id/btn_disclosure" />
 
             <Button
-                android:id="@+id/button_disclosure"
+                android:id="@+id/btn_disclosure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -298,7 +298,7 @@
                 app:tint="@color/white" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_email2"
+                android:id="@+id/fab_instagram"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="72dp"
