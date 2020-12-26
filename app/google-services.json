@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "813791571919",
+    "project_id": "latte-d25b7",
+    "storage_bucket": "latte-d25b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813791571919:android:20b1d9232631e1226bacba",
+        "android_client_info": {
+          "package_name": "com.salad.latte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813791571919-7tfui7o844pvdsvgve3kkl48be555deu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTjmHjy6Nmv2_zawyzxSa_27YNS8TLgRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813791571919-7tfui7o844pvdsvgve3kkl48be555deu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
