@@ -31,8 +31,9 @@ class DashboardFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dashboard,container,false)
         tv_totaltrades = view.findViewById(R.id.tv_totaltrades2)
-        tv_winrate = view.findViewById(R.id.tv_winrate2)
+//        tv_winrate = view.findViewById(R.id.tv_winrate2)
         tv_netreturn = view.findViewById(R.id.tv_netreturn2)
+        initChart(view, context!!)
 
 
 
