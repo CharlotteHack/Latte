@@ -9,6 +9,7 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.salad.latte.Dialogs.WithdrawDialogFragment
 import com.salad.latte.Objects.Settings
 
 class SettingsFragment :Fragment() {
@@ -49,6 +50,8 @@ class SettingsFragment :Fragment() {
         })
         btn_withdraw = view.findViewById(R.id.btn_withdraw)
         btn_withdraw.setOnClickListener(View.OnClickListener {
+            var withdrawDialog = WithdrawDialogFragment()
+            withdrawDialog.show(fragmentManager!!,"DIALOG_WITHDRAW")
 
         })
         btn_disclosure = view.findViewById(R.id.btn_disclosure)
