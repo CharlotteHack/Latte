@@ -21,20 +21,21 @@
         android:id="@+id/tv_title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="16dp"
         android:text="Latte - Beta"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginVertical="16dp"
         app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -56,12 +57,12 @@
         android:id="@+id/viewpager"
         android:name="com.salad.latte.MainFragment"
         android:layout_width="match_parent"
-        android:layout_height="625dp"
+        android:layout_height="629dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_deposit"
@@ -72,9 +73,9 @@
         android:clickable="true"
         android:src="@drawable/plus"
         app:backgroundTint="@color/purple_500"
-        app:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/tabLayout2" />
+        app:layout_constraintEnd_toEndOf="@+id/tabLayout2"
+        app:tint="@color/white" />
 
     <ImageView
         android:id="@+id/iv_refresh"

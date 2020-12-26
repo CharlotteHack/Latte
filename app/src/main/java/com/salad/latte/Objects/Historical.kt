@@ -16,10 +16,6 @@ class Historical(p :String, e :String, f :String, r :String, eP: String, eC :Str
     var percentReturn = pr
 
 
-    constructor(){
-
-
-    }
 
 
 }

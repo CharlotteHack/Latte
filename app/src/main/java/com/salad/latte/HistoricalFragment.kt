@@ -21,6 +21,7 @@ class HistoricalFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(R.layout.fragment_historical,container,false)
         historicalList = view.findViewById(R.id.list_historical)
+        historicalItems = ArrayList<Historical>()
         historicalItems.clear()
         historicalItems.add(Historical("Period: 12/14/2020 - 12/17/2020","Equity: $36,466","Fees: 0.01","Returns: $454.00","$36,466","$36,920"
             ,"%1.54"))

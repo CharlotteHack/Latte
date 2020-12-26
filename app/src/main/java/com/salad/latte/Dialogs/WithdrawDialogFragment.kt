@@ -19,11 +19,11 @@ class WithdrawDialogFragment() :DialogFragment() {
     lateinit var btn_cancel :Button
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_fragment_withdrawal,null)
-        tv_amountForWithdrawl.findViewById<TextView>(R.id.tv_dialog_withdrawl_avail)
-        tv_amount.findViewById<TextView>(R.id.dialog_tv_amount)
-        seek.findViewById<SeekBar>(R.id.dialog_seek)
-        btn_submit.findViewById<Button>(R.id.dialog_btn_submit)
-        btn_cancel.findViewById<Button>(R.id.dialog_button_cancel)
+        tv_amountForWithdrawl = view.findViewById<TextView>(R.id.tv_dialog_withdrawl_avail)
+        tv_amount = view.findViewById<TextView>(R.id.dialog_tv_amount)
+        seek = view.findViewById<SeekBar>(R.id.dialog_seek)
+        btn_submit = view.findViewById<Button>(R.id.dialog_btn_submit)
+        btn_cancel = view.findViewById<Button>(R.id.dialog_button_cancel)
 
         return AlertDialog.Builder(activity).setView(view).setTitle("Test").create()
     }
