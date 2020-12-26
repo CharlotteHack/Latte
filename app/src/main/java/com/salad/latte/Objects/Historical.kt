@@ -4,23 +4,20 @@ import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.salad.latte.R
 
-class Historical() {
+class Historical(p :String, e :String, f :String, r :String, eP: String, eC :String, pr :String) {
 
-    var period = ""
-    var equity = ""
-    var fees = ""
-    var returns = ""
-    var equityPrevious = ""
-    var equityCurrent = ""
-    var percentReturn = ""
-    constructor(period :String, equity :String, fees :String, returns :String, equityPrevious: String, equityCurrent :String, percentReturn :String){
-        this.period = period
-        this.equity = equity
-        this.fees = fees
-        this.returns = returns
-        this.equityPrevious = equityPrevious
-        this.equityCurrent = equityCurrent
-        this.percentReturn = percentReturn
+
+    var period = p
+    var equity = e
+    var fees = f
+    var returns = r
+    var equityPrevious = eP
+    var equityCurrent = eC
+    var percentReturn = pr
+
+
+    constructor(){
+
 
     }
 
