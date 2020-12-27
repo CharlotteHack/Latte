@@ -9,7 +9,6 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +19,6 @@
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:cardCornerRadius="13dp"
             app:cardElevation="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +32,7 @@
                     android:id="@+id/toolbar4"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="?attr/colorPrimary"
+                    android:background="@color/purple_500"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="?attr/actionBarTheme"
                     app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +69,6 @@
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="13dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardView3"
@@ -86,7 +83,7 @@
                     android:id="@+id/toolbar5"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="?attr/colorPrimary"
+                    android:background="@color/purple_500"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="?attr/actionBarTheme"
                     app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +151,13 @@
                 android:padding="10dp"
                 app:egFixedBarWidth="true"
                 app:egBarWidth="20dp"
+                android:visibility="gone"
                 app:egLegendHeight="40dp"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/graph" />
         </LinearLayout>
     </ScrollView>
 

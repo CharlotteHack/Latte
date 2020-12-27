@@ -1,17 +1,20 @@
 package com.salad.latte
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.series.BarGraphSeries
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import org.eazegraph.lib.charts.BarChart
 import org.eazegraph.lib.models.BarModel
+import java.util.*
+
 
 class DashboardFragment : Fragment(){
 
@@ -42,14 +45,30 @@ class DashboardFragment : Fragment(){
         val mBarChart = view.findViewById(R.id.chart_month_by_month) as BarChart
 
         mBarChart.addBar(BarModel(-2.3f, -0xedcbaa))
-        mBarChart.addBar(BarModel(2f, -0xcbcbaa))
+        mBarChart.addBar(BarModel("Feb",3500.00f, -0xcbcbaa))
         mBarChart.addBar(BarModel(3.3f, -0xa9cbaa))
         mBarChart.addBar(BarModel(1.1f, -0x78c0aa))
         mBarChart.addBar(BarModel(2.7f, -0xa9480f))
         mBarChart.addBar(BarModel(2f, -0xcbcbaa))
         mBarChart.addBar(BarModel(0.4f, -0xe00b54))
         mBarChart.addBar(BarModel(4f, -0xe45b1a))
+        mBarChart.isFocusable = true
 
         mBarChart.startAnimation()
+
+
+        val graph = view.findViewById(R.id.graph) as GraphView
+        val series: BarGraphSeries<DataPoint> = BarGraphSeries<DataPoint>(
+            arrayOf<DataPoint>(
+                DataPoint(0.0, 10.0),
+                DataPoint(1.0, 20.0),
+                DataPoint(2.0, 15.0),
+                DataPoint(3.0, -7.0),
+                DataPoint(4.0, 2.0),
+                DataPoint(5.0, 4.0),
+                DataPoint(6.0, 7.0)
+            )
+        )
+        graph.addSeries(series)
     }
 }
