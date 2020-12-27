@@ -144,32 +144,33 @@
                 android:textColor="#000000"
                 android:textSize="16dp" />
 
-            <com.github.mikephil.charting.charts.LineChart
+
+
+            <org.eazegraph.lib.charts.BarChart
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/chart_month_by_month"
                 android:layout_width="match_parent"
-                android:layout_height="292dp" />
+                android:layout_height="256dp"
+                android:padding="10dp"
+                app:egFixedBarWidth="true"
+                app:egBarWidth="20dp"
+                app:egLegendHeight="40dp"/>
         </LinearLayout>
     </ScrollView>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart_cumulative"
-        android:layout_width="410dp"
-        android:layout_height="292dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_cumulative_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Cumulative returns"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/chart_cumulative"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_cumulative_label"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:text="Cumulative returns"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/chart_cumulative"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
