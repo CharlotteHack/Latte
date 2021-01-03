@@ -27,9 +27,9 @@ class MainActivity : FragmentActivity() {
 //        fragmentManager.beginTransaction().add(R.id.fragment,MainFragment()).commit()
         fab_deposit = findViewById(R.id.fab_deposit)
         tb_tabbar = findViewById(R.id.tabLayout2)
-        toolbar = findViewById(R.id.toolbar)
+//        toolbar = findViewById(R.id.toolbar)
         title = findViewById(R.id.tv_title_label)
-        iv_refresh = findViewById(R.id.iv_refresh)
+//        iv_refresh = findViewById(R.id.iv_refresh)
         viewPager = findViewById(R.id.viewpager)
 
 //        Create TabLayout Adapter
@@ -44,9 +44,9 @@ class MainActivity : FragmentActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        iv_refresh.setOnClickListener(View.OnClickListener {
-            Toast.makeText(baseContext,"Clicked refresh",Toast.LENGTH_LONG).show()
-        })
+//        iv_refresh.setOnClickListener(View.OnClickListener {
+//            Toast.makeText(baseContext,"Clicked refresh",Toast.LENGTH_LONG).show()
+//        })
 
         fab_deposit.setOnClickListener(View.OnClickListener {
             Toast.makeText(baseContext,"Clicked deposit",Toast.LENGTH_LONG).show()

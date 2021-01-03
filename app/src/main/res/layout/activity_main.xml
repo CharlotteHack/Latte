@@ -6,32 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/purple_500"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <androidx.appcompat.widget.Toolbar-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginBottom="731dp"-->
+    <!--        android:background="@color/purple_500"-->
+    <!--        android:minHeight="?attr/actionBarSize"-->
+    <!--        android:theme="?attr/actionBarTheme"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/viewpager"-->
+    <!--        tools:visibility="gone" />-->
 
     <TextView
         android:id="@+id/tv_title_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginVertical="16dp"
-        android:layout_marginStart="16dp"
         android:text="Latte - Beta"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        android:visibility="gone" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout2"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,37 +57,34 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:name="com.salad.latte.MainFragment"
-        android:layout_width="405dp"
-        android:layout_height="581dp"
-        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_deposit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:src="@drawable/plus"
         app:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/tabLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 
-    <ImageView
-        android:id="@+id/iv_refresh"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/refresh"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:tint="@color/white" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_refresh"-->
+    <!--        android:layout_width="24dp"-->
+    <!--        android:layout_height="24dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:background="@drawable/refresh"-->
+    <!--        app:iconTint="@color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/toolbar"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/toolbar"-->
+    <!--        app:tint="@color/white" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
