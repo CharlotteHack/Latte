@@ -8,11 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="40dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,10 +24,11 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="APPLE (AAPL)"
                 android:layout_marginTop="48dp"
+                android:text="APPLE (AAPL)"
+
                 android:textColor="#000000"
-                android:textSize="24dp"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/lv_news"
                 app:layout_constraintStart_toStartOf="@+id/lv_news"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,10 +37,10 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recommended Allocation: 5%"
-                android:textColor="#000000"
                 android:layout_marginTop="8dp"
-                android:textSize="18dp"
+                android:text="Allocation: 1%"
+                android:textColor="#000000"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="@+id/lv_news"
                 app:layout_constraintStart_toStartOf="@+id/lv_news"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -49,8 +49,8 @@
                 android:id="@+id/lv_news"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="gone"
                 android:layout_margin="8dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
                 tools:layout_editor_absoluteX="0dp" />
 
