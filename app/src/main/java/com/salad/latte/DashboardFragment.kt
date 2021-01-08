@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,7 +29,7 @@ class DashboardFragment : Fragment(){
     lateinit var tv_netreturn :TextView
 
 
-    lateinit var lv_watchlist :ListView
+    lateinit var gv_watchlist :GridView
     lateinit var watchitems :ArrayList<Watchlist>
     lateinit var watchAdapter :WatchListAdapter
 
@@ -44,12 +45,16 @@ class DashboardFragment : Fragment(){
 
 
 
-        lv_watchlist = view.findViewById(R.id.lv_watchlist)
+        gv_watchlist = view.findViewById(R.id.gv_watchlist)
         watchitems = ArrayList<Watchlist>()
         watchitems.add(Watchlist())
         watchitems.add(Watchlist())
+        watchitems.add(Watchlist())
+        watchitems.add(Watchlist())
+        watchitems.add(Watchlist())
+        watchitems.add(Watchlist())
         watchAdapter = WatchListAdapter(context!!,R.layout.custom_news_item,watchitems)
-        lv_watchlist.setAdapter(watchAdapter)
+        gv_watchlist.setAdapter(watchAdapter)
         watchAdapter.notifyDataSetChanged()
 
 

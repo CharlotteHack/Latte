@@ -3,6 +3,8 @@ package com.salad.latte
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
@@ -22,6 +24,7 @@ class MainActivity : FragmentActivity() {
     lateinit var viewPager :ViewPager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setStatusBarColor(getColor(R.color.purple_500))
         setContentView(R.layout.activity_main)
         fragmentManager = supportFragmentManager;
 //        fragmentManager.beginTransaction().add(R.id.fragment,MainFragment()).commit()
