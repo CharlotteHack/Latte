@@ -6,7 +6,7 @@
 
     <ListView
         android:id="@+id/list_historical"
-        android:layout_width="202dp"
+        android:layout_width="203dp"
         android:layout_height="200dp"
         tools:layout_editor_absoluteX="1dp"
         android:visibility="gone"/>
