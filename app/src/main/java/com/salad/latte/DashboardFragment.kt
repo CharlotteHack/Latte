@@ -47,12 +47,15 @@ class DashboardFragment : Fragment(){
 
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
         watchitems = ArrayList<Watchlist>()
-        watchitems.add(Watchlist())
-        watchitems.add(Watchlist())
-        watchitems.add(Watchlist())
-        watchitems.add(Watchlist())
-        watchitems.add(Watchlist())
-        watchitems.add(Watchlist())
+        var watchlistItem = Watchlist();
+        watchlistItem.icon = "https://c0.klipartz.com/pngpicture/203/134/gratis-png-visa.png"
+        watchlistItem.ticker = "VISA"
+        watchitems.add(watchlistItem)
+//        watchitems.add(Watchlist())
+//        watchitems.add(Watchlist())
+//        watchitems.add(Watchlist())
+//        watchitems.add(Watchlist())
+//        watchitems.add(Watchlist())
         watchAdapter = WatchListAdapter(context!!,R.layout.custom_news_item,watchitems)
         gv_watchlist.setAdapter(watchAdapter)
         watchAdapter.notifyDataSetChanged()

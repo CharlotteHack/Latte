@@ -9,10 +9,12 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.salad.latte.MainActivity;
 import com.salad.latte.Objects.News;
 import com.salad.latte.Objects.Watchlist;
 import com.salad.latte.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,11 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = ((LayoutInflater)rootContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_watchlist_item,parent,false);
+        if(!watchitems.get(position).icon.equals("")){
+            //((FloatingActionButton) view.findViewById(R.id.floatingActionButton))..setImageURI(watchitems.get(position).icon);
+            Picasso.get().load(watchitems.get(position).icon).into(((FloatingActionButton) view.findViewById(R.id.floatingActionButton)));
 
+        }
         lv_news = view.findViewById(R.id.lv_news);
         news = new ArrayList<News>();
         news.add(new News());
