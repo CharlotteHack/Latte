@@ -55,7 +55,7 @@ class DashboardFragment : Fragment(){
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())
-//        watchitems.add(Watchlist())
+//        watchitems.add(Watchlist())//
         watchAdapter = WatchListAdapter(context!!,R.layout.custom_news_item,watchitems)
         gv_watchlist.setAdapter(watchAdapter)
         watchAdapter.notifyDataSetChanged()
