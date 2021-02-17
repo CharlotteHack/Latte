@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="157dp"
+        android:ems="10"
+        android:hint="Symbol"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/et_percent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="% Equity"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/et_equity"
+        app:layout_constraintStart_toStartOf="@+id/et_symbol"
+        app:layout_constraintTop_toBottomOf="@+id/et_symbol" />
+
+    <EditText
+        android:id="@+id/et_equity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:ems="10"
+        android:hint="Equity Amount"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_add_submit_btn"
+        app:layout_constraintStart_toStartOf="@+id/et_percent"
+        app:layout_constraintTop_toBottomOf="@+id/et_percent" />
+
+    <Button
+        android:id="@+id/dialog_add_submit_btn"
+        android:layout_width="204dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="9dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_add_cancel_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_equity" />
+
+    <Button
+        android:id="@+id/dialog_add_cancel_btn"
+        android:layout_width="207dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="299dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_add_submit_btn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

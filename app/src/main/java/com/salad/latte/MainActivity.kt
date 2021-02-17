@@ -14,9 +14,12 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.salad.latte.Adapters.TabAdapter
+import com.salad.latte.Dialogs.AddDialogFragment
+import com.salad.latte.Dialogs.WithdrawDialogFragment
 
 class MainActivity : FragmentActivity() {
     lateinit var fab_deposit :FloatingActionButton
+    lateinit var fab_add_stock :FloatingActionButton
     lateinit var fragmentManager :FragmentManager
     lateinit var tb_tabbar :TabLayout
     lateinit var toolbar: Toolbar
@@ -30,6 +33,7 @@ class MainActivity : FragmentActivity() {
         fragmentManager = supportFragmentManager;
 //        fragmentManager.beginTransaction().add(R.id.fragment,MainFragment()).commit()
         fab_deposit = findViewById(R.id.fab_deposit)
+        fab_add_stock = findViewById(R.id.add_stock)
         tb_tabbar = findViewById(R.id.tabLayout2)
 //        toolbar = findViewById(R.id.toolbar)
         title = findViewById(R.id.tv_title_label)
@@ -60,6 +64,10 @@ class MainActivity : FragmentActivity() {
 
         fab_deposit.setOnClickListener(View.OnClickListener {
             Toast.makeText(baseContext,"Clicked deposit",Toast.LENGTH_LONG).show()
+        })
+        fab_add_stock.setOnClickListener(View.OnClickListener {
+            var addDialog = AddDialogFragment()
+            addDialog.show(fragmentManager!!,"DIALOG_ADD")
         })
     }
 }
