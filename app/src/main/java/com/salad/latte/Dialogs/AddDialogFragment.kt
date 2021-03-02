@@ -30,7 +30,7 @@ class AddDialogFragment() : DialogFragment() {
 
         btn_cancel.setOnClickListener(View.OnClickListener {
             dialogA.cancel()
-//ok/////
+//ok////////
         })
 
 
