@@ -8,11 +8,9 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="130dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:elevation="5dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="5dp"
@@ -27,12 +25,21 @@
                 android:id="@+id/tv_period"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="11dp"
+                android:layout_marginStart="16dp"
                 android:text="Period: Dec 12 2020 - Dec 15 2020"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tv_hisorical_ticker" />
+
+            <TextView
+                android:id="@+id/tv_historical_allocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allocation: 2% of portfolio"
+                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_period"
+                app:layout_constraintTop_toBottomOf="@+id/tv_period" />
 
             <TextView
                 android:id="@+id/tv_equity"
@@ -41,6 +48,7 @@
                 android:layout_marginStart="10dp"
                 android:text="Equity: $500"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_fees"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,6 +60,7 @@
                 android:layout_marginTop="11dp"
                 android:text="Return: $5.23"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_equity" />
 
@@ -63,6 +72,7 @@
                 android:layout_marginTop="11dp"
                 android:text="Fees: $0.02"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/tv_returns"
                 app:layout_constraintTop_toBottomOf="@+id/tv_period" />
 
@@ -105,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Previous Equity"
+                    android:text="Entry Price"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="#ffffff"
                     android:textSize="12dp" />
@@ -116,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="500$"
+                    android:text="$300.51"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
             </LinearLayout>
@@ -136,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Current Equity"
+                    android:text="Current Price"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="#ffffff"
                     android:textSize="12dp" />
@@ -182,6 +192,18 @@
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_hisorical_ticker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:text="VISA (V)"
+                android:textAlignment="center"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toTopOf="@+id/fab_return_indicator"
+                app:layout_constraintEnd_toEndOf="@+id/fab_return_indicator"
+                app:layout_constraintStart_toStartOf="@+id/fab_return_indicator" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
