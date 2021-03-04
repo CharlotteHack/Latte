@@ -49,7 +49,9 @@ class DashboardFragment : Fragment(){
         watchitems = ArrayList<Watchlist>()
         var watchlistItem = Watchlist();
         watchlistItem.icon = "https://c0.klipartz.com/pngpicture/203/134/gratis-png-visa.png"
-        watchlistItem.ticker = "VISA..."
+        watchlistItem.ticker = "VISA (V)"
+        watchlistItem.allocation = "Allocation: 2%"
+        watchlistItem.targetEntry = "Target Entry: $100.71"
         watchitems.add(watchlistItem)
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())

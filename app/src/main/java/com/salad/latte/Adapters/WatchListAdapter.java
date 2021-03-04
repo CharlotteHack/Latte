@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +50,10 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
             Picasso.get().load(watchitems.get(position).icon).into(((FloatingActionButton) view.findViewById(R.id.floatingActionButton)));
 
         }
+        ((TextView) view.findViewById(R.id.tv_watchlist_ticker)).setText(watchitems.get(position).ticker);
+        ((TextView) view.findViewById(R.id.tv_targetEntry)).setText(watchitems.get(position).targetEntry);
+        ((TextView) view.findViewById(R.id.tv_allocation)).setText(watchitems.get(position).allocation);
+
         lv_news = view.findViewById(R.id.lv_news);
         news = new ArrayList<News>();
         news.add(new News());

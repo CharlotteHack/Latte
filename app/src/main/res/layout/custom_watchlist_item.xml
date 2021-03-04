@@ -23,12 +23,12 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_watchlist_ticker"
+                    android:layout_width="0dp"
+                    android:layout_height="26dp"
                     android:layout_marginTop="48dp"
                     android:text="APPLE (AAPL)"
-
+                    android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="@+id/lv_news"
@@ -36,16 +36,28 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_allocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:text="Allocation: 2%"
                     android:textColor="#000000"
                     android:textSize="12dp"
-                    app:layout_constraintEnd_toEndOf="@+id/lv_news"
-                    app:layout_constraintStart_toStartOf="@+id/lv_news"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_targetEntry" />
+
+                <TextView
+                    android:id="@+id/tv_targetEntry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target Entry: $200.71 "
+                    android:textColor="#000000"
+                    android:textSize="12dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_watchlist_ticker" />
 
                 <ListView
                     android:id="@+id/lv_news"
@@ -53,15 +65,15 @@
                     android:layout_height="0dp"
                     android:layout_margin="8dp"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_allocation"
                     tools:layout_editor_absoluteX="0dp" />
 
                 <Button
                     android:id="@+id/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button"
                     android:layout_marginBottom="8dp"
+                    android:text="Button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
