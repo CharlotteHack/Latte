@@ -77,7 +77,7 @@
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:src="@drawable/plus"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout2"
         app:layout_constraintEnd_toEndOf="parent"

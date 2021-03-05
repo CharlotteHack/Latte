@@ -57,6 +57,12 @@ class PiechartFragment : Fragment(){
         closed = ClosedPosition();
         closedPosList = ArrayList<ClosedPosition>();
         closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
+        closedPosList!!.add(closed);
         var closedAdapter = ClosedPostionsAdapter(context!!,com.salad.latte.R.layout.custom_closedpos,closedPosList!!);
         closedAdapter.notifyDataSetChanged()
         listViewClosed.adapter = closedAdapter;
