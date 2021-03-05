@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.salad.latte.GeneratePieData.generatePieData
+import com.salad.latte.Objects.ClosedPosition
 
 
 class PiechartFragment : Fragment(){
     private var chart: PieChart? = null
+    private var closedPosList :ArrayList<ClosedPosition>? = null;
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +46,10 @@ class PiechartFragment : Fragment(){
         l.setDrawInside(false)
 
         chart.setData(generatePieData())
+
+
+        //
+
         return view
     }
 
