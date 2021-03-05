@@ -1,9 +1,11 @@
 package com.salad.latte.Adapters;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +55,10 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
         ((TextView) view.findViewById(R.id.tv_watchlist_ticker)).setText(watchitems.get(position).ticker);
         ((TextView) view.findViewById(R.id.tv_targetEntry)).setText(watchitems.get(position).targetEntry);
         ((TextView) view.findViewById(R.id.tv_allocation)).setText(watchitems.get(position).allocation);
+        ((TextView) view.findViewById(R.id.tv_watchlist_status)).setText(watchitems.get(position).buySellOrHold);
+        ((TextView) view.findViewById(R.id.tv_watchlist_entryDate)).setText(watchitems.get(position).entryDate);
+        //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setText(watchitems.get(position).buySellOrHold);
+        //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setBackgroundColor(Color.parseColor("#03A9F4"));
 
         lv_news = view.findViewById(R.id.lv_news);
         news = new ArrayList<News>();

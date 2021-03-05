@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.salad.latte.DashboardFragment
-import com.salad.latte.HistoricalFragment
-import com.salad.latte.MainFragment
-import com.salad.latte.SettingsFragment
+import com.salad.latte.*
 
 class TabAdapter(
     var context: Context,
@@ -23,7 +20,7 @@ class TabAdapter(
                 HistoricalFragment()
             }
             2 -> {
-                SettingsFragment()
+                PiechartFragment()
             }
             else -> getItem(position)
         }

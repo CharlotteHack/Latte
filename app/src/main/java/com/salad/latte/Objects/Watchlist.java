@@ -5,6 +5,8 @@ public class Watchlist {
     public String ticker = "";
     public String targetEntry = "";
     public String allocation =  "";
+    public String buySellOrHold = "";
+    public String entryDate = "";
     public Watchlist(){
         //
 

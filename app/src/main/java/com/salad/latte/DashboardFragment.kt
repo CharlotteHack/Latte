@@ -52,6 +52,8 @@ class DashboardFragment : Fragment(){
         watchlistItem.ticker = "VISA (V)"
         watchlistItem.allocation = "Allocation: 2%"
         watchlistItem.targetEntry = "Target Entry: $100.71"
+        watchlistItem.buySellOrHold = "HOLD"
+        watchlistItem.entryDate = "12/31"
         watchitems.add(watchlistItem)
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())
