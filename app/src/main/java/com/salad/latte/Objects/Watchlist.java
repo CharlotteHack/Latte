@@ -6,6 +6,7 @@ public class Watchlist {
     public String targetEntry = "";
     public String allocation =  "";
     public Watchlist(){
+        //
 
     }
 }
