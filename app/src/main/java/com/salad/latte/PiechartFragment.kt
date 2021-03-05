@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
+import com.salad.latte.Adapters.ClosedPostionsAdapter
 import com.salad.latte.GeneratePieData.generatePieData
 import com.salad.latte.Objects.ClosedPosition
 
@@ -16,6 +18,7 @@ import com.salad.latte.Objects.ClosedPosition
 class PiechartFragment : Fragment(){
     private var chart: PieChart? = null
     private var closedPosList :ArrayList<ClosedPosition>? = null;
+    private lateinit var listViewClosed :ListView;
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +52,14 @@ class PiechartFragment : Fragment(){
 
 
         //
+        listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
+        var closed :ClosedPosition;
+        closed = ClosedPosition();
+        closedPosList = ArrayList<ClosedPosition>();
+        closedPosList!!.add(closed);
+        var closedAdapter = ClosedPostionsAdapter(context!!,com.salad.latte.R.layout.custom_closedpos,closedPosList!!);
+        closedAdapter.notifyDataSetChanged()
+        listViewClosed.adapter = closedAdapter;
 
         return view
     }
