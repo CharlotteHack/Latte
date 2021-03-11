@@ -91,15 +91,15 @@ public class FirebaseDB {
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
                     historicalItems.add(
                             new Historical(
-                                    datasnap.child("ticker").getValue(String.class),
-                                    datasnap.child("period").getValue(String.class),
+                                    datasnap.child("ticker").getValue(String.class)+"",
+                                    datasnap.child("period").getValue(String.class)+"",
                                     "",
                                     "",
                                     "",
-                                    datasnap.child("entryPrice").getValue(String.class),
-                                    datasnap.child("exitPrice").getValue(String.class),
+                                    datasnap.child("entryPrice").getValue(String.class)+"",
+                                    datasnap.child("exitPrice").getValue(String.class)+"",
                                     "",
-                                    datasnap.child("allocation").getValue(String.class)
+                                    datasnap.child("allocation").getValue(String.class)+""
                             )
                     );
                 }

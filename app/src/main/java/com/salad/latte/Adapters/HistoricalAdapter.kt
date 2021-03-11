@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.salad.latte.Objects.Historical
 import com.salad.latte.R
+import java.math.MathContext
 
 class HistoricalAdapter(private val con :Context,private val res :Int,private val items :ArrayList<Historical>) :ArrayAdapter<Historical>(con,res,items) {
     @RequiresApi(Build.VERSION_CODES.M)
@@ -38,13 +39,14 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         tv_returns.setText(item.returns)
 
         val tv_entryPrice = view.findViewById<TextView>(R.id.tv_historical_entryPrice)
-        tv_entryPrice.setText(item.entryPrice)
+        tv_entryPrice.setText("$"+item.entryPrice)
 
         val tv_exitPrice = view.findViewById<TextView>(R.id.tv_historical_exitPrice)
-        tv_exitPrice.setText(item.exitPrice)
+        tv_exitPrice.setText("$"+item.exitPrice)
 
         val tv_equity_percent_return = view.findViewById<TextView>(R.id.tv_equity_percent_return)
-        tv_equity_percent_return.setText(item.percentReturn)
+        var delta = (item.exitPrice.toDouble()/item.entryPrice.toDouble())-1
+        tv_equity_percent_return.setText(delta.toBigDecimal().round(MathContext(2)).toString()+"%")
 
         val fab_percent = view.findViewById<FloatingActionButton>(R.id.fab_return_indicator)
 //        fab_percent.setText("Period: 10/13/2020 - 10/15/2020")
