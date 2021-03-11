@@ -30,7 +30,7 @@
                 android:text="Period: Dec 12 2020 - Dec 15 2020"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_hisorical_ticker" />
+                app:layout_constraintTop_toTopOf="@+id/tv_historical_ticker" />
 
             <TextView
                 android:id="@+id/tv_historical_allocation"
@@ -122,7 +122,7 @@
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/tv_equity_previous"
+                    android:id="@+id/tv_historical_entryPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -153,7 +153,7 @@
                     android:textSize="12dp" />
 
                 <TextView
-                    android:id="@+id/tv_equity_current"
+                    android:id="@+id/tv_historical_exitPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -195,7 +195,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_hisorical_ticker"
+                android:id="@+id/tv_historical_ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
