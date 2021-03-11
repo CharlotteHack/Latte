@@ -11,4 +11,13 @@ public class Watchlist {
         //
 
     }
+
+    public Watchlist(String i, String t, String te, String a, String b, String e){
+     icon = i;
+     ticker = t;
+     targetEntry = te;
+     allocation = a;
+     buySellOrHold = b;
+     entryDate = e;
+    }
 }
