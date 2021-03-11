@@ -55,7 +55,7 @@ class DashboardFragment : Fragment(){
         watchlistItem.buySellOrHold = "HOLD"
         watchlistItem.entryDate = "12/31"
         watchitems.add(Watchlist("https://e7.pngegg.com/pngimages/910/492/png-clipart-mastercard-logo-credit-card-visa-brand-mastercard-text-label.png","MA","Target Entry: $336.00",
-        "Allocation: 2%","HOLD","%8.01"));
+        "Allocation: 2%","HOLD","1/1"));
 
 
 
