@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Latte</string>
-    <string-array name="array_name">
-        <item>Monthly Returns</item>
+    <string-array name="spinner">
+        <item>Alltime Returns</item>
+        <item>2021 Returns</item>
+        <item>2020 Returns</item>
+        <item>2019 Returns</item>
+        <item>2018 Returns</item>
+        <item>2017 Returns</item>
+        <item>2016 Returns</item>
     </string-array>
     <string-array name="array_name2">
         <item>Cumulative Returns</item>
