@@ -1,7 +1,9 @@
 package com.salad.latte.Adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,8 +49,15 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         val tv_equity_percent_return = view.findViewById<TextView>(R.id.tv_equity_percent_return)
         var delta = (item.exitPrice.toDouble()/item.entryPrice.toDouble())-1
         tv_equity_percent_return.setText(delta.toBigDecimal().round(MathContext(2)).toString()+"%")
-
         val fab_percent = view.findViewById<FloatingActionButton>(R.id.fab_return_indicator)
+        Log.d("Historical Adapter","Delta: "+delta)
+        if (delta < 0) {
+            fab_percent.setImageResource(R.drawable.downarrow)
+//            fab_percent.setBackgroundTintList(ColorStateList.valueOf(context!!.getResources().getColor(R.color.red)));
+        } else{
+            fab_percent.setImageResource(R.drawable.uparrow)
+            fab_percent.setBackgroundTintList(ColorStateList.valueOf(context!!.getResources().getColor(R.color.purple_500)));
+        }
 //        fab_percent.setText("Period: 10/13/2020 - 10/15/2020")
 
 
