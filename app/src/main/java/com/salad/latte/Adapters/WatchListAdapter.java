@@ -1,11 +1,10 @@
 package com.salad.latte.Adapters;
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import com.salad.latte.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WatchListAdapter extends ArrayAdapter<Watchlist> {
 
@@ -53,10 +51,21 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
 
         }
         ((TextView) view.findViewById(R.id.tv_watchlist_ticker)).setText(watchitems.get(position).ticker);
-        ((TextView) view.findViewById(R.id.tv_targetEntry)).setText(watchitems.get(position).targetEntry);
+        ((TextView) view.findViewById(R.id.tv_targetEntry)).setText("Entry Price: "+watchitems.get(position).targetEntry);
         ((TextView) view.findViewById(R.id.tv_allocation)).setText(watchitems.get(position).allocation);
-        ((TextView) view.findViewById(R.id.tv_watchlist_status)).setText(watchitems.get(position).buySellOrHold);
         ((TextView) view.findViewById(R.id.tv_watchlist_entryDate)).setText(watchitems.get(position).entryDate);
+        ((TextView) view.findViewById(R.id.tv_watchlist_currentPrice)).setText("Current Price: "+watchitems.get(position).currentPrice);
+
+        float delta = ((Float.parseFloat(watchitems.get(position).currentPrice)/Float.parseFloat(watchitems.get(position).targetEntry))-1)*100;
+
+        if (delta  < 0){
+            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("-"+"%.2f", delta)+"%");
+            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setTextColor(getContext().getResources().getColor(R.color.red));
+        }else{
+            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("+"+"%.2f", delta)+"%");
+            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setTextColor(getContext().getResources().getColor(R.color.purple_500));
+        }
+        ;Log.d("WatchlistAdapterAdapter","Delta: "+delta);
         //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setText(watchitems.get(position).buySellOrHold);
         //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setBackgroundColor(Color.parseColor("#03A9F4"));
 

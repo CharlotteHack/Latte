@@ -54,8 +54,8 @@ public class FirebaseDB {
                                     datasnap.child("icon").getValue(String.class),
                                     datasnap.child("ticker").getValue(String.class),
                                     datasnap.child("targetEntry").getValue(String.class),
+                                    datasnap.child("currentPrice").getValue(String.class),
                                     datasnap.child("allocation").getValue(String.class),
-                                    datasnap.child("buySellHold").getValue(String.class),
                                     datasnap.child("entryDate").getValue(String.class)
                             )
                     );
