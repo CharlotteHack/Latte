@@ -8,7 +8,6 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,12 +16,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
-import com.salad.latte.GeneratePieData;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
 import com.salad.latte.Objects.Watchlist;
 
 import java.util.ArrayList;
+
+import static com.salad.latte.GeneratePieData.generatePieData;
 
 public class FirebaseDB {
     private final DatabaseReference mDatabase;
@@ -125,7 +125,7 @@ public class FirebaseDB {
         return historicalItems;
     }
 
-    public ArrayList<Pie> pullPieChart(Context context, int layout, ListView closedList, PieChart chart){
+    public ArrayList<Pie> pullPieChart(Context context, int layout, ListView closedList, PieChart pieChart){
 
         if (pieReference != null){
             mDatabase.removeEventListener(pieReference);
@@ -152,28 +152,7 @@ public class FirebaseDB {
                 pieAdapter = new PieAdapter(context,layout,pieItems);
                 closedList.setAdapter(pieAdapter);
                 pieAdapter.notifyDataSetChanged();
-                chart.getDescription().setEnabled(false);
-
-                //val tf = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
-
-                //chart.setCenterTextTypeface(tf)
-                chart.setCenterText("Allocations");
-                chart.setCenterTextSize(10f);
-                //chart.setCenterTextTypeface(tf)
-
-                // radius of the center hole in percent of maximum radius
-
-                // radius of the center hole in percent of maximum radius
-                chart.setHoleRadius(45f);
-                chart.setTransparentCircleRadius(50f);
-
-                Legend l = chart.getLegend();
-                l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-                l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-                l.setOrientation(Legend.LegendOrientation.VERTICAL);
-                l.setDrawInside(false);
-
-                chart.setData(GeneratePieData.generatePieData(context,pieItems.size()));
+                pieChart.setData(generatePieData(context,pieItems.size()));
             }
 
             @Override
