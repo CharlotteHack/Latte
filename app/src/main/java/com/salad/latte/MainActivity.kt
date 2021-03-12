@@ -21,6 +21,7 @@ import com.google.android.material.tabs.TabLayout
 import com.salad.latte.Adapters.TabAdapter
 import com.salad.latte.Dialogs.AddDialogFragment
 import com.salad.latte.Dialogs.WithdrawDialogFragment
+import es.dmoral.toasty.Toasty
 
 class MainActivity : FragmentActivity() {
     lateinit var fab_deposit :FloatingActionButton
@@ -34,6 +35,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(getColor(R.color.purple_500))
+        Toasty.info(this, "Not Investment Advice. Do Due Diligence.", Toast.LENGTH_SHORT, true).show();
         setContentView(R.layout.activity_main)
         fragmentManager = supportFragmentManager;
 //        fragmentManager.beginTransaction().add(R.id.fragment,MainFragment()).commit()
