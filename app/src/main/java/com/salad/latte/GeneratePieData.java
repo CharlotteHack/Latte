@@ -23,16 +23,12 @@ public class GeneratePieData {
         ArrayList <PieEntry> entries1 = new ArrayList <PieEntry> ();
         ArrayList < String > xVals = new ArrayList < String > ();
 
-        xVals.add("Quarter 1");
-        xVals.add("Quarter 2");
-        xVals.add("Quarter 3");
-        xVals.add("Quarter 4");
 
-        for (int i = 0; i < count; i++) {
-            xVals.add("entry" + (i + 1));
+            xVals.add("Allocated");
+            entries1.add(new PieEntry(8F,"Allocated"));
+            entries1.add(new PieEntry(92F,"Unallocated"));
 
-            entries1.add(new PieEntry(13F,"label"));
-        }
+
 
 //        PieDataSet ds1 = new PieDataSet(entries1, "Quarterly Revenues 2015");
 //        ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -40,7 +36,13 @@ public class GeneratePieData {
 //        ds1.setValueTextColor(Color.WHITE);
 //        ds1.setValueTextSize(12f);
 
-        PieData d = new PieData(new PieDataSet(entries1,"label"));
+
+        PieDataSet pieDS = new PieDataSet(entries1,"Allocations");
+        pieDS.setColors(ColorTemplate.JOYFUL_COLORS);
+        pieDS.setSliceSpace(2f);
+        pieDS.setValueTextColor(Color.BLACK);
+        pieDS.setValueTextSize(12f);
+        PieData d = new PieData(pieDS);
         //PieData da = new PieData();
 
         return d;
