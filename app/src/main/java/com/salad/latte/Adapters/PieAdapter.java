@@ -10,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,11 @@ public class PieAdapter extends ArrayAdapter<Pie> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View v = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_pie,parent,false);
         ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
-        ((TextView) v.findViewById(R.id.fab_pie_icon)).setText(pies.get(position).icon);
+        if(!pies.get(position).icon.equals("")){
+            //((FloatingActionButton) view.findViewById(R.id.floatingActionButton))..setImageURI(watchitems.get(position).icon);
+            Picasso.get().load(pies.get(position).icon).into(((FloatingActionButton) v.findViewById(R.id.fab_pie_icon)));
+
+        }
         ((TextView) v.findViewById(R.id.tv_pie_entryDate)).setText(pies.get(position).entryDate);
         ((TextView) v.findViewById(R.id.tv_pie_entry_current)).setText(pies.get(position).entryPrice+" | "+pies.get(position).currentPrice);
 //        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
