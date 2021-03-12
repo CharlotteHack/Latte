@@ -18,7 +18,7 @@ public class GeneratePieData {
     GeneratePieData(){
 
     }
-    protected static PieData generatePieData(Context c,int allocatedPos) {
+    public static PieData generatePieData(Context c,int allocatedPos) {
 
         int count = 4;
         ArrayList <PieEntry> entries1 = new ArrayList <PieEntry> ();

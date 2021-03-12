@@ -27,13 +27,15 @@ class PiechartFragment : Fragment(){
         val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
         firebaseDB = FirebaseDB()
 
+        val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
+
 
 
         //
         listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
 
         closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed));
+        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed,chart));
 
         var closedAdapter = PieAdapter(
             context!!,
@@ -45,29 +47,7 @@ class PiechartFragment : Fragment(){
 
         //
 
-        val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
-        chart.getDescription().isEnabled = false
 
-        //val tf = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
-
-        //chart.setCenterTextTypeface(tf)
-        chart.setCenterText("Allocations")
-        chart.setCenterTextSize(10f)
-        //chart.setCenterTextTypeface(tf)
-
-        // radius of the center hole in percent of maximum radius
-
-        // radius of the center hole in percent of maximum radius
-        chart.setHoleRadius(45f)
-        chart.setTransparentCircleRadius(50f)
-
-        val l = chart.getLegend()
-        l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-        l.orientation = Legend.LegendOrientation.VERTICAL
-        l.setDrawInside(false)
-
-        chart.setData(generatePieData(context,closedPosList!!.size))
 
         return view
     }
