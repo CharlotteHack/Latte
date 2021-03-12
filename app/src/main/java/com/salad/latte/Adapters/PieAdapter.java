@@ -43,8 +43,8 @@ public class PieAdapter extends ArrayAdapter<Pie> {
             Picasso.get().load(pies.get(position).icon).into(((FloatingActionButton) v.findViewById(R.id.fab_pie_icon)));
 
         }
-        ((TextView) v.findViewById(R.id.tv_pie_entryDate)).setText(pies.get(position).entryDate);
-        ((TextView) v.findViewById(R.id.tv_pie_entry_current)).setText(pies.get(position).entryPrice+" | "+pies.get(position).currentPrice);
+        ((TextView) v.findViewById(R.id.tv_pie_entryDate)).setText("Entry Date: "+pies.get(position).entryDate);
+        ((TextView) v.findViewById(R.id.tv_pie_entry_current)).setText("Entry Price: $"+pies.get(position).entryPrice+" | Exit Price $"+pies.get(position).currentPrice+"$");
 //        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
 
         return v;
