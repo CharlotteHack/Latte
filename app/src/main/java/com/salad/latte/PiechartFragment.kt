@@ -26,6 +26,25 @@ class PiechartFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
         firebaseDB = FirebaseDB()
+
+
+
+        //
+        listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
+
+        closedPosList = ArrayList<Pie>();
+        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed));
+
+        var closedAdapter = PieAdapter(
+            context!!,
+            R.layout.custom_pie,
+            closedPosList!!
+        );
+        closedAdapter.notifyDataSetChanged()
+        listViewClosed.adapter = closedAdapter;
+
+        //
+
         val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
         chart.getDescription().isEnabled = false
 
@@ -48,22 +67,7 @@ class PiechartFragment : Fragment(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
-        chart.setData(generatePieData(context))
-
-
-        //
-        listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
-
-        closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed));
-
-        var closedAdapter = PieAdapter(
-            context!!,
-            R.layout.custom_pie,
-            closedPosList!!
-        );
-        closedAdapter.notifyDataSetChanged()
-        listViewClosed.adapter = closedAdapter;
+        chart.setData(generatePieData(context,closedPosList!!.size))
 
         return view
     }

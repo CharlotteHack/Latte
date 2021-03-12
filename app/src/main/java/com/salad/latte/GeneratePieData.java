@@ -18,7 +18,7 @@ public class GeneratePieData {
     GeneratePieData(){
 
     }
-    protected static PieData generatePieData(Context c) {
+    protected static PieData generatePieData(Context c,int allocatedPos) {
 
         int count = 4;
         ArrayList <PieEntry> entries1 = new ArrayList <PieEntry> ();
@@ -27,8 +27,8 @@ public class GeneratePieData {
 
 
             xVals.add("Allocated");
-            entries1.add(new PieEntry(8F,"Allocated"));
-            entries1.add(new PieEntry(92F,"Unallocated"));
+            entries1.add(new PieEntry(Float.parseFloat(allocatedPos*2+""),"Allocated"));
+            entries1.add(new PieEntry(100-(allocatedPos*2),"Unallocated"));
 
 
 
