@@ -16,6 +16,8 @@ import com.salad.latte.Adapters.PieAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.GeneratePieData.generatePieData
 import com.salad.latte.Objects.Pie
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PiechartFragment : Fragment(){
@@ -26,23 +28,24 @@ class PiechartFragment : Fragment(){
     lateinit var mDatabase :DatabaseReference
     lateinit var pieReference :ValueEventListener;
     lateinit var pieAdapter: PieAdapter;
+    lateinit var v: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
+        v = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
         mDatabase = FirebaseDatabase.getInstance().getReference()
 
-        allocPositons = view.findViewById(R.id.tv_pie_allocated_count)
+        allocPositons = v.findViewById(R.id.tv_pie_allocated_count)
 
-        val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
+        val chart =  (v.findViewById(R.id.piechart)) as PieChart
 
         //
-        listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
+        listViewClosed = v.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
 
         closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed));
+        closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed,chart));
         pieAdapter = PieAdapter(context!!,R.layout.custom_pie,closedPosList!!)
 
         var closedAdapter = PieAdapter(
@@ -54,7 +57,6 @@ class PiechartFragment : Fragment(){
         listViewClosed.adapter = closedAdapter;
 
         //
-        allocPositons.text = "Allocated Positions: "+closedAdapter.count;
 
         chart.getDescription().isEnabled = false
 
@@ -77,12 +79,10 @@ class PiechartFragment : Fragment(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
-        chart.setData(generatePieData(context,closedAdapter.count))
-
-        return view
+        return v
     }
 
-    fun pullPieChart(context: Context?, layout: Int, closedList: ListView ): ArrayList<Pie> {
+    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chart :PieChart ): ArrayList<Pie> {
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
 //        }
@@ -96,8 +96,16 @@ class PiechartFragment : Fragment(){
                     )
                 }
                 //
+
+                closedPosList!!.sort()
+//                for (item in closedPosList!!) {
+//                    Log.d("PieChartFragment", item.ticker)
+//                }
+
                 pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
                 closedList.adapter = pieAdapter
+                allocPositons.text = "Allocated Positions: "+closedPosList!!.size
+                chart.setData(generatePieData(context,closedPosList!!.size))
                 pieAdapter.notifyDataSetChanged()
             }
 
