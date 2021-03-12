@@ -148,7 +148,7 @@ public class FirebaseDB {
                 //
                 pieAdapter = new PieAdapter(context,layout,pieItems);
                 closedList.setAdapter(pieAdapter);
-                historicalAdapter.notifyDataSetChanged();
+                pieAdapter.notifyDataSetChanged();
             }
 
             @Override
