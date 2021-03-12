@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,13 @@ public class PieAdapter extends ArrayAdapter<Pie> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View v = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_closedpos,parent,false);
+        View v = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_pie,parent,false);
+        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
+        ((TextView) v.findViewById(R.id.fab_pie_icon)).setText(pies.get(position).icon);
+        ((TextView) v.findViewById(R.id.tv_pie_entryDate)).setText(pies.get(position).entryDate);
+        ((TextView) v.findViewById(R.id.tv_pie_entry_current)).setText(pies.get(position).entryPrice+" | "+pies.get(position).currentPrice);
+//        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
+
         return v;
 
     }

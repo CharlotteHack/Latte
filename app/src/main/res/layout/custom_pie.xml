@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_custom_closedpos_icon"
+                android:id="@+id/fab_pie_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -31,32 +31,32 @@
                 app:tint="@null" />
 
             <TextView
-                android:id="@+id/tv_custom_closedpos_ticker"
+                android:id="@+id/tv_pie_ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="APPLE (AAPL)"
-                app:layout_constraintStart_toEndOf="@+id/fab_custom_closedpos_icon"
-                app:layout_constraintTop_toTopOf="@+id/fab_custom_closedpos_icon" />
+                app:layout_constraintStart_toEndOf="@+id/fab_pie_icon"
+                app:layout_constraintTop_toTopOf="@+id/fab_pie_icon" />
 
             <TextView
-                android:id="@+id/tv_custom_closedpos_duration"
+                android:id="@+id/tv_pie_entryDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="3/5/2021 - 8/9/2021"
-                app:layout_constraintStart_toStartOf="@+id/tv_custom_closedpos_ticker"
-                app:layout_constraintTop_toBottomOf="@+id/tv_custom_closedpos_ticker" />
+                app:layout_constraintStart_toStartOf="@+id/tv_pie_ticker"
+                app:layout_constraintTop_toBottomOf="@+id/tv_pie_ticker" />
 
             <TextView
-                android:id="@+id/tv_custom_closedpos_entryexit_price"
+                android:id="@+id/tv_pie_entry_current"
                 android:layout_width="wrap_content"
 
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Entry Price: $17.21 | Exit Price $22.11"
-                app:layout_constraintStart_toStartOf="@+id/tv_custom_closedpos_duration"
-                app:layout_constraintTop_toBottomOf="@+id/tv_custom_closedpos_duration" />
+                app:layout_constraintStart_toStartOf="@+id/tv_pie_entryDate"
+                app:layout_constraintTop_toBottomOf="@+id/tv_pie_entryDate" />
 
             <TextView
                 android:id="@+id/tv_custom_closedpos_delta"

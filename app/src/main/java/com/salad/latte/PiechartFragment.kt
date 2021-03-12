@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.salad.latte.Adapters.PieAdapter
+import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.GeneratePieData.generatePieData
 import com.salad.latte.Objects.Pie
 
@@ -16,6 +17,7 @@ import com.salad.latte.Objects.Pie
 class PiechartFragment : Fragment(){
     private var chart: PieChart? = null
     private var closedPosList :ArrayList<Pie>? = null;
+    private lateinit var firebaseDB :FirebaseDB
     private lateinit var listViewClosed :ListView;
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,7 +25,7 @@ class PiechartFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
-
+        firebaseDB = FirebaseDB()
         val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
         chart.getDescription().isEnabled = false
 
@@ -51,19 +53,13 @@ class PiechartFragment : Fragment(){
 
         //
         listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
-        var closed : Pie;
-        closed = Pie();
+
         closedPosList = ArrayList<Pie>();
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
-        closedPosList!!.add(closed);
+        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed));
+
         var closedAdapter = PieAdapter(
             context!!,
-            R.layout.custom_closedpos,
+            R.layout.custom_pie,
             closedPosList!!
         );
         closedAdapter.notifyDataSetChanged()

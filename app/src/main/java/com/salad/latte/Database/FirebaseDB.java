@@ -122,7 +122,7 @@ public class FirebaseDB {
         return historicalItems;
     }
 
-    public ArrayList<Pie> pullClosedPositionsPieChart(Context context, int layout, ListView closedList){
+    public ArrayList<Pie> pullPieChart(Context context, int layout, ListView closedList){
 
         if (pieReference != null){
             mDatabase.removeEventListener(pieReference);
