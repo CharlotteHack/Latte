@@ -45,8 +45,16 @@ public class PieAdapter extends ArrayAdapter<Pie> {
         }
         ((TextView) v.findViewById(R.id.tv_pie_entryDate)).setText("Entry Date: "+pies.get(position).entryDate);
         ((TextView) v.findViewById(R.id.tv_pie_entry_current)).setText("Entry Price: $"+pies.get(position).entryPrice+" | Exit Price $"+pies.get(position).currentPrice+"$");
-//        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
+        ((TextView) v.findViewById(R.id.tv_pie_ticker)).setText(pies.get(position).ticker);
+        float delta = ((Float.parseFloat(pies.get(position).currentPrice)/Float.parseFloat(pies.get(position).entryPrice))-1)*100;
 
+        if (delta  < 0){
+            ((TextView) v.findViewById(R.id.tv_pie_delta)).setText(String.format("-"+"%.2f", delta)+"%");
+            ((TextView) v.findViewById(R.id.tv_pie_delta)).setTextColor(getContext().getResources().getColor(R.color.red));
+        }else{
+            ((TextView) v.findViewById(R.id.tv_pie_delta)).setText(String.format("+"+"%.2f", delta)+"%");
+            ((TextView) v.findViewById(R.id.tv_pie_delta)).setTextColor(getContext().getResources().getColor(R.color.purple_500));
+        }
         return v;
 
     }
