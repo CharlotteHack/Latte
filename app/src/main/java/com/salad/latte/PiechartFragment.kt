@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -19,6 +20,7 @@ class PiechartFragment : Fragment(){
     private var closedPosList :ArrayList<Pie>? = null;
     private lateinit var firebaseDB :FirebaseDB
     private lateinit var listViewClosed :ListView;
+    lateinit var allocPositons :TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,6 +29,7 @@ class PiechartFragment : Fragment(){
         val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
         firebaseDB = FirebaseDB()
 
+        allocPositons = view.findViewById(R.id.tv_pie_allocated_count)
 
         val chart =  (view.findViewById(com.salad.latte.R.id.piechart)) as PieChart
 
@@ -45,6 +48,7 @@ class PiechartFragment : Fragment(){
         listViewClosed.adapter = closedAdapter;
 
         //
+        allocPositons.text = "Allocated Positions: "+closedAdapter.count;
 
         chart.getDescription().isEnabled = false
 
@@ -67,7 +71,7 @@ class PiechartFragment : Fragment(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
-        chart.setData(generatePieData(context,closedPosList!!.size))
+        chart.setData(generatePieData(context,closedAdapter.count))
 
         return view
     }

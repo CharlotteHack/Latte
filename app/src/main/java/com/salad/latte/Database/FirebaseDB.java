@@ -37,6 +37,8 @@ public class FirebaseDB {
     ValueEventListener pieReference;
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
+
+    int length = 0;
     public FirebaseDB(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         watchlistItems = new ArrayList<>();
@@ -125,6 +127,27 @@ public class FirebaseDB {
         return historicalItems;
     }
 
+    public int getPieCount(){
+        length = 0;
+        if (pieReference != null){
+            mDatabase.removeEventListener(pieReference);
+        }
+        pieReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pieItems.clear();
+
+                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("pie").getChildrenCount());
+                length =  Integer.parseInt(snapshot.child("pie").getChildrenCount()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        return length;
+    }
     public ArrayList<Pie> pullPieChart(Context context, int layout, ListView closedList, PieChart pieChart){
 
         if (pieReference != null){
@@ -152,7 +175,6 @@ public class FirebaseDB {
                 pieAdapter = new PieAdapter(context,layout,pieItems);
                 closedList.setAdapter(pieAdapter);
                 pieAdapter.notifyDataSetChanged();
-                pieChart.setData(generatePieData(context,pieItems.size()));
             }
 
             @Override
