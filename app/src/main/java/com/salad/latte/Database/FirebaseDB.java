@@ -136,14 +136,11 @@ public class FirebaseDB {
                 for(DataSnapshot datasnap: snapshot.child("pie").getChildren()){
                     pieItems.add(
                             new Pie(
+                                    datasnap.child("icon").getValue(String.class)+"",
                                     datasnap.child("ticker").getValue(String.class)+"",
-                                    datasnap.child("period").getValue(String.class)+"",
-                                    "",
-                                    "",
-                                    "",
                                     datasnap.child("entryPrice").getValue(String.class)+"",
                                     datasnap.child("exitPrice").getValue(String.class)+"",
-                                    "",
+                                    datasnap.child("currentPrice").getValue(String.class)+"",
                                     datasnap.child("allocation").getValue(String.class)+""
                             )
                     );
