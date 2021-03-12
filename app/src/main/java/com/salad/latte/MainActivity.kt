@@ -1,5 +1,10 @@
 package com.salad.latte
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -24,7 +29,7 @@ class MainActivity : FragmentActivity() {
     lateinit var tb_tabbar :TabLayout
     lateinit var toolbar: Toolbar
     lateinit var title :TextView
-    lateinit var iv_refresh :ImageView
+    lateinit var iv_instagram :ImageView
     lateinit var viewPager :ViewPager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,21 @@ class MainActivity : FragmentActivity() {
         title = findViewById(R.id.tv_title_label)
 //        iv_refresh = findViewById(R.id.iv_refresh)
         viewPager = findViewById(R.id.viewpager)
+        iv_instagram = findViewById(R.id.iv_instagram)
+
+        iv_instagram.setOnClickListener{
+            var uri = Uri.parse("http://instagram.com/_u/latte.app");
+            var insta = Intent(Intent.ACTION_VIEW, uri);
+            insta.setPackage("com.instagram.android");
+
+            if (isIntentAvailable(baseContext, insta)){
+                startActivity(insta);
+            } else{
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/latte.app")));
+            }
+
+
+        }
 
 //        Create TabLayout Adapter
         val tabLayout = TabAdapter(baseContext,fragmentManager,3)
@@ -70,4 +90,11 @@ class MainActivity : FragmentActivity() {
             addDialog.show(fragmentManager!!,"DIALOG_ADD")
         })
     }
+
+    fun isIntentAvailable(ctx :Context, intent :Intent) : Boolean{
+        val packageManager = ctx.packageManager
+        var list = packageManager.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY)
+        return list.size > 0
+    }
+
 }

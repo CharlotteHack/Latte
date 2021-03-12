@@ -17,10 +17,10 @@ class TabAdapter(
                 DashboardFragment()
             }
             1 -> {
-                HistoricalFragment()
+                PiechartFragment()
             }
             2 -> {
-                PiechartFragment()
+                HistoricalFragment()
             }
             else -> getItem(position)
         }
