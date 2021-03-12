@@ -21,6 +21,7 @@ import com.salad.latte.Objects.Historical;
 import com.salad.latte.Objects.Watchlist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.salad.latte.GeneratePieData.generatePieData;
 
@@ -71,6 +72,7 @@ public class FirebaseDB {
                     );
                 }
                 //
+                Collections.sort(watchlistItems);
                 watchListAdapter = new WatchListAdapter(context,layout,watchlistItems);
                 gridView.setAdapter(watchListAdapter);
                 watchListAdapter.notifyDataSetChanged();
