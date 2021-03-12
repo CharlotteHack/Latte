@@ -1,6 +1,6 @@
 package com.salad.latte.Objects;
 
-public class ClosedPosition {
+public class Pie {
     String icon = "";
     String ticker = "";
     String duration = "";

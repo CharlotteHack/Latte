@@ -28,7 +28,7 @@
                 android:id="@+id/tv_watchlist_ticker"
                 android:layout_width="0dp"
                 android:layout_height="26dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="40dp"
                 android:text="APPLE (AAPL)"
                 android:textAlignment="center"
                 android:textColor="#000000"

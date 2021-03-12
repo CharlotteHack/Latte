@@ -9,26 +9,25 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.salad.latte.Objects.ClosedPosition;
+import com.salad.latte.Objects.Pie;
 import com.salad.latte.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ClosedPostionsAdapter extends ArrayAdapter<ClosedPosition> {
-    ArrayList<ClosedPosition> closedPositions;
+public class PieAdapter extends ArrayAdapter<Pie> {
+    ArrayList<Pie> pies;
     Context context;
     int res;
-    public ClosedPostionsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<ClosedPosition> objects) {
+    public PieAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Pie> objects) {
         super(context, resource, objects);
-        closedPositions = objects;
+        pies = objects;
         this.context = context;
         this.res = resource;
     }
 
     @Override
     public int getCount() {
-        return closedPositions.size();
+        return pies.size();
     }
 
     @NonNull

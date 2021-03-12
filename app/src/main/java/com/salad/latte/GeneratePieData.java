@@ -1,5 +1,6 @@
 package com.salad.latte;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.data.PieData;
@@ -17,11 +18,12 @@ public class GeneratePieData {
     GeneratePieData(){
 
     }
-    protected static PieData generatePieData() {
+    protected static PieData generatePieData(Context c) {
 
         int count = 4;
         ArrayList <PieEntry> entries1 = new ArrayList <PieEntry> ();
         ArrayList < String > xVals = new ArrayList < String > ();
+
 
 
             xVals.add("Allocated");
@@ -38,7 +40,11 @@ public class GeneratePieData {
 
 
         PieDataSet pieDS = new PieDataSet(entries1,"Allocations");
-        pieDS.setColors(ColorTemplate.JOYFUL_COLORS);
+//        pieDS.setColors(ColorTemplate.LIBERTY_COLORS);
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(c.getResources().getColor(R.color.purple_200));
+        colors.add(c.getResources().getColor(R.color.purple_500));
+        pieDS.setColors(colors);
         pieDS.setSliceSpace(2f);
         pieDS.setValueTextColor(Color.BLACK);
         pieDS.setValueTextSize(12f);
