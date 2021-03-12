@@ -1,6 +1,8 @@
 package com.salad.latte
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
+import com.google.firebase.database.*
 import com.salad.latte.Adapters.PieAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.GeneratePieData.generatePieData
@@ -18,16 +21,18 @@ import com.salad.latte.Objects.Pie
 class PiechartFragment : Fragment(){
     private var chart: PieChart? = null
     private var closedPosList :ArrayList<Pie>? = null;
-    private lateinit var firebaseDB :FirebaseDB
     private lateinit var listViewClosed :ListView;
     lateinit var allocPositons :TextView
+    lateinit var mDatabase :DatabaseReference
+    lateinit var pieReference :ValueEventListener;
+    lateinit var pieAdapter: PieAdapter;
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
-        firebaseDB = FirebaseDB()
+        mDatabase = FirebaseDatabase.getInstance().getReference()
 
         allocPositons = view.findViewById(R.id.tv_pie_allocated_count)
 
@@ -37,7 +42,8 @@ class PiechartFragment : Fragment(){
         listViewClosed = view.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
 
         closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(firebaseDB.pullPieChart(context,R.layout.custom_pie,listViewClosed,chart));
+        closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed));
+        pieAdapter = PieAdapter(context!!,R.layout.custom_pie,closedPosList!!)
 
         var closedAdapter = PieAdapter(
             context!!,
@@ -74,6 +80,32 @@ class PiechartFragment : Fragment(){
         chart.setData(generatePieData(context,closedAdapter.count))
 
         return view
+    }
+
+    fun pullPieChart(context: Context?, layout: Int, closedList: ListView ): ArrayList<Pie> {
+//        if (pieReference != null) {
+//            mDatabase.removeEventListener(pieReference)
+//        }
+        pieReference = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                closedPosList!!.clear()
+                Log.d("FirebaseDB", "Snapshot count: " + snapshot.child("pie").childrenCount)
+                for (datasnap in snapshot.child("pie").children) {
+                    closedPosList!!.add(
+                            Pie(datasnap.child("icon").getValue(String::class.java).toString() + "", datasnap.child("ticker").getValue(String::class.java).toString() + "", datasnap.child("entryDate").getValue(String::class.java).toString() + "", datasnap.child("entryPrice").getValue(String::class.java).toString() + "", datasnap.child("currentPrice").getValue(String::class.java).toString() + "", datasnap.child("allocation").getValue(String::class.java).toString() + "")
+                    )
+                }
+                //
+                pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
+                closedList.adapter = pieAdapter
+                pieAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        }
+        mDatabase.addValueEventListener(pieReference)
+        Log.d("FirebaseDB", "Results found for Pie: " + closedPosList!!.size)
+        return closedPosList!!
     }
 
 

@@ -148,42 +148,5 @@ public class FirebaseDB {
         };
         return length;
     }
-    public ArrayList<Pie> pullPieChart(Context context, int layout, ListView closedList, PieChart pieChart){
 
-        if (pieReference != null){
-            mDatabase.removeEventListener(pieReference);
-        }
-        pieReference = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pieItems.clear();
-
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("pie").getChildrenCount());
-                for(DataSnapshot datasnap: snapshot.child("pie").getChildren()){
-                    pieItems.add(
-                            new Pie(
-                                    datasnap.child("icon").getValue(String.class)+"",
-                                    datasnap.child("ticker").getValue(String.class)+"",
-                                    datasnap.child("entryDate").getValue(String.class)+"",
-                                    datasnap.child("entryPrice").getValue(String.class)+"",
-                                    datasnap.child("currentPrice").getValue(String.class)+"",
-                                    datasnap.child("allocation").getValue(String.class)+""
-                            )
-                    );
-                }
-                //
-                pieAdapter = new PieAdapter(context,layout,pieItems);
-                closedList.setAdapter(pieAdapter);
-                pieAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        mDatabase.addValueEventListener(pieReference);
-        Log.d("FirebaseDB", "Results found for Pie: " + pieItems.size());
-        return pieItems;
-    }
 }
