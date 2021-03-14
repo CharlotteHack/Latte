@@ -50,7 +50,8 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         var delta = (item.exitPrice.toDouble()/item.entryPrice.toDouble())-1
         tv_equity_percent_return.setText(delta.toBigDecimal().round(MathContext(2)).toString()+"%")
         val fab_percent = view.findViewById<FloatingActionButton>(R.id.fab_return_indicator)
-        Log.d("Historical Adapter","Delta: "+delta)
+//        Log.d("HistoricalAdapter","Delta: "+delta)
+//        Log.d("HistoricalAdapter: ","Ticker: "+item.ticker+" Exit Date: "+item.getExitDate())
         if (delta < 0) {
             fab_percent.setImageResource(R.drawable.downarrow)
 //            fab_percent.setBackgroundTintList(ColorStateList.valueOf(context!!.getResources().getColor(R.color.red)));

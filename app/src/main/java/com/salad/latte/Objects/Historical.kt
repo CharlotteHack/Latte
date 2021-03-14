@@ -17,6 +17,10 @@ class Historical(t :String,p :String, e :String, f :String, r :String, enP: Stri
     var percentReturn = pr
     var allocation = a
 
+    fun getExitDate() :String{
+        return period.split(" ")[2]
+    }
+
 
 
 }

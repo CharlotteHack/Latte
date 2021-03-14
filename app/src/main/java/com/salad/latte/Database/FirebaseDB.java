@@ -129,6 +129,50 @@ public class FirebaseDB {
         return historicalItems;
     }
 
+    public ArrayList<Historical> pullHistoricalDataByDate(Context context, int layout, ListView historicalList, String exitDate){
+
+        if (historicalReference != null){
+            mDatabase.removeEventListener(historicalReference);
+        }
+        historicalReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                historicalItems.clear();
+
+                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
+                    if (Integer.parseInt(exitDate) == Integer.parseInt(datasnap.child("period").getValue(String.class).split(" ")[2].split("-")[0])) {
+                        historicalItems.add(
+                                new Historical(
+                                        datasnap.child("ticker").getValue(String.class) + "",
+                                        datasnap.child("period").getValue(String.class) + "",
+                                        "",
+                                        "",
+                                        "",
+                                        datasnap.child("entryPrice").getValue(String.class) + "",
+                                        datasnap.child("exitPrice").getValue(String.class) + "",
+                                        "",
+                                        datasnap.child("allocation").getValue(String.class) + ""
+                                )
+                        );
+                    }
+                }
+                //
+                historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
+                historicalList.setAdapter(historicalAdapter);
+                historicalAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(historicalReference);
+        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
+        return historicalItems;
+    }
+
     public int getPieCount(){
         length = 0;
         if (pieReference != null){
@@ -150,5 +194,7 @@ public class FirebaseDB {
         };
         return length;
     }
+
+
 
 }
