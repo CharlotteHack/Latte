@@ -14,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.salad.latte.Objects.Historical
 import com.salad.latte.R
 import java.math.MathContext
-
+//
 class HistoricalAdapter(private val con :Context,private val res :Int,private val items :ArrayList<Historical>) :ArrayAdapter<Historical>(con,res,items) {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
