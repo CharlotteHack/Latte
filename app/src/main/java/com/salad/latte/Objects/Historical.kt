@@ -21,6 +21,10 @@ class Historical(t :String,p :String, e :String, f :String, r :String, enP: Stri
         return period.split(" ")[2]
     }
 
+    fun getReturnPercent() :Double {
+        return (exitPrice.toDouble()/entryPrice.toDouble())-1
+    }
+
 
 
 }

@@ -39,6 +39,9 @@ public class FirebaseDB {
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
 
+
+    double totalReturns = 0;
+
     int length = 0;
     public FirebaseDB(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -130,7 +133,7 @@ public class FirebaseDB {
     }
 
     public ArrayList<Historical> pullHistoricalDataByDate(Context context, int layout, ListView historicalList, String exitDate){
-
+        totalReturns = 0;
         if (historicalReference != null){
             mDatabase.removeEventListener(historicalReference);
         }
@@ -155,8 +158,11 @@ public class FirebaseDB {
                                         datasnap.child("allocation").getValue(String.class) + ""
                                 )
                         );
+                        totalReturns = totalReturns + historicalItems.get(historicalItems.size()-1).getReturnPercent();
                     }
                 }
+
+                Log.d("FirebaseDB","Year: "+exitDate+" Returns: "+totalReturns);
                 //
                 historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
                 historicalList.setAdapter(historicalAdapter);
