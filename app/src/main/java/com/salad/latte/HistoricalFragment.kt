@@ -27,9 +27,17 @@ class HistoricalFragment : Fragment(){
         historicalItems = ArrayList<Historical>()
         historicalItems.clear()
         historicalItems.addAll(firebaseDB.pullHistoricalData(context!!,R.layout.custom_historical,historicalList))
+        var limit = ArrayList<Historical>()
+        var li = 0;
+        for (hist in historicalItems){
+            if(li < 5) {
+                limit.add(hist)
+                li++
+            }
+        }
         //
 
-        val historicalAdapter = HistoricalAdapter(context!!,R.layout.custom_historical,historicalItems);
+        val historicalAdapter = HistoricalAdapter(context!!,R.layout.custom_historical,limit);
         historicalList.adapter = historicalAdapter
         historicalAdapter.notifyDataSetChanged()
         return view

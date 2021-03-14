@@ -8,10 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:elevation="5dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="5dp"
@@ -20,7 +20,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="16dp"
+            >
 
             <TextView
                 android:id="@+id/tv_period"
@@ -30,7 +32,7 @@
                 android:text="Period: Dec 12 2020 - Dec 15 2020"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_historical_ticker" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_historical_allocation"
@@ -81,12 +83,14 @@
                 android:id="@+id/toolbar2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_historical_allocation" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_return_indicator"
@@ -198,7 +202,6 @@
                 android:id="@+id/tv_historical_ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
                 android:text="VISA (V)"
                 android:textAlignment="center"
                 android:textSize="18dp"

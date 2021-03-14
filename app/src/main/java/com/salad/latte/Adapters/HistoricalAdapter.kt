@@ -26,13 +26,13 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
 
 
         val tv_period = view.findViewById<TextView>(R.id.tv_period)
-        tv_period.setText(item.period)
+        tv_period.setText("Period: "+item.period)
 
         val tv_equity = view.findViewById<TextView>(R.id.tv_equity)
         tv_equity.setText(item.equity)
 
         val tv_alloc = view.findViewById<TextView>(R.id.tv_historical_allocation)
-        tv_alloc.setText(item.allocation)
+        tv_alloc.setText("Allocation: "+item.allocation+"% of portfolio")
 
         val tv_fees = view.findViewById<TextView>(R.id.tv_fees)
         tv_fees.setText(item.fees)
