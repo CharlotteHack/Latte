@@ -20,8 +20,10 @@ import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
 import com.salad.latte.Objects.Watchlist;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static com.salad.latte.GeneratePieData.generatePieData;
 
@@ -98,10 +100,21 @@ public class FirebaseDB {
         historicalReference = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> youNameArray = new ArrayList<>();
                 historicalItems.clear();
 
                 Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
+                    ArrayList<String> listOfDividends = new ArrayList<>();
+                    Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
+                    for(DataSnapshot dividend: datasnap.child("dividends").getChildren()){
+                        int i = 0;
+                        //i represents each child in dividends .. like the divDate, divClosingPrice etc.
+                        for(DataSnapshot innerArray :dividend.getChildren()){
+                            listOfDividends.add(innerArray.getValue(String.class));
+                        }
+                    }
+
                     historicalItems.add(
                             new Historical(
                                     datasnap.child("ticker").getValue(String.class)+"",
@@ -112,9 +125,10 @@ public class FirebaseDB {
                                     datasnap.child("entryPrice").getValue(String.class)+"",
                                     datasnap.child("exitPrice").getValue(String.class)+"",
                                     "",
-                                    datasnap.child("allocation").getValue(String.class)+""
-                            )
-                    );
+                                    datasnap.child("allocation").getValue(String.class)+"",
+                                    listOfDividends
+
+                    ));
                 }
                 //
                 historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
@@ -145,6 +159,15 @@ public class FirebaseDB {
 
                 Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
+                    ArrayList<String> listOfDividends = new ArrayList<>();
+                    Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
+                    for(DataSnapshot dividend: datasnap.child("dividends").getChildren()){
+                        int i = 0;
+                        //i represents each child in dividends .. like the divDate, divClosingPrice etc.
+                        for(DataSnapshot innerArray :dividend.getChildren()){
+                            listOfDividends.add(innerArray.getValue(String.class));
+                        }
+                    }
                     if (Integer.parseInt(exitDate) == Integer.parseInt(datasnap.child("period").getValue(String.class).split(" ")[2].split("-")[0])) {
                         historicalItems.add(
                                 new Historical(
@@ -156,7 +179,8 @@ public class FirebaseDB {
                                         datasnap.child("entryPrice").getValue(String.class) + "",
                                         datasnap.child("exitPrice").getValue(String.class) + "",
                                         "",
-                                        datasnap.child("allocation").getValue(String.class) + ""
+                                        datasnap.child("allocation").getValue(String.class) + "",
+                                        listOfDividends
                                 )
                         );
                         totalReturns = totalReturns + historicalItems.get(historicalItems.size()-1).getReturnPercent();

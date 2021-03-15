@@ -59,6 +59,9 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
             fab_percent.setImageResource(R.drawable.uparrow)
             fab_percent.setBackgroundTintList(ColorStateList.valueOf(context!!.getResources().getColor(R.color.purple_500)));
         }
+
+        var tv_historical_dividends = view.findViewById<TextView>(R.id.tv_historical_dividends)
+        tv_historical_dividends.setText("Dividend Earned: "+item.getDividendsPercentSum()+"%")
 //        fab_percent.setText("Period: 10/13/2020 - 10/15/2020")
 
 

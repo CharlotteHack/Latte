@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Allocation: 2% of portfolio"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_period"
                 app:layout_constraintTop_toBottomOf="@+id/tv_period" />
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Current Price"
+                    android:text="Exit Price"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="#ffffff"
                     android:textSize="12dp" />
@@ -208,6 +208,15 @@
                 app:layout_constraintBottom_toTopOf="@+id/fab_return_indicator"
                 app:layout_constraintEnd_toEndOf="@+id/fab_return_indicator"
                 app:layout_constraintStart_toStartOf="@+id/fab_return_indicator" />
+
+            <TextView
+                android:id="@+id/tv_historical_dividends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Dividend Earned: 7.1%"
+                app:layout_constraintStart_toStartOf="@+id/tv_historical_allocation"
+                app:layout_constraintTop_toBottomOf="@+id/tv_historical_allocation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
