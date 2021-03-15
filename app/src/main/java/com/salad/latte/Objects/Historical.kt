@@ -33,7 +33,9 @@ class Historical(t :String,p :String, e :String, f :String, r :String, enP: Stri
             //3 represents the percent gained by each dividend date
             sum += div.get(3).toDouble()
         }
-        return (exitPrice.toDouble()/entryPrice.toDouble())+sum-1
+
+        Log.d("Historical: ","Return Without Dividend: "+getReturnPercent())
+        return (exitPrice.toDouble()/entryPrice.toDouble())-1+sum
     }
 
     fun getDividendsPercentSum() : BigDecimal? {

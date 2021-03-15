@@ -127,7 +127,7 @@
 
                 <TextView
                     android:id="@+id/tv_historical_entryPrice"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -158,7 +158,7 @@
 
                 <TextView
                     android:id="@+id/tv_historical_exitPrice"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -189,7 +189,7 @@
 
                 <TextView
                     android:id="@+id/tv_equity_percent_return"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
