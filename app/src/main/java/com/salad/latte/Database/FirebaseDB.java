@@ -244,6 +244,7 @@ public class FirebaseDB {
 
             }
         };
+        Log.d("FirebaseDB","Snapshot count return: "+length);
         return length;
     }
 

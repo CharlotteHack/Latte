@@ -35,8 +35,8 @@ class PiechartFragment : Fragment(){
         v = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
         val bundle = this.arguments
         if (bundle != null) {
-            val i = bundle.getInt("allocationCount", 0)
-            allocationCount = i;
+            allocationCount = bundle.getInt("allocationCount", 0)
+            Log.d("PiechartFragment: ","allocation found!, num allocations: "+allocationCount);
 
         }
         mDatabase = FirebaseDatabase.getInstance().getReference()
@@ -67,7 +67,7 @@ class PiechartFragment : Fragment(){
         //val tf = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
 
         //chart.setCenterTextTypeface(tf)
-        chart.setCenterText("Allocations")
+        chart.setCenterText("Allocations: 2% Each")
         chart.setCenterTextSize(10f)
         //chart.setCenterTextTypeface(tf)
 
@@ -83,7 +83,7 @@ class PiechartFragment : Fragment(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
-        chart.setData(generatePieData(context,allocationCount))
+//        chart.setData(generatePieData(context,allocationCount))
 
         return v
     }
@@ -111,9 +111,10 @@ class PiechartFragment : Fragment(){
                 pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
                 closedList.adapter = pieAdapter
                 allocPositons.text = "Allocated Positions: "+closedPosList!!.size
+                chaa.data = generatePieData(context,closedPosList!!.size)
+                chaa.invalidate()
                 pieAdapter.notifyDataSetChanged()
 
-//                chaa.setData(generatePieData(context,closedPosList!!.size))
             }
 
             override fun onCancelled(error: DatabaseError) {}

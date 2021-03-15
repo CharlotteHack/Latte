@@ -20,12 +20,8 @@ class TabAdapter(
                 DashboardFragment()
             }
             1 -> {
-                var firebaseDB = FirebaseDB()
-                var numAllocations = firebaseDB.pieCount
-                var b = Bundle()
-                b.putInt("allocationCount",numAllocations)
-                PiechartFragment().setArguments(b)
-                PiechartFragment()
+                var pieChart = PiechartFragment()
+                pieChart
             }
             2 -> {
                 HistoricalFragment()
