@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.salad.latte.R
 
-class Historical(t :String,p :String, e :String, f :String, r :String, enP: String, exP :String, pr :String, a :String, divs :ArrayList<String>) {
+class Historical(t :String,p :String, e :String, f :String, r :String, enP: String, exP :String, pr :String, a :String, divs :ArrayList<ArrayList<String>>) {
 
 
     var period = p

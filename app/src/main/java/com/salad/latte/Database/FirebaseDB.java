@@ -105,14 +105,23 @@ public class FirebaseDB {
 
                 Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
-                    ArrayList<String> listOfDividends = new ArrayList<>();
+                    ArrayList<ArrayList<String>> listOfDividends = new ArrayList<ArrayList<String>>();
                     Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
                     for(DataSnapshot dividend: datasnap.child("dividends").getChildren()){
                         int i = 0;
                         //i represents each child in dividends .. like the divDate, divClosingPrice etc.
-                        for(DataSnapshot innerArray :dividend.getChildren()){
-                            listOfDividends.add(innerArray.getValue(String.class));
-                        }
+                        //for(DataSnapshot innerArray :dividend.getChildren()){
+                        ArrayList<String> innerArray = new ArrayList<>();
+                        innerArray.add(
+                                dividend.child("0").getValue(String.class));
+                        innerArray.add(
+                                dividend.child("1").getValue(String.class));
+                        innerArray.add(
+                                dividend.child("2").getValue(String.class));
+                        innerArray.add(
+                                dividend.child("3").getValue(String.class));
+                            listOfDividends.add(innerArray);
+                        //}
                     }
 
                     historicalItems.add(
@@ -159,14 +168,26 @@ public class FirebaseDB {
 
                 Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
-                    ArrayList<String> listOfDividends = new ArrayList<>();
+                    ArrayList<ArrayList<String>> listOfDividends = new ArrayList<ArrayList<String>>();
                     Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
                     for(DataSnapshot dividend: datasnap.child("dividends").getChildren()){
                         int i = 0;
                         //i represents each child in dividends .. like the divDate, divClosingPrice etc.
-                        for(DataSnapshot innerArray :dividend.getChildren()){
-                            listOfDividends.add(innerArray.getValue(String.class));
-                        }
+//                        for(DataSnapshot innerArray :dividend.getChildren()){
+                            //i represents each child in dividends .. like the divDate, divClosingPrice etc.
+                            //for(DataSnapshot innerArray :dividend.getChildren()){
+                            ArrayList<String> innerArray = new ArrayList<>();
+                            innerArray.add(
+                                    dividend.child("0").getValue(String.class));
+                            innerArray.add(
+                                    dividend.child("1").getValue(String.class));
+                            innerArray.add(
+                                    dividend.child("2").getValue(String.class));
+                            innerArray.add(
+                                    dividend.child("3").getValue(String.class));
+                            listOfDividends.add(innerArray);
+                            //}
+//                        }
                     }
                     if (Integer.parseInt(exitDate) == Integer.parseInt(datasnap.child("period").getValue(String.class).split(" ")[2].split("-")[0])) {
                         historicalItems.add(
