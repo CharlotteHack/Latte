@@ -13,21 +13,19 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.google.firebase.database.*
 import com.salad.latte.Adapters.PieAdapter
-import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.GeneratePieData.generatePieData
 import com.salad.latte.Objects.Pie
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class PiechartFragment : Fragment(){
-    private var chart: PieChart? = null
+    lateinit var chart: PieChart
     private var closedPosList :ArrayList<Pie>? = null;
     private lateinit var listViewClosed :ListView;
     lateinit var allocPositons :TextView
     lateinit var mDatabase :DatabaseReference
     lateinit var pieReference :ValueEventListener;
     lateinit var pieAdapter: PieAdapter;
+    private var allocationCount = 0
     lateinit var v: View
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,11 +33,17 @@ class PiechartFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(com.salad.latte.R.layout.fragment_piechart,container,false)
+        val bundle = this.arguments
+        if (bundle != null) {
+            val i = bundle.getInt("allocationCount", 0)
+            allocationCount = i;
+
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference()
 
         allocPositons = v.findViewById(R.id.tv_pie_allocated_count)
 
-        val chart =  (v.findViewById(R.id.piechart)) as PieChart
+         chart =  (v.findViewById(R.id.piechart)) as PieChart
 
         //
         listViewClosed = v.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
@@ -79,10 +83,12 @@ class PiechartFragment : Fragment(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
+        chart.setData(generatePieData(context,allocationCount))
+
         return v
     }
 
-    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chart :PieChart ): ArrayList<Pie> {
+    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa :PieChart ): ArrayList<Pie> {
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
 //        }
@@ -105,8 +111,9 @@ class PiechartFragment : Fragment(){
                 pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
                 closedList.adapter = pieAdapter
                 allocPositons.text = "Allocated Positions: "+closedPosList!!.size
-                chart.setData(generatePieData(context,closedPosList!!.size))
                 pieAdapter.notifyDataSetChanged()
+
+//                chaa.setData(generatePieData(context,closedPosList!!.size))
             }
 
             override fun onCancelled(error: DatabaseError) {}
@@ -115,6 +122,8 @@ class PiechartFragment : Fragment(){
         Log.d("FirebaseDB", "Results found for Pie: " + closedPosList!!.size)
         return closedPosList!!
     }
+
+
 
 
 

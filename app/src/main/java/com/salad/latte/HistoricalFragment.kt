@@ -19,9 +19,9 @@ class HistoricalFragment : Fragment(){
     lateinit var historical_spinner: Spinner
     lateinit var historicalAdapter :HistoricalAdapter
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         firebaseDB = FirebaseDB()
         val view = inflater.inflate(R.layout.fragment_historical, container, false)
@@ -37,7 +37,7 @@ class HistoricalFragment : Fragment(){
         historical_spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
-                                        view: View, position: Int, id: Long) {
+                                        view: View?, position: Int, id: Long) {
                 Toast.makeText(context!!,
                         languages[position], Toast.LENGTH_SHORT).show()
 

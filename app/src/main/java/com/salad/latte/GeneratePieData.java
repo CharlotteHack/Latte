@@ -2,6 +2,7 @@ package com.salad.latte;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -21,6 +22,7 @@ public class GeneratePieData {
     public static PieData generatePieData(Context c,int allocatedPos) {
 
         int count = 4;
+        Log.d("GeneratePieData: ","Allocated Pos: "+allocatedPos);
         ArrayList <PieEntry> entries1 = new ArrayList <PieEntry> ();
         ArrayList < String > xVals = new ArrayList < String > ();
 

@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.salad.latte.GeneratePieData;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.R;
 import com.squareup.picasso.Picasso;
@@ -21,6 +23,7 @@ public class PieAdapter extends ArrayAdapter<Pie> {
     ArrayList<Pie> pies;
     Context context;
     int res;
+    PieChart pieChart;
     public PieAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Pie> objects) {
         super(context, resource, objects);
         pies = objects;
@@ -31,6 +34,17 @@ public class PieAdapter extends ArrayAdapter<Pie> {
     @Override
     public int getCount() {
         return pies.size();
+    }
+
+    public void setPieChart(PieChart pieChart) {
+        this.pieChart = pieChart;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+//        this.pieChart.setData(GeneratePieData.generatePieData(context,getCount()));
+
     }
 
     @NonNull
