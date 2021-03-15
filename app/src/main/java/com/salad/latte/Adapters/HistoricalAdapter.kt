@@ -47,7 +47,7 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         tv_exitPrice.setText("$"+item.exitPrice)
 
         val tv_equity_percent_return = view.findViewById<TextView>(R.id.tv_equity_percent_return)
-        var delta = (item.exitPrice.toDouble()/item.entryPrice.toDouble())-1
+        var delta = (item.getReturnPercentWithDividends())-1
         tv_equity_percent_return.setText(delta.toBigDecimal().round(MathContext(2)).toString()+"%")
         val fab_percent = view.findViewById<FloatingActionButton>(R.id.fab_return_indicator)
 //        Log.d("HistoricalAdapter","Delta: "+delta)
