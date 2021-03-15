@@ -134,6 +134,7 @@ public class FirebaseDB {
 
     public ArrayList<Historical> pullHistoricalDataByDate(Context context, int layout, ListView historicalList, String exitDate){
         totalReturns = 0;
+        //
         if (historicalReference != null){
             mDatabase.removeEventListener(historicalReference);
         }
