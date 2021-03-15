@@ -67,7 +67,7 @@ class PiechartFragment : Fragment(){
         //val tf = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
 
         //chart.setCenterTextTypeface(tf)
-        chart.setCenterText("Allocations: 2% Each")
+        chart.setCenterText("Allocations: 2% Each Position")
         chart.setCenterTextSize(10f)
         //chart.setCenterTextTypeface(tf)
 
