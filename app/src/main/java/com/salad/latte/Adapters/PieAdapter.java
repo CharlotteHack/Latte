@@ -64,7 +64,7 @@ public class PieAdapter extends ArrayAdapter<Pie> {
         float delta = ((Float.parseFloat(pies.get(position).currentPrice)/Float.parseFloat(pies.get(position).entryPrice))-1)*100;
 
         if (delta  < 0){
-            ((TextView) v.findViewById(R.id.tv_pie_delta)).setText(String.format("-"+"%.2f", delta)+"%");
+            ((TextView) v.findViewById(R.id.tv_pie_delta)).setText(String.format("%.2f", delta)+"%");
             ((TextView) v.findViewById(R.id.tv_pie_delta)).setTextColor(getContext().getResources().getColor(R.color.red));
         }else{
             ((TextView) v.findViewById(R.id.tv_pie_delta)).setText(String.format("+"+"%.2f", delta)+"%");

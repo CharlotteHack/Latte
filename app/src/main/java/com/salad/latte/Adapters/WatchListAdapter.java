@@ -59,7 +59,7 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
         float delta = ((Float.parseFloat(watchitems.get(position).currentPrice)/Float.parseFloat(watchitems.get(position).targetEntry))-1)*100;
 
         if (delta  < 0){
-            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("-"+"%.2f", delta)+"%");
+            ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("%.2f", delta)+"%");
             ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setTextColor(getContext().getResources().getColor(R.color.red));
         }else{
             ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("+"+"%.2f", delta)+"%");
