@@ -18,6 +18,7 @@ class HistoricalFragment : Fragment(){
     lateinit var firebaseDB: FirebaseDB
     lateinit var historical_spinner: Spinner
     lateinit var historicalAdapter :HistoricalAdapter
+    lateinit var historical_progress :ProgressBar
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -34,24 +35,25 @@ class HistoricalFragment : Fragment(){
                     android.R.layout.simple_spinner_item, languages)
             historical_spinner.adapter = adapter
         }
+        historical_progress = view.findViewById(R.id.progress_historical)
         historical_spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View?, position: Int, id: Long) {
-                Toast.makeText(context!!,
-                        languages[position], Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context!!,
+//                        languages[position], Toast.LENGTH_SHORT).show()
 
                 if(languages[position].contains("All")){
 
                     historicalItems.clear()
-                    historicalItems.addAll(firebaseDB.pullHistoricalData(context!!,R.layout.custom_historical,historicalList))
+                    historicalItems.addAll(firebaseDB.pullHistoricalData(context!!,R.layout.custom_historical,historicalList,historical_progress))
                     historicalAdapter.notifyDataSetChanged()
                 }
                 else{
                     var year = languages[position].split(" ")[0]
 
                     historicalItems.clear()
-                    historicalItems = firebaseDB.pullHistoricalDataByDate(context!!,R.layout.custom_historical,historicalList,year);
+                    historicalItems = firebaseDB.pullHistoricalDataByDate(context!!,R.layout.custom_historical,historicalList,year,historical_progress);
                     historicalAdapter.notifyDataSetChanged()
                     Log.d("HistoricalFragment: ","Year to search for: "+year)
                     //Log.d("HistoricalFragment: ","# Historical Items: "+historicalItems.size)

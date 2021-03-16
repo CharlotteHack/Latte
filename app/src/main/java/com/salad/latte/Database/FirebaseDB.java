@@ -2,8 +2,10 @@ package com.salad.latte.Database;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
@@ -92,8 +94,8 @@ public class FirebaseDB {
         Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
         return watchlistItems;
     }
-    public ArrayList<Historical> pullHistoricalData(Context context, int layout, ListView historicalList){
-
+    public ArrayList<Historical> pullHistoricalData(Context context, int layout, ListView historicalList, ProgressBar historical_progress){
+        historical_progress.setVisibility(View.VISIBLE);
         if (historicalReference != null){
             mDatabase.removeEventListener(historicalReference);
         }
@@ -143,6 +145,8 @@ public class FirebaseDB {
                 historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
                 historicalList.setAdapter(historicalAdapter);
                 historicalAdapter.notifyDataSetChanged();
+
+                historical_progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -155,12 +159,14 @@ public class FirebaseDB {
         return historicalItems;
     }
 
-    public ArrayList<Historical> pullHistoricalDataByDate(Context context, int layout, ListView historicalList, String exitDate){
+    public ArrayList<Historical> pullHistoricalDataByDate(Context context, int layout, ListView historicalList, String exitDate, ProgressBar historical_progress){
         totalReturns = 0;
+        historical_progress.setVisibility(View.VISIBLE);
         //
         if (historicalReference != null){
             mDatabase.removeEventListener(historicalReference);
         }
+
         historicalReference = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -213,6 +219,8 @@ public class FirebaseDB {
                 historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
                 historicalList.setAdapter(historicalAdapter);
                 historicalAdapter.notifyDataSetChanged();
+
+                historical_progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
