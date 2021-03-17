@@ -178,8 +178,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:text="Exited Historical Positions"
+        android:layout_marginTop="12dp"
+        android:text="Historical Positions"
         android:textSize="18dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +192,6 @@
         android:layout_marginTop="8dp"
         android:paddingBottom="80dp"
         android:visibility="visible"
-        android:layout_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -203,6 +202,8 @@
         android:layout_marginTop="8dp"
         android:entries="@array/spinner"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
@@ -247,6 +248,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:stateListAnimator="@null"
         android:background="@color/purple_200"
+        android:visibility="gone"
         android:minHeight="0dp"
         android:minWidth="8dp"
         app:layout_constraintStart_toStartOf="parent" >
@@ -258,7 +260,19 @@
             android:layout_centerInParent="true"
             android:textColor="@color/white"
             android:textSize="18dp"
+            android:visibility="gone"
             android:text="Compare Returns" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click to Compare"
+        android:textColor="@color/purple_200"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
