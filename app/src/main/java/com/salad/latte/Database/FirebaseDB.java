@@ -124,6 +124,7 @@ public class FirebaseDB {
                                 dividend.child("3").getValue(String.class));
                             listOfDividends.add(innerArray);
                         //}
+                        //
                     }
 
                     historicalItems.add(
