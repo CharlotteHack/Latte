@@ -52,7 +52,7 @@ class PiechartFragment : Fragment(){
         progress_piechart = v.findViewById(R.id.progress_piechart)
 
         closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed,chart));
+        closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed,chart,progress_piechart));
         pieAdapter = PieAdapter(context!!,R.layout.custom_pie,closedPosList!!)
 
         var closedAdapter = PieAdapter(
