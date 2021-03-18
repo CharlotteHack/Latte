@@ -305,7 +305,7 @@ public class FirebaseDB {
             }
         };
         Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());historical_progress.setVisibility(View.INVISIBLE);
-        Log.d("FirebaseDB","Clicked Historical Data for specifc date");
+        Log.d("FirebaseDB","Clicked Historical Data for specific date");
         return historicalItems;
     }
 
