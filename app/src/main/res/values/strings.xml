@@ -4,37 +4,37 @@
         <item>All-time Returns</item>
         <item>2021 Returns</item>
         <item>2020 Returns</item>
-        <item>2019 Returns</item>
-        <item>2018 Returns</item>
-        <item>2017 Returns</item>
-        <item>2016 Returns</item>
-        <item>2015 Returns</item>
-        <item>2014 Returns</item>
-        <item>2013 Returns</item>
-        <item>2012 Returns</item>
-        <item>2011 Returns</item>
-        <item>2011 Returns</item>
-        <item>2010 Returns</item>
-        <item>2009 Returns</item>
-        <item>2008 Returns</item>
-        <item>2007 Returns</item>
-        <item>2006 Returns</item>
-        <item>2005 Returns</item>
-        <item>2004 Returns</item>
-        <item>2003 Returns</item>
-        <item>2002 Returns</item>
-        <item>2001 Returns</item>
-        <item>2000 Returns</item>
-        <item>1999 Returns</item>
-        <item>1998 Returns</item>
-        <item>1997 Returns</item>
-        <item>1996 Returns</item>
-        <item>1995 Returns</item>
-        <item>1994 Returns</item>
-        <item>1993 Returns</item>
-        <item>1992 Returns</item>
-        <item>1991 Returns</item>
-        <item>1990 Returns</item>
+<!--        <item>2019 Returns</item>-->
+<!--        <item>2018 Returns</item>-->
+<!--        <item>2017 Returns</item>-->
+<!--        <item>2016 Returns</item>-->
+<!--        <item>2015 Returns</item>-->
+<!--        <item>2014 Returns</item>-->
+<!--        <item>2013 Returns</item>-->
+<!--        <item>2012 Returns</item>-->
+<!--        <item>2011 Returns</item>-->
+<!--        <item>2011 Returns</item>-->
+<!--        <item>2010 Returns</item>-->
+<!--        <item>2009 Returns</item>-->
+<!--        <item>2008 Returns</item>-->
+<!--        <item>2007 Returns</item>-->
+<!--        <item>2006 Returns</item>-->
+<!--        <item>2005 Returns</item>-->
+<!--        <item>2004 Returns</item>-->
+<!--        <item>2003 Returns</item>-->
+<!--        <item>2002 Returns</item>-->
+<!--        <item>2001 Returns</item>-->
+<!--        <item>2000 Returns</item>-->
+<!--        <item>1999 Returns</item>-->
+<!--        <item>1998 Returns</item>-->
+<!--        <item>1997 Returns</item>-->
+<!--        <item>1996 Returns</item>-->
+<!--        <item>1995 Returns</item>-->
+<!--        <item>1994 Returns</item>-->
+<!--        <item>1993 Returns</item>-->
+<!--        <item>1992 Returns</item>-->
+<!--        <item>1991 Returns</item>-->
+<!--        <item>1990 Returns</item>-->
     </string-array>
     <string-array name="array_name2">
         <item>Cumulative Returns</item>

@@ -2,25 +2,23 @@ package com.salad.latte
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.transition.Visibility
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.salad.latte.Adapters.TabAdapter
 import com.salad.latte.Dialogs.AddDialogFragment
-import com.salad.latte.Dialogs.WithdrawDialogFragment
+import com.salad.latte.Tutorial.TutorialActivity
 import es.dmoral.toasty.Toasty
 
 class MainActivity : FragmentActivity() {
@@ -31,10 +29,22 @@ class MainActivity : FragmentActivity() {
     lateinit var toolbar: Toolbar
     lateinit var title :TextView
     lateinit var iv_instagram :ImageView
+    lateinit var iv_question :ImageView
     lateinit var viewPager :ViewPager
+    val PREFS_FILENAME = "com.tutorial"
+    var prefs: SharedPreferences? = null
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(getColor(R.color.purple_500))
+        prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
+        if(prefs!!.getBoolean("didViewTutorial",false) == false){
+            val i = Intent(this, TutorialActivity::class.java)
+            startActivity(i)
+        }
         Toasty.info(this, "Not Investment Advice. Do Due Diligence.", Toast.LENGTH_SHORT, true).show();
         setContentView(R.layout.activity_main)
         fragmentManager = supportFragmentManager;
@@ -47,6 +57,7 @@ class MainActivity : FragmentActivity() {
 //        iv_refresh = findViewById(R.id.iv_refresh)
         viewPager = findViewById(R.id.viewpager)
         iv_instagram = findViewById(R.id.iv_instagram)
+        iv_question = findViewById(R.id.iv_question)
 
         iv_instagram.setOnClickListener{
             var uri = Uri.parse("http://instagram.com/_u/latte.app");
@@ -60,7 +71,13 @@ class MainActivity : FragmentActivity() {
             }
 
 
+
         }
+
+        iv_question.setOnClickListener(View.OnClickListener {
+            val i = Intent(this, TutorialActivity::class.java)
+            startActivity(i)
+        })
 
 //        Create TabLayout Adapter
         val tabLayout = TabAdapter(baseContext,fragmentManager,3)
