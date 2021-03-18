@@ -296,7 +296,7 @@ public class FirebaseDB {
                 historicalList.setAdapter(historicalAdapter);
                 historicalAdapter.notifyDataSetChanged();
 
-                historical_progress.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
@@ -304,7 +304,8 @@ public class FirebaseDB {
 
             }
         };
-        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
+        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());historical_progress.setVisibility(View.INVISIBLE);
+        Log.d("FirebaseDB","Clicked Historical Data for specifc date");
         return historicalItems;
     }
 
@@ -361,7 +362,6 @@ public class FirebaseDB {
                 historicalAdapter = new HistoricalAdapter(context,layout,historicalItems);
                 historicalList.setAdapter(historicalAdapter);
                 historicalAdapter.notifyDataSetChanged();
-
                 historical_progress.setVisibility(View.INVISIBLE);
             }
 

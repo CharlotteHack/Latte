@@ -3,7 +3,7 @@
     <string-array name="spinner">
         <item>All-time Returns</item>
         <item>2021 Returns</item>
-        <item>2020 Returns</item>
+<!--        <item>2020 Returns</item>-->
 <!--        <item>2019 Returns</item>-->
 <!--        <item>2018 Returns</item>-->
 <!--        <item>2017 Returns</item>-->
