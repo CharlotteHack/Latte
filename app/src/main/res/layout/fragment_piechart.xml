@@ -37,6 +37,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/piechart" />
 
+    <ProgressBar
+        android:id="@+id/progress_piechart"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/lv_piechart_closedPos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lv_piechart_closedPos" />
+
     <ListView
         android:id="@+id/lv_piechart_closedPos"
         android:layout_width="414dp"
@@ -45,6 +55,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:paddingBottom="290dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pie_allocated_count" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_pie_allocated_count" >
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

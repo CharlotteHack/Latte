@@ -55,7 +55,8 @@ public class FirebaseDB {
 
     }
 
-    public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView){
+    public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView, ProgressBar dashboard_progress){
+        dashboard_progress.setVisibility(View.VISIBLE);
 
         if (watchlistReference != null){
             mDatabase.removeEventListener(watchlistReference);
@@ -83,6 +84,7 @@ public class FirebaseDB {
                 watchListAdapter = new WatchListAdapter(context,layout,watchlistItems);
                 gridView.setAdapter(watchListAdapter);
                 watchListAdapter.notifyDataSetChanged();
+                dashboard_progress.setVisibility(View.INVISIBLE);
        }
 
             @Override

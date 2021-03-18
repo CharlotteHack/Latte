@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.PieChart
@@ -27,6 +28,7 @@ class PiechartFragment : Fragment(){
     lateinit var pieAdapter: PieAdapter;
     private var allocationCount = 0
     lateinit var v: View
+    lateinit var progress_piechart :ProgressBar
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +49,7 @@ class PiechartFragment : Fragment(){
 
         //
         listViewClosed = v.findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
+        progress_piechart = v.findViewById(R.id.progress_piechart)
 
         closedPosList = ArrayList<Pie>();
         closedPosList!!.addAll(pullPieChart(context,R.layout.custom_pie,listViewClosed,chart));
@@ -88,7 +91,8 @@ class PiechartFragment : Fragment(){
         return v
     }
 
-    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa :PieChart ): ArrayList<Pie> {
+    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa :PieChart , pie_progress :ProgressBar): ArrayList<Pie> {
+        progress_piechart.visibility = View.VISIBLE
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
 //        }
@@ -114,6 +118,7 @@ class PiechartFragment : Fragment(){
                 chaa.data = generatePieData(context,closedPosList!!.size)
                 chaa.invalidate()
                 pieAdapter.notifyDataSetChanged()
+                progress_piechart.visibility = View.INVISIBLE
 
             }
 

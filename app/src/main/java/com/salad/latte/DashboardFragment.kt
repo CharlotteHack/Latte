@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.salad.latte.Adapters.WatchListAdapter
@@ -25,6 +26,7 @@ class DashboardFragment : Fragment(){
     lateinit var watchAdapter :WatchListAdapter
 
     lateinit var firebaseDB :FirebaseDB
+    lateinit var dashboard_progress :ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +42,9 @@ class DashboardFragment : Fragment(){
 //        tv_netreturn = view.findViewById(R.id.tv_netreturn2)
 
 
-
+        dashboard_progress = view.findViewById(R.id.progress_dashboard)
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
-        watchitems.addAll(firebaseDB.pullWatchlistData(context!!,R.layout.custom_news_item,gv_watchlist))
+        watchitems.addAll(firebaseDB.pullWatchlistData(context!!,R.layout.custom_news_item,gv_watchlist,dashboard_progress))
 //        var watchlistItem = Watchlist();
 //        watchlistItem.icon = "https://c0.klipartz.com/pngpicture/203/134/gratis-png-visa.png"
 //        watchlistItem.ticker = "VISA (V)"
