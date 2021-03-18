@@ -46,14 +46,14 @@ class HistoricalFragment : Fragment(){
                 if(languages[position].contains("All")){
 
                     historicalItems.clear()
-                    historicalItems.addAll(firebaseDB.pullHistoricalData(context!!,R.layout.custom_historical,historicalList,historical_progress))
+                    historicalItems.addAll(firebaseDB.pullHistoricalDataOnce(context!!,R.layout.custom_historical,historicalList,historical_progress))
                     historicalAdapter.notifyDataSetChanged()
                 }
                 else{
                     var year = languages[position].split(" ")[0]
 
                     historicalItems.clear()
-                    historicalItems = firebaseDB.pullHistoricalDataByDate(context!!,R.layout.custom_historical,historicalList,year,historical_progress);
+                    historicalItems = firebaseDB.pullHistoricalDataByDateOnce(context!!,R.layout.custom_historical,historicalList,year,historical_progress);
                     historicalAdapter.notifyDataSetChanged()
                     Log.d("HistoricalFragment: ","Year to search for: "+year)
                     //Log.d("HistoricalFragment: ","# Historical Items: "+historicalItems.size)
