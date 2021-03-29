@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -42,6 +43,7 @@ public class FirebaseDB {
     ValueEventListener pieReference;
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
+    String updatedTime = "";
 
 
     double totalReturns = 0;
@@ -53,6 +55,30 @@ public class FirebaseDB {
         historicalItems = new ArrayList<>();
         pieItems = new ArrayList<>();
 
+    }
+
+    public String pullUpdatedTime(TextView updateTime){
+        ValueEventListener returnTime = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                watchlistItems.clear();
+
+                for(DataSnapshot datasnap: snapshot.child("updateTime").getChildren()){
+                    String key = datasnap.getKey();
+//                    Log.d("FirebaseDB","Updated Key: "+key);
+//                    Log.d("FirebaseDB","Updated Time: "+datasnap.getValue(String.class));
+                    updateTime.setText("Stock prices updated as of: "+datasnap.getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(returnTime);
+
+        return updatedTime;
     }
 
     public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView, ProgressBar dashboard_progress){

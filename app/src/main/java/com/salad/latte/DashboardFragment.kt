@@ -19,6 +19,7 @@ class DashboardFragment : Fragment(){
     lateinit var tv_totaltrades :TextView
     lateinit var tv_winrate :TextView
     lateinit var tv_netreturn :TextView
+    lateinit var tv_updateTime :TextView
 
 
     lateinit var gv_watchlist :GridView
@@ -44,6 +45,8 @@ class DashboardFragment : Fragment(){
 
         dashboard_progress = view.findViewById(R.id.progress_dashboard)
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
+        tv_updateTime = view.findViewById(R.id.timeUpdate)
+        firebaseDB.pullUpdatedTime(tv_updateTime)
         watchitems.addAll(firebaseDB.pullWatchlistData(context!!,R.layout.custom_news_item,gv_watchlist,dashboard_progress))
 //        var watchlistItem = Watchlist();
 //        watchlistItem.icon = "https://c0.klipartz.com/pngpicture/203/134/gratis-png-visa.png"
