@@ -65,7 +65,7 @@ public class FirebaseDB {
 
                 for(DataSnapshot datasnap: snapshot.child("updateTime").getChildren()){
                     String key = datasnap.getKey();
-//                    Log.d("FirebaseDB","Updated Key: "+key);
+//                    Log.d("FirebaseDB","Updated Key: "+key);//
 //                    Log.d("FirebaseDB","Updated Time: "+datasnap.getValue(String.class));
                     updateTime.setText("Stock prices updated as of: "+datasnap.getValue(String.class));
                 }
