@@ -44,7 +44,7 @@ public class FirebaseDB {
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
     String updatedTime = "";
-
+//
 
     double totalReturns = 0;
 
