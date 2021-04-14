@@ -53,6 +53,7 @@ public class FirebaseDB {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         watchlistItems = new ArrayList<>();
         historicalItems = new ArrayList<>();
+        //
         pieItems = new ArrayList<>();
 
     }
