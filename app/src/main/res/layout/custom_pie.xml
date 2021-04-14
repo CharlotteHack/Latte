@@ -27,7 +27,6 @@
                 app:backgroundTint="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/apple"
                 app:tint="@null" />
 
             <TextView
@@ -35,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="APPLE (AAPL)"
+                android:text="--"
                 app:layout_constraintStart_toEndOf="@+id/fab_pie_icon"
                 app:layout_constraintTop_toTopOf="@+id/fab_pie_icon" />
 
@@ -44,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="3/5/2021 - 8/9/2021"
+                android:text="--"
                 app:layout_constraintStart_toStartOf="@+id/tv_pie_ticker"
                 app:layout_constraintTop_toBottomOf="@+id/tv_pie_ticker" />
 
@@ -54,7 +53,7 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Entry Price: $17.21 | Exit Price $22.11"
+                android:text="--"
                 app:layout_constraintStart_toStartOf="@+id/tv_pie_entryDate"
                 app:layout_constraintTop_toBottomOf="@+id/tv_pie_entryDate" />
 
@@ -63,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="+7.1%"
+                android:text="--"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
