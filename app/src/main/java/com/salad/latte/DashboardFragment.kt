@@ -21,7 +21,7 @@ class DashboardFragment : Fragment(){
     lateinit var tv_netreturn :TextView
     lateinit var tv_updateTime :TextView
 
-
+//
     lateinit var gv_watchlist :GridView
     lateinit var watchitems :ArrayList<Watchlist>
     lateinit var watchAdapter :WatchListAdapter
