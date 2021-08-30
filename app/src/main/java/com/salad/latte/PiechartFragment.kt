@@ -101,9 +101,23 @@ class PiechartFragment : Fragment(){
                 closedPosList!!.clear()
                 Log.d("FirebaseDB", "Snapshot count: " + snapshot.child("pie").childrenCount)
                 for (datasnap in snapshot.child("pie").children) {
-                    closedPosList!!.add(
-                            Pie(datasnap.child("icon").getValue(String::class.java).toString() + "", datasnap.child("ticker").getValue(String::class.java).toString() + "", datasnap.child("entryDate").getValue(String::class.java).toString() + "", datasnap.child("entryPrice").getValue(String::class.java).toString() + "", datasnap.child("currentPrice").getValue(String::class.java).toString() + "", datasnap.child("allocation").getValue(String::class.java).toString() + "")
-                    )
+                    //Only include the items that we are actually carrying in our portfolio
+                    if(datasnap.child("inOurPortfolio").getValue(Boolean::class.java) as Boolean) {
+                        closedPosList!!.add(
+                            Pie(datasnap.child("icon").getValue(String::class.java).toString() + "",
+                                datasnap.child("ticker").getValue(String::class.java)
+                                    .toString() + "",
+                                datasnap.child("entryDate").getValue(String::class.java)
+                                    .toString() + "",
+                                datasnap.child("entryPrice").getValue(String::class.java)
+                                    .toString() + "",
+                                datasnap.child("currentPrice").getValue(String::class.java)
+                                    .toString() + "",
+                                datasnap.child("allocation").getValue(String::class.java)
+                                    .toString() + ""
+                            )
+                        )
+                    }
                 }
                 //
 
@@ -115,7 +129,7 @@ class PiechartFragment : Fragment(){
                 pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
                 closedList.adapter = pieAdapter
                 allocPositons.text = "Allocated Positions: "+closedPosList!!.size
-                chaa.data = generatePieData(context,closedPosList!!.size)
+                chaa.data = generatePieData(context,closedPosList!!.size/2)
                 chaa.invalidate()
                 pieAdapter.notifyDataSetChanged()
                 progress_piechart.visibility = View.INVISIBLE
