@@ -11,22 +11,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.salad.latte.Adapters.DividendAdapter;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
+import com.salad.latte.Objects.Dividend;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
 import com.salad.latte.Objects.Watchlist;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.salad.latte.GeneratePieData.generatePieData;
@@ -48,6 +56,11 @@ public class FirebaseDB {
     ValueEventListener pieReference;
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
+
+    ValueEventListener dividendsReference;
+    ArrayList<Dividend> dividendItems;
+    DividendAdapter dividendAdapters;
+
     String updatedTime = "";
 //
 
@@ -61,6 +74,7 @@ public class FirebaseDB {
         //
         pieItems = new ArrayList<>();
         recentItems = new ArrayList<>();
+        dividendItems = new ArrayList<>();
 
 
     }
@@ -100,7 +114,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 watchlistItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
                     watchlistItems.add(
                             new Watchlist(
@@ -127,7 +141,7 @@ public class FirebaseDB {
             }
         };
         mDatabase.addValueEventListener(watchlistReference);
-        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
+//        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
         return watchlistItems;
     }
 
@@ -141,7 +155,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 recentItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
                     recentItems.add(
                             new Watchlist(
@@ -172,6 +186,7 @@ public class FirebaseDB {
         return recentItems;
     }
 
+
     public ArrayList<Watchlist> pullRecentsDataByDate(Context context, int layout, ListView listView, String month){
 //        recents_progress.setVisibility(View.VISIBLE);
         if (recentsReference != null){
@@ -182,7 +197,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 recentItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
                     if(datasnap.child("entryDate").getValue(String.class).toLowerCase().contains(month.toLowerCase())) {
                         recentItems.add(
@@ -228,7 +243,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 historicalItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
                     ArrayList<ArrayList<String>> listOfDividends = new ArrayList<ArrayList<String>>();
                     Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
@@ -284,7 +299,7 @@ public class FirebaseDB {
 
             }
         };
-        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());historical_progress.setVisibility(View.INVISIBLE);
+//        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());historical_progress.setVisibility(View.INVISIBLE);
         Log.d("FirebaseDB","Clicked Historical Data for specific date");
         return historicalItems;
     }
@@ -299,7 +314,7 @@ public class FirebaseDB {
                 ArrayList<String> youNameArray = new ArrayList<>();
                 historicalItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("historical").getChildren()){
                     ArrayList<ArrayList<String>> listOfDividends = new ArrayList<ArrayList<String>>();
                     Historical historicalItem = new Historical("","","","","","","","","",listOfDividends);
@@ -348,10 +363,112 @@ public class FirebaseDB {
 
             }
         });
-        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
+//        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
         return historicalItems;
     }
+    public ArrayList<Dividend> pullDividendsData(Context context, int layout, ListView listView){
+        dividendItems.clear();
+        Log.d("FirebaseDB","pullDividendData called");
+        mDatabase.child("dividends").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase task", String.valueOf(task.getResult().getValue()));
+                    try {
+                        JSONObject jsonObject = new JSONObject(String.valueOf(task.getResult().getValue()));
+//                        for(JSONObject json : jsonObject.)
+                        Iterator<String> iter = jsonObject.keys();
+                        while (iter.hasNext()) {
+                            String key = iter.next();
+                            try {
+                                JSONObject value = (JSONObject) jsonObject.get(key);
+                                dividendItems.addAll(getDividendItems(value));
+                            } catch (JSONException e) {
+                                // Something went wrong!
+                            }
+                        }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
 
+                    dividendAdapters = new DividendAdapter(context,layout,dividendItems);
+                    listView.setAdapter(dividendAdapters);
+                    dividendAdapters.notifyDataSetChanged();
+                    Log.d("FirebaseDB","Dividend size: "+dividendItems.size());
+
+
+                }
+
+            }
+        });
+
+        //Below is snapshot version
+//        if (dividendsReference != null){
+//            mDatabase.removeEventListener(dividendsReference);
+//        }
+//        dividendsReference = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                dividendItems.clear();
+//
+////                Log.d("FirebaseDB","Dividends Snapshot count: "+snapshot.child("dividends").getChildrenCount());
+//                for(DataSnapshot datasnap: snapshot.child("dividends").getChildren()){
+//                    String key = datasnap.getKey();
+////                    Log.d("FirebaseDB","Dividend Key: "+key+" Children count "+snapshot.child("dividends").child(key).getChildrenCount());
+//                    for(DataSnapshot innerSnap: snapshot.child("dividends").child(key).getChildren()) {
+////                        Log.d("FirebaseDB: ","Dividend ticker: "+innerSnap.child("ticker").getValue(String.class));
+//                    dividendItems.add(
+//                            new Dividend(
+//                                    datasnap.child("date").getValue(String.class),
+//                                    datasnap.child("dateTimestamp").getValue(String.class),
+//                                    datasnap.child("dividendAmount").getValue(String.class),
+//                                    datasnap.child("ticker").getValue(String.class)
+//                            )
+//                    );
+//                    }
+//                }
+//                dividendAdapters = new DividendAdapter(context,layout,dividendItems);
+//                listView.setAdapter(recentsAdapter);
+//                dividendAdapters.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        };
+//        mDatabase.addValueEventListener(dividendsReference);
+//        Log.d("FirebaseDB", "Results found for dividends: " + dividendItems.size());
+//        Log.d("FirebaseDB","Dividend size: "+dividendItems.size());
+        return dividendItems;
+    }
+
+    public ArrayList<Dividend> getDividendItems(JSONObject jsonObjects){
+        ArrayList<Dividend> dividends = new ArrayList<>();
+        try {
+//                        for(JSONObject json : jsonObject.)
+            Iterator<String> iter = jsonObjects.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                    JSONObject value = (JSONObject) jsonObjects.get(key);
+//                    Log.d("firebase task 2", value.getString("date"));
+//                    Log.d("firebase task 2", value.getString("ticker"));
+//                    Log.d("firebase task 2", value.getString("dividendAmount"));
+//                    Log.d("firebase task 2", value.getString("dateTimestamp"));
+                    Dividend d = new Dividend(value.getString("date"),value.getString("dateTimestamp"),value.getString("dividendAmount"),value.getString("ticker"));
+                    Log.d("FirebaseDB","Added dividend: "+d.getTicker()+" "+d.getDate());
+                    dividends.add(d);
+            }
+        }
+        catch (Exception e){
+            Log.d("firebase task 2", e.toString());
+        }
+        return dividends;
+    }
     public int getPieCount(){
         length = 0;
         if (pieReference != null){
@@ -362,7 +479,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pieItems.clear();
 
-                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("pie").getChildrenCount());
+//                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("pie").getChildrenCount());
                 length =  Integer.parseInt(snapshot.child("pie").getChildrenCount()+"");
             }
 
@@ -375,6 +492,10 @@ public class FirebaseDB {
         return length;
     }
 
-
-
+    public static float getCurrentPriceForStock(String ticker){
+            return 0.0f;
+    }
+    public static float getEntryPriceForStock(String ticker){
+        return 0.0f;
+    }
 }

@@ -24,7 +24,7 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         tv_ticker.setText(item.ticker)
 
 
-        val tv_period = view.findViewById<TextView>(R.id.tv_period_recents)
+        val tv_period = view.findViewById<TextView>(R.id.tv_period)
         tv_period.setText("Period: "+item.period)
 
         val tv_equity = view.findViewById<TextView>(R.id.tv_equity)
