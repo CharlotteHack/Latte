@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Period: Dec 12 2020 - Dec 15 2020"
+                android:text="-"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,8 +38,8 @@
                 android:id="@+id/tv_historical_allocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Allocation: 2% of portfolio"
                 android:layout_marginTop="8dp"
+                android:text="-"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_period"
                 app:layout_constraintTop_toBottomOf="@+id/tv_period" />
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="$300.51"
+                    android:text="-"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
             </LinearLayout>
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="$523.31"
+                    android:text="-"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
             </LinearLayout>
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="1.51%"
+                    android:text="-"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
             </LinearLayout>
@@ -202,9 +202,9 @@
                 android:id="@+id/tv_historical_ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="VISA (V)"
-                android:textAlignment="center"
                 android:layout_marginBottom="8dp"
+                android:text="-"
+                android:textAlignment="center"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toTopOf="@+id/fab_return_indicator"
                 app:layout_constraintEnd_toEndOf="@+id/fab_return_indicator"
@@ -215,7 +215,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Dividend Earned: 7.1%"
+                android:text="-"
                 app:layout_constraintStart_toStartOf="@+id/tv_historical_allocation"
                 app:layout_constraintTop_toBottomOf="@+id/tv_historical_allocation" />
         </androidx.constraintlayout.widget.ConstraintLayout>

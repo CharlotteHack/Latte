@@ -36,6 +36,22 @@
 <!--        <item>1991 Returns</item>-->
 <!--        <item>1990 Returns</item>-->
     </string-array>
+    <string-array name="spinner_recents">
+        <item>All Moves</item>
+        <item>December 2021 Moves</item>
+        <item>November 2021 Moves</item>
+        <item>October 2021 Moves</item>
+        <item>September 2021 Moves</item>
+        <item>August 2021 Moves</item>
+        <item>July 2021 Moves</item>
+        <item>June 2021 Moves</item>
+        <item>May 2021 Moves</item>
+        <item>April 2021 Moves</item>
+        <item>March 2021 Moves</item>
+        <item>February 2021 Moves</item>
+        <item>January 2021 Moves</item>
+        <!--        <item>2020 Returns</item>-->
+    </string-array>
     <string-array name="array_name2">
         <item>Cumulative Returns</item>
     </string-array>

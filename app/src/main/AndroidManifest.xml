@@ -21,6 +21,9 @@
         <activity android:name=".Tutorial.TutorialActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".PieActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

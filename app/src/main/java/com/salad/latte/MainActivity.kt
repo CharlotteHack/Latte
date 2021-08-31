@@ -30,6 +30,7 @@ class MainActivity : FragmentActivity() {
     lateinit var title :TextView
     lateinit var iv_instagram :ImageView
     lateinit var iv_question :ImageView
+    lateinit var iv_pie :ImageView
     lateinit var viewPager :ViewPager
     val PREFS_FILENAME = "com.tutorial"
     var prefs: SharedPreferences? = null
@@ -58,16 +59,17 @@ class MainActivity : FragmentActivity() {
         viewPager = findViewById(R.id.viewpager)
         iv_instagram = findViewById(R.id.iv_instagram)
         iv_question = findViewById(R.id.iv_question)
+        iv_pie = findViewById(R.id.iv_pie)
 
         iv_instagram.setOnClickListener{
-            var uri = Uri.parse("http://instagram.com/_u/latte.app");
+            var uri = Uri.parse("http://instagram.com/_u/dollarcostavg");
             var insta = Intent(Intent.ACTION_VIEW, uri);
             insta.setPackage("com.instagram.android");
 
             if (isIntentAvailable(baseContext, insta)){
                 startActivity(insta);
             } else{
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/latte.app")));
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/dollarcostavg")));
             }
 
 
@@ -79,8 +81,13 @@ class MainActivity : FragmentActivity() {
             startActivity(i)
         })
 
+        iv_pie.setOnClickListener(View.OnClickListener {
+            val i = Intent(this, PieActivity::class.java)
+            startActivity(i)
+        })
+
 //        Create TabLayout Adapter
-        val tabLayout = TabAdapter(baseContext,fragmentManager,3)
+        val tabLayout = TabAdapter(baseContext,fragmentManager,4)
         viewPager.adapter = tabLayout
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tb_tabbar))
         tb_tabbar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

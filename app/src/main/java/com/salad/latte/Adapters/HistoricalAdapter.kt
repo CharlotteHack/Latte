@@ -3,7 +3,6 @@ package com.salad.latte.Adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class HistoricalAdapter(private val con :Context,private val res :Int,private va
         tv_ticker.setText(item.ticker)
 
 
-        val tv_period = view.findViewById<TextView>(R.id.tv_period)
+        val tv_period = view.findViewById<TextView>(R.id.tv_period_recents)
         tv_period.setText("Period: "+item.period)
 
         val tv_equity = view.findViewById<TextView>(R.id.tv_equity)

@@ -46,18 +46,26 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="Dashboard" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Piechart" />
-
+            android:text="Recent Moves" />
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="history" />
+            android:text="History" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dividends" />
+
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Dividends" />-->
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -130,4 +138,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_instagram"
         app:layout_constraintEnd_toStartOf="@+id/iv_instagram" />
 
+    <ImageView
+        android:id="@+id/iv_pie"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:padding="0dp"
+        android:src="@drawable/pie"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_question"
+        app:layout_constraintEnd_toStartOf="@+id/iv_question" />
 </androidx.constraintlayout.widget.ConstraintLayout>

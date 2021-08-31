@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
+import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
@@ -40,6 +41,10 @@ public class FirebaseDB {
     ArrayList<Historical> historicalItems;
     HistoricalAdapter historicalAdapter;
 
+    ValueEventListener recentsReference;
+    ArrayList<Watchlist> recentItems;
+    RecentsAdapter recentsAdapter;
+
     ValueEventListener pieReference;
     ArrayList<Pie> pieItems;
     PieAdapter pieAdapter;
@@ -55,6 +60,8 @@ public class FirebaseDB {
         historicalItems = new ArrayList<>();
         //
         pieItems = new ArrayList<>();
+        recentItems = new ArrayList<>();
+
 
     }
 
@@ -123,7 +130,90 @@ public class FirebaseDB {
         Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
         return watchlistItems;
     }
-    
+
+    public ArrayList<Watchlist> pullRecentsData(Context context, int layout, ListView listView){
+//        recents_progress.setVisibility(View.VISIBLE);
+        if (recentsReference != null){
+            mDatabase.removeEventListener(recentsReference);
+        }
+        recentsReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                recentItems.clear();
+
+                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
+                    recentItems.add(
+                            new Watchlist(
+                                    datasnap.child("icon").getValue(String.class),
+                                    datasnap.child("ticker").getValue(String.class),
+                                    datasnap.child("targetEntry").getValue(String.class),
+                                    datasnap.child("currentPrice").getValue(String.class),
+                                    datasnap.child("allocation").getValue(String.class),
+                                    datasnap.child("entryDate").getValue(String.class)
+                            )
+                    );
+                }
+                //
+                Collections.reverse(recentItems);
+                recentsAdapter = new RecentsAdapter(context,layout,recentItems);
+                listView.setAdapter(recentsAdapter);
+                recentsAdapter.notifyDataSetChanged();
+//                recents_progress.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(recentsReference);
+        Log.d("FirebaseDB", "Results found for recents: " + recentItems.size());
+        return recentItems;
+    }
+
+    public ArrayList<Watchlist> pullRecentsDataByDate(Context context, int layout, ListView listView, String month){
+//        recents_progress.setVisibility(View.VISIBLE);
+        if (recentsReference != null){
+            mDatabase.removeEventListener(recentsReference);
+        }
+        recentsReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                recentItems.clear();
+
+                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
+                    if(datasnap.child("entryDate").getValue(String.class).toLowerCase().contains(month.toLowerCase())) {
+                        recentItems.add(
+                                new Watchlist(
+                                        datasnap.child("icon").getValue(String.class),
+                                        datasnap.child("ticker").getValue(String.class),
+                                        datasnap.child("targetEntry").getValue(String.class),
+                                        datasnap.child("currentPrice").getValue(String.class),
+                                        datasnap.child("allocation").getValue(String.class),
+                                        datasnap.child("entryDate").getValue(String.class)
+                                )
+                        );
+                    }
+                }
+                //
+                Collections.reverse(recentItems);
+                recentsAdapter = new RecentsAdapter(context,layout,recentItems);
+                listView.setAdapter(recentsAdapter);
+                recentsAdapter.notifyDataSetChanged();
+//                recents_progress.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(recentsReference);
+        Log.d("FirebaseDB", "Results found for recents: " + recentItems.size());
+        return recentItems;
+    }
 
     public ArrayList<Historical> pullHistoricalDataByDateOnce(Context context, int layout, ListView historicalList, String exitDate, ProgressBar historical_progress){
         totalReturns = 0;
