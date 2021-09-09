@@ -102,8 +102,27 @@ public class FirebaseDB {
 
         return updatedTime;
     }
+    public float getTotalReturn(ArrayList<Watchlist> watchlistItems){
+        float totalReturn = 0.0f;
+        for (Watchlist item: watchlistItems
+             ) {
+//            entry*x = current
+            //current/entry
+            if(item.inOurPortfolio) {
+                float curr = Float.parseFloat(item.currentPrice);
+                float entryP = Float.parseFloat(item.targetEntry);
+                float alloc = Float.parseFloat(item.allocation.split(" ")[1].replace("%", ""));
+                float margin = 2.0f;
+                float ret = ((((curr / entryP) - 1) * margin) * alloc);
+                Log.d("FirebaseHelper:", "ticker " + item.ticker + " entry: " + item.targetEntry + " current: " +
+                        item.currentPrice + " return " + ret);
 
-    public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView, ProgressBar dashboard_progress){
+                totalReturn = totalReturn + ret;
+            }
+        }
+        return totalReturn;
+    }
+    public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView, ProgressBar dashboard_progress, TextView openPos, TextView totalReturn){
         dashboard_progress.setVisibility(View.VISIBLE);
 
         if (watchlistReference != null){
@@ -123,7 +142,8 @@ public class FirebaseDB {
                                     datasnap.child("targetEntry").getValue(String.class),
                                     datasnap.child("currentPrice").getValue(String.class),
                                     datasnap.child("allocation").getValue(String.class),
-                                    datasnap.child("entryDate").getValue(String.class)
+                                    datasnap.child("entryDate").getValue(String.class).split(" ")[0],
+                                    datasnap.child("inOurPortfolio").getValue(Boolean.class)
                             )
                     );
                 }
@@ -133,6 +153,16 @@ public class FirebaseDB {
                 gridView.setAdapter(watchListAdapter);
                 watchListAdapter.notifyDataSetChanged();
                 dashboard_progress.setVisibility(View.INVISIBLE);
+                int portfolioSize = 0;
+                for (Watchlist item: watchlistItems
+                     ) {
+                    if(item.inOurPortfolio){
+                        portfolioSize = portfolioSize + 1;
+                    }
+                }
+                openPos.setText(portfolioSize+"");
+                totalReturn.setText(getTotalReturn(watchlistItems)+"%");
+
        }
 
             @Override
@@ -164,7 +194,8 @@ public class FirebaseDB {
                                     datasnap.child("targetEntry").getValue(String.class),
                                     datasnap.child("currentPrice").getValue(String.class),
                                     datasnap.child("allocation").getValue(String.class),
-                                    datasnap.child("entryDate").getValue(String.class)
+                                    datasnap.child("entryDate").getValue(String.class),
+                                    datasnap.child("inOurPortfolio").getValue(Boolean.class)
                             )
                     );
                 }
@@ -207,7 +238,8 @@ public class FirebaseDB {
                                         datasnap.child("targetEntry").getValue(String.class),
                                         datasnap.child("currentPrice").getValue(String.class),
                                         datasnap.child("allocation").getValue(String.class),
-                                        datasnap.child("entryDate").getValue(String.class)
+                                        datasnap.child("entryDate").getValue(String.class),
+                                        datasnap.child("inOurPortfolio").getValue(Boolean.class)
                                 )
                         );
                     }

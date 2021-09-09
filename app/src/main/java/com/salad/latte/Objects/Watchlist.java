@@ -6,6 +6,7 @@ public class Watchlist implements Comparable<Watchlist> {
     public String targetEntry = "";
     public String currentPrice = "";
     public String allocation =  "";
+    public boolean inOurPortfolio = false;
 
     @Override
     public int compareTo(Watchlist o) {
@@ -29,12 +30,13 @@ public class Watchlist implements Comparable<Watchlist> {
 
     }
 
-    public Watchlist(String i, String t, String te, String cp, String a,  String e){
+    public Watchlist(String i, String t, String te, String cp, String a,  String e, boolean iow){
      icon = i;
      ticker = t;
      targetEntry = te;
      currentPrice = cp;
      allocation = a;
      entryDate = e;
+     inOurPortfolio = iow;
     }
 }

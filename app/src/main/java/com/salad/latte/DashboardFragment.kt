@@ -28,6 +28,8 @@ class DashboardFragment : Fragment(){
 
     lateinit var firebaseDB :FirebaseDB
     lateinit var dashboard_progress :ProgressBar
+    lateinit var tv_openPositions :TextView
+    lateinit var tv_totalReturn :TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +49,9 @@ class DashboardFragment : Fragment(){
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
         tv_updateTime = view.findViewById(R.id.timeUpdate)
         firebaseDB.pullUpdatedTime(tv_updateTime)
-        watchitems.addAll(firebaseDB.pullWatchlistData(context!!,R.layout.custom_news_item,gv_watchlist,dashboard_progress))
+        tv_openPositions = view.findViewById(R.id.openPositions_tv)
+        tv_totalReturn = view.findViewById(R.id.approxReturn_tv)
+        watchitems.addAll(firebaseDB.pullWatchlistData(context!!,R.layout.custom_news_item,gv_watchlist,dashboard_progress,tv_openPositions, tv_totalReturn))
 //        var watchlistItem = Watchlist();
 //        watchlistItem.icon = "https://c0.klipartz.com/pngpicture/203/134/gratis-png-visa.png"
 //        watchlistItem.ticker = "VISA (V)"
