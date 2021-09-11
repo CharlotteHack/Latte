@@ -8,6 +8,8 @@
     android:background="#FEFEFEFE"
     tools:context=".MainActivity">
 <!---->
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -147,4 +149,13 @@
         android:src="@drawable/pie"
         app:layout_constraintBottom_toBottomOf="@+id/iv_question"
         app:layout_constraintEnd_toStartOf="@+id/iv_question" />
+
+    <ImageView
+        android:id="@+id/history_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/history"
+        app:layout_constraintEnd_toStartOf="@+id/iv_pie"
+        app:layout_constraintTop_toTopOf="@+id/iv_pie" />
 </androidx.constraintlayout.widget.ConstraintLayout>

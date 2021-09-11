@@ -120,7 +120,9 @@ public class FirebaseDB {
                 totalReturn = totalReturn + ret;
             }
         }
-        return totalReturn;
+        float f = totalReturn;
+        String test = String.format("%.02f", f);
+        return Float.parseFloat(test);
     }
     public ArrayList<Watchlist> pullWatchlistData(Context context, int layout, GridView gridView, ProgressBar dashboard_progress, TextView openPos, TextView totalReturn){
         dashboard_progress.setVisibility(View.VISIBLE);

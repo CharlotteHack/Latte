@@ -32,6 +32,7 @@ class MainActivity : FragmentActivity() {
     lateinit var iv_question :ImageView
     lateinit var iv_pie :ImageView
     lateinit var viewPager :ViewPager
+    lateinit var iv_history :ImageView
     val PREFS_FILENAME = "com.tutorial"
     var prefs: SharedPreferences? = null
 
@@ -60,6 +61,7 @@ class MainActivity : FragmentActivity() {
         iv_instagram = findViewById(R.id.iv_instagram)
         iv_question = findViewById(R.id.iv_question)
         iv_pie = findViewById(R.id.iv_pie)
+        iv_history = findViewById(R.id.history_iv)
 
         iv_instagram.setOnClickListener{
             var uri = Uri.parse("http://instagram.com/_u/dollarcostavg");
@@ -78,6 +80,11 @@ class MainActivity : FragmentActivity() {
 
         iv_question.setOnClickListener(View.OnClickListener {
             val i = Intent(this, TutorialActivity::class.java)
+            startActivity(i)
+        })
+
+        iv_history.setOnClickListener(View.OnClickListener {
+            val i = Intent(this, HistoryActivity::class.java)
             startActivity(i)
         })
 
