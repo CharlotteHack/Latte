@@ -22,10 +22,12 @@ import com.salad.latte.Adapters.DividendAdapter;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
+import com.salad.latte.Adapters.SuperInvestorAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
 import com.salad.latte.Objects.Dividend;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
+import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.Objects.Watchlist;
 
 import org.json.JSONException;
@@ -61,6 +63,10 @@ public class FirebaseDB {
     ArrayList<Dividend> dividendItems;
     DividendAdapter dividendAdapters;
 
+    ValueEventListener superInvestorReference;
+    ArrayList<SuperInvestor> superInvestors;
+    SuperInvestorAdapter superInvestorAdapter;
+
     String updatedTime = "";
 //
 
@@ -75,6 +81,7 @@ public class FirebaseDB {
         pieItems = new ArrayList<>();
         recentItems = new ArrayList<>();
         dividendItems = new ArrayList<>();
+        superInvestors = new ArrayList<>();
 
 
     }
@@ -494,7 +501,7 @@ public class FirebaseDB {
 //                    Log.d("firebase task 2", value.getString("dividendAmount"));
 //                    Log.d("firebase task 2", value.getString("dateTimestamp"));
                     Dividend d = new Dividend(value.getString("date"),value.getString("dateTimestamp"),value.getString("dividendAmount"),value.getString("ticker"));
-                    Log.d("FirebaseDB","Added dividend: "+d.getTicker()+" "+d.getDate());
+//                    Log.d("FirebaseDB","Added dividend: "+d.getTicker()+" "+d.getDate());
                     dividends.add(d);
             }
         }
@@ -524,6 +531,72 @@ public class FirebaseDB {
         };
         Log.d("FirebaseDB","Snapshot count return: "+length);
         return length;
+    }
+
+
+    public ArrayList<SuperInvestor> pullSuperInvestorData(Context context, int layout, ListView superInvestor_lv, ProgressBar superinvestor_progress){
+        superinvestor_progress.setVisibility(View.VISIBLE);
+        if (superInvestorReference != null){
+            mDatabase.removeEventListener(superInvestorReference);
+        }
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                superInvestors.clear();
+
+//              Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("superInvestors").getChildren()){
+                    Log.d("FirebaseDB dataSnap",datasnap.getKey());
+                    SuperInvestor superInvestor = new SuperInvestor("","","","","");
+                        for(DataSnapshot superI : datasnap.child("data").getChildren()){
+//                            Log.d("FirebaseDB Child", superI.getValue(String.class));
+//                            for(DataSnapshot holdings : superI.getChildren()) {
+                                if (superI.hasChild("generalInfo")) {
+//                                    Log.d("FirebaseDBz",")
+                                    Log.d("FirebaseDB Holdings", superI.child("generalInfo").child("shortName").getValue(String.class));
+                                }
+//                            }
+                            }
+//                        int i = 0;
+//                        //i represents each child in dividends .. like the divDate, divClosingPrice etc.
+//                        //for(DataSnapshot innerArray :dividend.getChildren()){
+//                        ArrayList<String> innerArray = new ArrayList<>();
+//                        innerArray.add(
+//                                dividend.child("0").getValue(String.class));
+//                        innerArray.add(
+//                                dividend.child("1").getValue(String.class));
+//                        innerArray.add(
+//                                dividend.child("2").getValue(String.class));
+//                        innerArray.add(
+//                                dividend.child("3").getValue(String.class));
+//                        listOfDividends.add(innerArray);
+                        //}
+                        //
+
+                    superInvestors.add(
+                            new SuperInvestor(
+                                    datasnap.child("ticker").getValue(String.class)+"",
+                                    datasnap.child("period").getValue(String.class)+"",
+                                    "",
+                                    "",
+                                    ""
+
+                            ));
+                }
+                //
+                superInvestorAdapter = new SuperInvestorAdapter(context,layout,superInvestors);
+                superInvestor_lv.setAdapter(superInvestorAdapter);
+                superInvestorAdapter.notifyDataSetChanged();
+                superinvestor_progress.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
+        return superInvestors;
     }
 
     public static float getCurrentPriceForStock(String ticker){

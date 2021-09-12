@@ -20,7 +20,7 @@ class TabAdapter(
                RecentFragment()
             }
             2 -> {
-                HistoricalFragment()
+                SuperInvestorsFragment()
             }
             3 -> {
                 DividendsFragment()
