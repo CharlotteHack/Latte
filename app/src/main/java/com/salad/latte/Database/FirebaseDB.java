@@ -27,6 +27,8 @@ import com.salad.latte.Adapters.WatchListAdapter;
 import com.salad.latte.Objects.Dividend;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
+import com.salad.latte.Objects.SuperInvestor.Holding;
+import com.salad.latte.Objects.SuperInvestor.SIActivity;
 import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.Objects.Watchlist;
 
@@ -546,16 +548,104 @@ public class FirebaseDB {
 
 //              Log.d("FirebaseDB","Snapshot count: "+snapshot.child("historical").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("superInvestors").getChildren()){
-                    Log.d("FirebaseDB dataSnap",datasnap.getKey());
+//                    Log.d("FirebaseDB dataSnap",datasnap.getKey()+" Children count: "+datasnap.getChildrenCount());
                     SuperInvestor superInvestor = new SuperInvestor("","","","","");
-                        for(DataSnapshot superI : datasnap.child("data").getChildren()){
-//                            Log.d("FirebaseDB Child", superI.getValue(String.class));
+                        for(DataSnapshot superI : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").getChildren()){
+//                            Log.d("FirebaseDB superI",datasnap.getKey()+" Children count: "+superI.getChildrenCount());
+
+                            try {
+//                                JSONObject jsonObject = new JSONObject(superI.getValue(String.class));
+//                                Log.d("FirebaseDB Child",jsonObject.toString());
 //                            for(DataSnapshot holdings : superI.getChildren()) {
-                                if (superI.hasChild("generalInfo")) {
+                                if (snapshot.child("superInvestors").child(datasnap.getKey()).child("data").hasChild("generalInfo")) {
 //                                    Log.d("FirebaseDBz",")
-                                    Log.d("FirebaseDB Holdings", superI.child("generalInfo").child("shortName").getValue(String.class));
+                                    for (DataSnapshot path : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("generalInfo").getChildren()) {
+                                        superInvestor.setAssetsUnderManagement(path.child("assetsUnderManagement").getValue(String.class));
+                                        ;
+                                        superInvestor.setCompanyName(path.child("companyName").getValue(String.class));
+                                        ;
+                                        superInvestor.setLinkToHoldings(path.child("linkToHoldings").getValue(String.class));
+                                        ;
+                                        superInvestor.setNumOfStocks(path.child("numOfStocks").getValue(String.class));
+                                        ;
+                                        superInvestor.setShortName(path.child("shortName").getValue(String.class));
+                                    }
+//                                    Log.d("FirebaseDB GeneralInfo",child("shortName").getValue(String.class));
+                                }
+
+                                if (snapshot.child("superInvestors").child(datasnap.getKey()).child("data").hasChild("activities")) {
+                                            for(DataSnapshot activitySnapshot : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("activities").getChildren())
+                                            {
+                                                SIActivity siActivity = new SIActivity("","","","","","","");
+                                                siActivity.setActivty_(activitySnapshot.child("activty_").getValue(String.class));
+                                                siActivity.setChangeToPortfolio(activitySnapshot.child("changeToPortfolio").getValue(String.class));
+                                                siActivity.setQtrYear(activitySnapshot.child("qtrYear").getValue(String.class));
+                                                siActivity.setShareCountChange(activitySnapshot.child("shareCountChange").getValue(String.class));
+                                                siActivity.setStock(activitySnapshot.child("stock").getValue(String.class));
+                                                if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("activities").child(activitySnapshot.getKey()).hasChild("logo_url"))
+                                                {
+                                                    siActivity.setLogo_url(activitySnapshot.child("logo_url").getValue(String.class));
+
+                                                }
+                                                else{
+                                                    siActivity.setLogo_url("..");
+                                                }
+                                                if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child(activitySnapshot.getKey()).child("activities").hasChild("previousClose"))
+                                                {
+                                                    siActivity.setPreviousClose(activitySnapshot.child("previousClose").getValue(Double.class)+"");
+                                                }
+                                                else{
+                                                    siActivity.setPreviousClose("0");
+                                                }
+                                                superInvestor.addActivity(siActivity);
+//                                                Log.d("FirebaseDB qtrYear: ",activitySnapshot.child("qtrYear").getValue(String.class));
+
+                                            }
+                                    }
+//                                    DataSnapshot path =  snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("generalInfo");
+//                                    superInvestor.setAssetsUnderManagement(path.child("assetsUnderManagement").getValue(String.class));;
+//                                    superInvestor.setCompanyName(path.child("companyName").getValue(String.class));;
+//                                    superInvestor.setLinkToHoldings(path.child("linkToHoldings").getValue(String.class));;
+//                                    superInvestor.setNumOfStocks(path.child("numOfStocks").getValue(String.class));;
+//                                    superInvestor.setShortName(path.child("shortName").getValue(String.class));
+//                                    Log.d("FirebaseDB GeneralInfo",child("shortName").getValue(String.class));
+
+                                if (snapshot.child("superInvestors").child(datasnap.getKey()).child("data").hasChild("holdings")) {
+                                    for(DataSnapshot holdingsSnapshot : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("holdings").getChildren())
+                                    {
+                                        Holding holding = new Holding("","","","","","","","","");
+                                        holding.setNumShares(holdingsSnapshot.child("numShares").getValue(String.class));
+                                        holding.setPortfolioWeight(holdingsSnapshot.child("portfolioWeight").getValue(String.class));
+                                        holding.setRecentActivity(holdingsSnapshot.child("recentActivity").getValue(String.class));
+                                        holding.setReportedPrice(holdingsSnapshot.child("reportedPrice").getValue(String.class));
+                                        holding.setStock(holdingsSnapshot.child("stock").getValue(String.class));
+                                        holding.setValue(holdingsSnapshot.child("value").getValue(String.class));
+                                        if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("holdings").child(holdingsSnapshot.getKey()).hasChild("logo_url"))
+                                        {
+                                            holding.setLogo_url(holdingsSnapshot.child("logo_url").getValue(String.class));
+
+                                        }
+                                        else{
+                                            holding.setLogo_url("..");
+                                        }
+                                        if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child(holdingsSnapshot.getKey()).child("holdings").hasChild("previousClose"))
+                                        {
+                                            holding.setPreviousClose(holdingsSnapshot.child("previousClose").getValue(Double.class)+"");
+                                        }
+                                        else{
+                                            holding.setPreviousClose("0");
+                                        }
+                                        superInvestor.addHolding(holding);
+//                                        Log.d("FirebaseDB qtrYear: ",activitySnapshot.child("qtrYear").getValue(String.class));
+
+                                    }
                                 }
 //                            }
+                            }
+                            catch (Exception e){
+                                Log.d("FirebaseDB", e.getMessage());
+                                e.printStackTrace();
+                            }
                             }
 //                        int i = 0;
 //                        //i represents each child in dividends .. like the divDate, divClosingPrice etc.
@@ -573,15 +663,7 @@ public class FirebaseDB {
                         //}
                         //
 
-                    superInvestors.add(
-                            new SuperInvestor(
-                                    datasnap.child("ticker").getValue(String.class)+"",
-                                    datasnap.child("period").getValue(String.class)+"",
-                                    "",
-                                    "",
-                                    ""
-
-                            ));
+                    superInvestors.add(superInvestor);
                 }
                 //
                 superInvestorAdapter = new SuperInvestorAdapter(context,layout,superInvestors);

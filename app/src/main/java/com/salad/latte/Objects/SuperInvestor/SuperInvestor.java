@@ -18,6 +18,16 @@ public class SuperInvestor {
         this.linkToHoldings = linkToHoldings;
         this.numOfStocks = numOfStocks;
         this.shortName = shortName;
+        holdings = new ArrayList<>();
+        activities = new ArrayList<>();
+    }
+
+    public void addActivity(SIActivity activity){
+        activities.add(activity);
+    }
+
+    public void addHolding(Holding holding){
+        holdings.add(holding);
     }
 
     public String getAssetsUnderManagement() {

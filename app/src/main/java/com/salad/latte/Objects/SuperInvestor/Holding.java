@@ -8,8 +8,10 @@ public class Holding {
     String stock;
     String stockLongName;
     String value;
+    String logo_url;
+    String previousClose;
 
-    public Holding(String numShares, String portfolioWeight, String recentActivity, String reportedPrice, String stock, String stockLongName, String value) {
+    public Holding(String numShares, String portfolioWeight, String recentActivity, String reportedPrice, String stock, String stockLongName, String value, String logo, String pc) {
         this.numShares = numShares;
         this.portfolioWeight = portfolioWeight;
         this.recentActivity = recentActivity;
@@ -17,6 +19,24 @@ public class Holding {
         this.stock = stock;
         this.stockLongName = stockLongName;
         this.value = value;
+        this.logo_url = logo;
+        this.previousClose = pc;
+    }
+
+    public String getLogo_url() {
+        return logo_url;
+    }
+
+    public void setLogo_url(String logo_url) {
+        this.logo_url = logo_url;
+    }
+
+    public String getPreviousClose() {
+        return previousClose;
+    }
+
+    public void setPreviousClose(String previousClose) {
+        this.previousClose = previousClose;
     }
 
     public String getNumShares() {
