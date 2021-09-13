@@ -538,6 +538,7 @@ public class FirebaseDB {
 
     public ArrayList<SuperInvestor> pullSuperInvestorData(Context context, int layout, ListView superInvestor_lv, ProgressBar superinvestor_progress){
         superinvestor_progress.setVisibility(View.VISIBLE);
+        superInvestor_lv.setVisibility(View.INVISIBLE);
         if (superInvestorReference != null){
             mDatabase.removeEventListener(superInvestorReference);
         }
@@ -590,7 +591,7 @@ public class FirebaseDB {
                                                 else{
                                                     siActivity.setLogo_url("..");
                                                 }
-                                                if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child(activitySnapshot.getKey()).child("activities").hasChild("previousClose"))
+                                                if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("activities").child(activitySnapshot.getKey()).hasChild("previousClose"))
                                                 {
                                                     siActivity.setPreviousClose(activitySnapshot.child("previousClose").getValue(Double.class)+"");
                                                 }
@@ -628,7 +629,7 @@ public class FirebaseDB {
                                         else{
                                             holding.setLogo_url("..");
                                         }
-                                        if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child(holdingsSnapshot.getKey()).child("holdings").hasChild("previousClose"))
+                                        if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("holdings").child(holdingsSnapshot.getKey()).hasChild("previousClose"))
                                         {
                                             holding.setPreviousClose(holdingsSnapshot.child("previousClose").getValue(Double.class)+"");
                                         }
@@ -670,6 +671,7 @@ public class FirebaseDB {
                 superInvestor_lv.setAdapter(superInvestorAdapter);
                 superInvestorAdapter.notifyDataSetChanged();
                 superinvestor_progress.setVisibility(View.INVISIBLE);
+                superInvestor_lv.setVisibility(View.VISIBLE);
             }
 
             @Override
