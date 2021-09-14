@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Portfolio Size: $13.2 B | No. Stocks: 76"
+                android:text="-"
                 app:layout_constraintStart_toEndOf="@+id/superinvestor_rank_tv"
                 app:layout_constraintTop_toBottomOf="@+id/superinvestor_shortname" />
 
