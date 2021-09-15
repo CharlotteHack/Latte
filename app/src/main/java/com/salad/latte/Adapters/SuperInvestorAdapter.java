@@ -55,6 +55,7 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
         return Float.parseFloat(result);
     }
 
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
