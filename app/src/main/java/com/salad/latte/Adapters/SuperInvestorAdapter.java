@@ -43,10 +43,10 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
              ) {
             float stepOne = Float.parseFloat(holding.getPreviousClose()) - Float.parseFloat(holding.getReportedPrice().replace("$",""));
             float curRet = (stepOne / Float.parseFloat(holding.getReportedPrice().replace("$","")));
-            Log.d("SuperInvestorAdapter","-----------------");
-            Log.d("SuperInvestorAdapter: ","Previous close: "+holding.getPreviousClose());
-            Log.d("SuperInvestorAdapter: ","Reported price: "+holding.getReportedPrice());
-            Log.d("SuperInvestorAdapter: ","Cur Ret: "+curRet);
+//            Log.d("SuperInvestorAdapter","-----------------");
+//            Log.d("SuperInvestorAdapter: ","Previous close: "+holding.getPreviousClose());
+//            Log.d("SuperInvestorAdapter: ","Reported price: "+holding.getReportedPrice());
+//            Log.d("SuperInvestorAdapter: ","Cur Ret: "+curRet);
             ret = ret + curRet;
 
 
