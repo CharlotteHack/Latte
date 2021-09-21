@@ -24,9 +24,9 @@ public class SuperInvestor {
         activities = new ArrayList<>();
     }
 
-    public void printInfo(){
-        Log.d("SuperInvestor", "Company Name: "+this.companyName);
-    }
+//    public void printInfo(){
+//        Log.d("SuperInvestor", "Company Name: "+this.companyName);
+//    }
 
     public void addActivity(SIActivity activity){
         activities.add(activity);

@@ -123,8 +123,8 @@ public class FirebaseDB {
                 float alloc = Float.parseFloat(item.allocation.split(" ")[1].replace("%", ""));
                 float margin = 2.0f;
                 float ret = ((((curr / entryP) - 1) * margin) * alloc);
-                Log.d("FirebaseHelper:", "ticker " + item.ticker + " entry: " + item.targetEntry + " current: " +
-                        item.currentPrice + " return " + ret);
+//                Log.d("FirebaseHelper:", "ticker " + item.ticker + " entry: " + item.targetEntry + " current: " +
+//                        item.currentPrice + " return " + ret);
 
                 totalReturn = totalReturn + ret;
             }

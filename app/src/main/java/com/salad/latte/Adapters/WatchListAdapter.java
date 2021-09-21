@@ -65,7 +65,7 @@ public class WatchListAdapter extends ArrayAdapter<Watchlist> {
             ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setText(String.format("+"+"%.2f", delta)+"%");
             ((TextView) view.findViewById(R.id.tv_watchlist_returns)).setTextColor(getContext().getResources().getColor(R.color.purple_500));
         }
-        ;Log.d("WatchlistAdapterAdapter","Delta: "+delta);
+//        ;Log.d("WatchlistAdapterAdapter","Delta: "+delta);
         //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setText(watchitems.get(position).buySellOrHold);
         //((Button) view.findViewById(R.id.btn_buy_hold_sell)).setBackgroundColor(Color.parseColor("#03A9F4"));
 

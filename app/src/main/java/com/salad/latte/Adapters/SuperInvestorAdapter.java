@@ -61,7 +61,7 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = ((LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_superinvestor,parent,false);
         SuperInvestor superInvestor = superInvestors.get(position);
-        superInvestor.printInfo();
+//        superInvestor.printInfo();
         ((TextView) view.findViewById(R.id.superinvestor_rank_tv)).setText("#"+(position+1));
         ((TextView) view.findViewById(R.id.superinvestor_generalInfo)).setText("Portfolio. Val "+superInvestor.getAssetsUnderManagement()+ " | "+superInvestor.getNumOfStocks()+" positions");
         ((TextView) view.findViewById(R.id.superinvestor_shortname)).setText(superInvestor.getCompanyName());
