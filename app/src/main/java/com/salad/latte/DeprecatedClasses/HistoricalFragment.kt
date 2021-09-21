@@ -1,7 +1,6 @@
-package com.salad.latte
+package com.salad.latte.DeprecatedClasses
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.salad.latte.Adapters.HistoricalAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.Historical
+import com.salad.latte.R
 
 class HistoricalFragment : Fragment(){
 
