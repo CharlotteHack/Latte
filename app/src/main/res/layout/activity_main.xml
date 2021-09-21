@@ -59,10 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Super Investors" />
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dividends" />
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Dividends" />-->
 
 <!--        <com.google.android.material.tabs.TabItem-->
 <!--            android:layout_width="wrap_content"-->

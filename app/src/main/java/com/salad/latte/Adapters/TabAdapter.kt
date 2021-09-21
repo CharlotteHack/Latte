@@ -22,9 +22,9 @@ class TabAdapter(
             1 -> {
                 SuperInvestorsFragment()
             }
-            2 -> {
-                DividendsFragment()
-            }
+//            2 -> {
+//                DividendsFragment()
+//            }
             else -> getItem(position)
         }
     }

@@ -1,4 +1,4 @@
-package com.salad.latte
+package com.salad.latte.DeprecatedClasses
 
 import android.os.Bundle
 import android.util.Log
@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.salad.latte.Adapters.RecentsAdapter
-import com.salad.latte.Adapters.WatchListAdapter
 import com.salad.latte.Database.FirebaseDB
-import com.salad.latte.Dialogs.WithdrawDialogFragment
-import com.salad.latte.Objects.Settings
 import com.salad.latte.Objects.Watchlist
+import com.salad.latte.R
 
 class RecentFragment :Fragment() {
 
@@ -35,9 +32,9 @@ class RecentFragment :Fragment() {
         recentItems = ArrayList()
         recentsList = view.findViewById<ListView>(R.id.list_recents);
         recents_spinner = view.findViewById(R.id.spinner_recents)
-        recentItems.addAll(firebaseDB.pullRecentsData(context!!,R.layout.custom_recents,recentsList))
+        recentItems.addAll(firebaseDB.pullRecentsData(context!!, R.layout.custom_recents,recentsList))
         Log.d("FirebaseDB2", "Results found for Recents: " + recentItems.size)
-        recentsAdapter = RecentsAdapter(context!!,R.layout.custom_recents,recentItems)
+        recentsAdapter = RecentsAdapter(context!!, R.layout.custom_recents,recentItems)
 
 
 
@@ -57,14 +54,14 @@ class RecentFragment :Fragment() {
                 if(languages[position].contains("All")){
 
                     recentItems.clear()
-                    recentItems.addAll(firebaseDB.pullRecentsData(context!!,R.layout.custom_recents,recentsList))
+                    recentItems.addAll(firebaseDB.pullRecentsData(context!!, R.layout.custom_recents,recentsList))
                     recentsAdapter.notifyDataSetChanged()
                 }
                 else{
                     var month = languages[position].split(" ")[0]
 
                     recentItems.clear()
-                    recentItems = firebaseDB.pullRecentsDataByDate(context!!,R.layout.custom_historical,recentsList,month);
+                    recentItems = firebaseDB.pullRecentsDataByDate(context!!, R.layout.custom_historical,recentsList,month);
                     recentsAdapter.notifyDataSetChanged()
                     Log.d("HistoricalFragment: ","Year to search for: "+month)
                     //Log.d("HistoricalFragment: ","# Historical Items: "+historicalItems.size)

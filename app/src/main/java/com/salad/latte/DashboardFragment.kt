@@ -34,6 +34,7 @@ class DashboardFragment : Fragment(){
     lateinit var tv_totalReturn :TextView
 
     lateinit var our_recentmoves_btn :Button
+    lateinit var our_dividends :Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +50,7 @@ class DashboardFragment : Fragment(){
 //        tv_netreturn = view.findViewById(R.id.tv_netreturn2)
 
         our_recentmoves_btn = view.findViewById(R.id.our_recentmoves_btn);
+        our_dividends = view.findViewById(R.id.our_dividends_btn);
         dashboard_progress = view.findViewById(R.id.progress_dashboard)
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
         tv_updateTime = view.findViewById(R.id.timeUpdate)
@@ -78,6 +80,12 @@ class DashboardFragment : Fragment(){
 
         our_recentmoves_btn.setOnClickListener( View.OnClickListener {
             var intent = Intent(context!!,RecentMovesActivity::class.java);
+            startActivity(intent)
+
+
+        })
+        our_dividends.setOnClickListener( View.OnClickListener {
+            var intent = Intent(context!!,DividendsActivity::class.java);
             startActivity(intent)
 
 

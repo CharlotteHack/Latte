@@ -30,6 +30,9 @@
         <activity android:name=".RecentMovesActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".DividendsActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
