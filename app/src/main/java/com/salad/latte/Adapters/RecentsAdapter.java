@@ -16,6 +16,7 @@ import com.salad.latte.MainActivity;
 import com.salad.latte.Objects.News;
 import com.salad.latte.Objects.Watchlist;
 import com.salad.latte.R;
+import com.salad.latte.RecentMovesActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class RecentsAdapter extends ArrayAdapter<Watchlist> {
 
     ArrayList<Watchlist> watchitems;
-    MainActivity rootContext;
+    RecentMovesActivity rootContext;
     ListView watchlist;
 
     ListView lv_news;
@@ -32,7 +33,7 @@ public class RecentsAdapter extends ArrayAdapter<Watchlist> {
     public RecentsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Watchlist> objects) {
         super(context, resource, objects);
         watchitems = objects;
-        rootContext = (MainActivity) context;
+        rootContext = (RecentMovesActivity) context;
     }
 
     @Override

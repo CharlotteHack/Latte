@@ -16,13 +16,13 @@ class TabAdapter(
             0 -> {
                 DashboardFragment()
             }
+//            1 -> {
+//               RecentFragment()
+//            }
             1 -> {
-               RecentFragment()
-            }
-            2 -> {
                 SuperInvestorsFragment()
             }
-            3 -> {
+            2 -> {
                 DividendsFragment()
             }
             else -> getItem(position)

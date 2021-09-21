@@ -1,10 +1,12 @@
 package com.salad.latte
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.GridView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -31,6 +33,8 @@ class DashboardFragment : Fragment(){
     lateinit var tv_openPositions :TextView
     lateinit var tv_totalReturn :TextView
 
+    lateinit var our_recentmoves_btn :Button
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +48,7 @@ class DashboardFragment : Fragment(){
 //        tv_winrate = view.findViewById(R.id.tv_winrate2)
 //        tv_netreturn = view.findViewById(R.id.tv_netreturn2)
 
-
+        our_recentmoves_btn = view.findViewById(R.id.our_recentmoves_btn);
         dashboard_progress = view.findViewById(R.id.progress_dashboard)
         gv_watchlist = view.findViewById(R.id.gv_watchlist)
         tv_updateTime = view.findViewById(R.id.timeUpdate)
@@ -71,6 +75,13 @@ class DashboardFragment : Fragment(){
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())
 //        watchitems.add(Watchlist())//
+
+        our_recentmoves_btn.setOnClickListener( View.OnClickListener {
+            var intent = Intent(context!!,RecentMovesActivity::class.java);
+            startActivity(intent)
+
+
+        })
 
         Log.d("FirebaseDB2", "Results found for watchlist: " + watchitems.size)
         watchAdapter = WatchListAdapter(context!!,R.layout.custom_news_item,watchitems)
