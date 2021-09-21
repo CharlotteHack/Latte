@@ -1,5 +1,7 @@
 package com.salad.latte.Objects.SuperInvestor;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class SuperInvestor {
@@ -20,6 +22,10 @@ public class SuperInvestor {
         this.shortName = shortName;
         holdings = new ArrayList<>();
         activities = new ArrayList<>();
+    }
+
+    public void printInfo(){
+        Log.d("SuperInvestor", "Company Name: "+this.companyName);
     }
 
     public void addActivity(SIActivity activity){
