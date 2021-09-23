@@ -1,6 +1,7 @@
 package com.salad.latte.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.salad.latte.MainActivity;
 import com.salad.latte.Objects.SuperInvestor.Holding;
 import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.R;
+import com.salad.latte.SuperInvestorRecentMovesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,11 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ctx,"Clicked Holdings for: "+superInvestor.getCompanyName(),Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ctx, SuperInvestorRecentMovesActivity.class);
+                i.putExtra("superinvestor",superInvestor.getCompanyName());
+                i.putExtra("ytd",calculateReturn(superInvestor));
+                ((MainActivity) ctx).startActivity(i);
+
             }
         });
 
