@@ -40,23 +40,7 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
         return superInvestors.size();
     }
 
-    public float calculateReturn(SuperInvestor superInvestor){
-        float ret = 0.0f;
-        for (Holding holding: superInvestor.getHoldings()
-             ) {
-            float stepOne = Float.parseFloat(holding.getPreviousClose()) - Float.parseFloat(holding.getReportedPrice().replace("$",""));
-            float curRet = (stepOne / Float.parseFloat(holding.getReportedPrice().replace("$","")));
-//            Log.d("SuperInvestorAdapter","-----------------");
-//            Log.d("SuperInvestorAdapter: ","Previous close: "+holding.getPreviousClose());
-//            Log.d("SuperInvestorAdapter: ","Reported price: "+holding.getReportedPrice());
-//            Log.d("SuperInvestorAdapter: ","Cur Ret: "+curRet);
-            ret = ret + curRet;
 
-
-        }
-        String result = String.format("%.3f", ret*10);
-        return Float.parseFloat(result);
-    }
 
 
     @NonNull
@@ -68,7 +52,11 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
         ((TextView) view.findViewById(R.id.superinvestor_rank_tv)).setText("#"+(position+1));
         ((TextView) view.findViewById(R.id.superinvestor_generalInfo)).setText("Portfolio. Val "+superInvestor.getAssetsUnderManagement()+ " | "+superInvestor.getNumOfStocks()+" positions");
         ((TextView) view.findViewById(R.id.superinvestor_shortname)).setText(superInvestor.getCompanyName());
-        ((TextView) view.findViewById(R.id.superinvestor_return)).setText(calculateReturn(superInvestor)+"%");
+//        if(superInvestor.getTotalReturn() == 0) {
+            String ret = superInvestor.getTotalReturn() + "";
+            superInvestor.setTotalReturn(Float.parseFloat(ret));
+            ((TextView) view.findViewById(R.id.superinvestor_return)).setText(ret + "%");
+//        }
         Button recentMoves = (Button) view.findViewById(R.id.superinvestor_recentmoves_btn);
         Button positions = (Button) view.findViewById(R.id.superinvestor_postions_btn);
         recentMoves.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +64,8 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
             public void onClick(View v) {
                 Toast.makeText(ctx,"Clicked Holdings for: "+superInvestor.getCompanyName(),Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(ctx, SuperInvestorRecentMovesActivity.class);
-                i.putExtra("superinvestor",superInvestor.getCompanyName());
-                i.putExtra("ytd",calculateReturn(superInvestor));
+                i.putExtra("superInvestor",superInvestor.getCompanyName());
+                i.putExtra("ytd",superInvestor.getTotalReturn()+"");
                 ((MainActivity) ctx).startActivity(i);
 
             }

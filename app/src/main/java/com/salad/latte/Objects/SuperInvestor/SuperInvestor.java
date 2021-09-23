@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class SuperInvestor {
+public class SuperInvestor implements Comparable{
     
     String assetsUnderManagement;
     String companyName;
@@ -13,6 +13,57 @@ public class SuperInvestor {
     String shortName;
     ArrayList<Holding> holdings;
     ArrayList<SIActivity> activities;
+    float totalReturn = 0;
+
+    public float getTotalReturn() {
+        return totalReturn;
+    }
+
+    public void calculateReturn(){
+        float ret = 0.0f;
+//        Log.d("SuperInvestor ", "Num stocks: " + getNumOfStocks() + " Company name "+getCompanyName());
+
+//        if(superInvestor.getCompanyName().equals("Mohnish Pabrai - Pabrai Investments")) {
+//        Log.d("SuperInvestorAdapter","Holdings size for: "+superInvestor.getCompanyName()+" | "+superInvestor.getHoldings().size());
+        for (int i = 0; i < getHoldings().size()/3; i++)
+        {
+            Holding holding = getHoldings().get(i);
+            if(!holding.getStock().equals("RDSB")) {
+                float stepOne = Float.parseFloat(holding.getPreviousClose()) - Float.parseFloat(holding.getReportedPrice().replace("$", ""));
+                float curRet = (stepOne / Float.parseFloat(holding.getReportedPrice().replace("$", ""))) * Float.parseFloat(holding.getPortfolioWeight())/10;
+//                Log.d("SuperInvestor", "-----------------");
+//                Log.d("SuperInvestor: ", "Reported price: " + holding.getReportedPrice());
+//                Log.d("SuperInvestor: ", "Portfolio Weight: " + Float.parseFloat(holding.getPortfolioWeight())/10);
+//                Log.d("SuperInvestor: ", "Previous close: " + holding.getPreviousClose());
+//                Log.d("SuperInvestor: ", "Cur Ret: " + curRet);
+                ret += curRet;
+            }
+
+
+//            Log.d("SuperInvestor: ", "On Holding: "+i);
+        }
+        String result = String.format("%.2f", ret * 10);
+//        Log.d("SuperInvestor: ", "Total Return " + result);
+
+        totalReturn = Float.parseFloat(result);
+//            }
+//    return 0;
+    }
+
+    public void setTotalReturn(float totalReturn) {
+        this.totalReturn = totalReturn;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(this.totalReturn < ((SuperInvestor) o).totalReturn){
+            return 1;
+        }
+        else if (this.totalReturn > ((SuperInvestor) o).totalReturn){
+            return -1;
+        }
+        return 0;
+    }
 
     public SuperInvestor(String assetsUnderManagement, String companyName, String linkToHoldings, String numOfStocks, String shortName) {
         this.assetsUnderManagement = assetsUnderManagement;
