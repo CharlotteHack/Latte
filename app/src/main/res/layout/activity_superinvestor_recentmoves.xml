@@ -44,6 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <ListView
         android:id="@+id/lv_superinvestors_recent"
         android:layout_width="match_parent"
