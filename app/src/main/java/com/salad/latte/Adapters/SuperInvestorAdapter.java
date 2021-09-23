@@ -18,6 +18,7 @@ import com.salad.latte.MainActivity;
 import com.salad.latte.Objects.SuperInvestor.Holding;
 import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.R;
+import com.salad.latte.SuperInvestorPositionsActivity;
 import com.salad.latte.SuperInvestorRecentMovesActivity;
 
 import java.util.ArrayList;
@@ -76,8 +77,9 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
             public void onClick(View v) {
 
                 Toast.makeText(ctx,"Clicked Positions for: "+superInvestor.getCompanyName(),Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(ctx, SuperInvestorRecentMovesActivity.class);
+                Intent i = new Intent(ctx, SuperInvestorPositionsActivity.class);
                 i.putExtra("investor",superInvestor.getCompanyName());
+                ((MainActivity) ctx).startActivity(i);
 //                i.putExtra("ytd",superInvestor.getTotalReturn()+"");
             }
         });
