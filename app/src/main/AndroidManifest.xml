@@ -36,6 +36,9 @@
         <activity android:name=".SuperInvestorRecentMovesActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".SuperInvestorPositionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

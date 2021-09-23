@@ -125,7 +125,6 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:backgroundTint="@color/white"
-
         app:fabSize="auto"
         app:layout_constraintBottom_toTopOf="@+id/cardView4"
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
