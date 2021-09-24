@@ -621,6 +621,7 @@ public class FirebaseDB {
                                         holding.setReportedPrice(holdingsSnapshot.child("reportedPrice").getValue(String.class));
                                         holding.setStock(holdingsSnapshot.child("stock").getValue(String.class));
                                         holding.setValue(holdingsSnapshot.child("value").getValue(String.class));
+
                                         if(snapshot.child("superInvestors").child(datasnap.getKey()).child("data").child("holdings").child(holdingsSnapshot.getKey()).hasChild("logo_url"))
                                         {
                                             holding.setLogo_url(holdingsSnapshot.child("logo_url").getValue(String.class));
@@ -636,6 +637,7 @@ public class FirebaseDB {
                                         else{
                                             holding.setPreviousClose("0");
                                         }
+                                        holding.setTotalReturn();
                                         superInvestor.addHolding(holding);
 //                                        Log.d("FirebaseDB qtrYear: ",activitySnapshot.child("qtrYear").getValue(String.class));
 

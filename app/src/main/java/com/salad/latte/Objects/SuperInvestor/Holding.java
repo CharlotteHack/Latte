@@ -12,6 +12,7 @@ public class Holding implements Serializable {
     String value;
     String logo_url;
     String previousClose;
+    Float totalReturn;
 
     public Holding(String numShares, String portfolioWeight, String recentActivity, String reportedPrice, String stock, String stockLongName, String value, String logo, String pc) {
         this.numShares = numShares;
@@ -23,6 +24,30 @@ public class Holding implements Serializable {
         this.value = value;
         this.logo_url = logo;
         this.previousClose = pc;
+    }
+
+    public float getTotalReturn(){
+        return totalReturn;
+    }
+    public void setTotalReturn(){
+        float ret = 0.0f;
+//        Log.d("SuperInvestor ", "Num stocks: " + getNumOfStocks() + " Company name "+getCompanyName());
+
+//        if(superInvestor.getCompanyName().equals("Mohnish Pabrai - Pabrai Investments")) {
+//        Log.d("SuperInvestorAdapter","Holdings size for: "+superInvestor.getCompanyName()+" | "+superInvestor.getHoldings().size());
+
+
+            if(!getStock().equals("RDSB")) {
+                float stepOne = Float.parseFloat(getPreviousClose()) - Float.parseFloat(getReportedPrice().replace("$", ""));
+                float curRet = (stepOne / Float.parseFloat(getReportedPrice().replace("$", ""))) * Float.parseFloat(getPortfolioWeight())/10;
+                ret += curRet;
+            }
+
+
+//            Log.d("SuperInvestor: ", "On Holding: "+i);
+
+        String result = String.format("%.2f", ret * 10);
+        totalReturn = Float.parseFloat(result);
     }
 
     public String getLogo_url() {

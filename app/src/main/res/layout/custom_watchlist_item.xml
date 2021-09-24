@@ -130,6 +130,7 @@
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
         app:layout_constraintStart_toStartOf="@+id/cardView4"
         app:layout_constraintTop_toTopOf="@+id/cardView4"
+        app:maxImageSize="40dp"
         app:tint="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
