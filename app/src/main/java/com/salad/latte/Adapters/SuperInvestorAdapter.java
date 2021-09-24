@@ -79,6 +79,8 @@ public class SuperInvestorAdapter extends ArrayAdapter<SuperInvestor> {
                 Toast.makeText(ctx,"Clicked Positions for: "+superInvestor.getCompanyName(),Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(ctx, SuperInvestorPositionsActivity.class);
                 i.putExtra("investor",superInvestor.getCompanyName());
+
+                i.putExtra("holdings",superInvestor.getHoldings());
                 ((MainActivity) ctx).startActivity(i);
 //                i.putExtra("ytd",superInvestor.getTotalReturn()+"");
             }

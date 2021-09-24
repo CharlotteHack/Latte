@@ -25,7 +25,7 @@ public class SuperInvestor implements Comparable{
 
 //        if(superInvestor.getCompanyName().equals("Mohnish Pabrai - Pabrai Investments")) {
 //        Log.d("SuperInvestorAdapter","Holdings size for: "+superInvestor.getCompanyName()+" | "+superInvestor.getHoldings().size());
-        for (int i = 0; i < getHoldings().size()/3; i++)
+        for (int i = 0; i < getHoldings().size(); i++)
         {
             Holding holding = getHoldings().get(i);
             if(!holding.getStock().equals("RDSB")) {

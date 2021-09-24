@@ -1,6 +1,7 @@
 package com.salad.latte
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class SuperInvestorsFragment  : Fragment() {
         val view = inflater.inflate(R.layout.fragment_superinvestors,container,false)
         superinvestors_lv = view.findViewById(R.id.superinvestors_lv);
         superinvestors_progress = view.findViewById(R.id.superinvestor_progress)
+        Log.d("SuperInvestorsFragment","Calling pull super investor data")
         superInvestors.addAll(firebaseDB.pullSuperInvestorData(context,R.layout.fragment_superinvestors,superinvestors_lv,superinvestors_progress))
 
 

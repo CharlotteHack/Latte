@@ -551,8 +551,8 @@ public class FirebaseDB {
                 for(DataSnapshot datasnap: snapshot.child("superInvestors").getChildren()){
 //                    Log.d("FirebaseDB dataSnap",datasnap.getKey()+" Children count: "+datasnap.getChildrenCount());
                     SuperInvestor superInvestor = new SuperInvestor("","","","","");
-                        for(DataSnapshot superI : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").getChildren()){
-//                            Log.d("FirebaseDB superI",datasnap.getKey()+" Children count: "+superI.getChildrenCount());
+//                        for(DataSnapshot superI : snapshot.child("superInvestors").child(datasnap.getKey()).child("data").getChildren()){
+//                            Log.d("FirebaseDB superI",datasnap.getKey()+" Children count: "+datasnap.getChildrenCount());
 
                             try {
 //                                JSONObject jsonObject = new JSONObject(superI.getValue(String.class));
@@ -648,7 +648,7 @@ public class FirebaseDB {
                                 Log.d("FirebaseDB", e.getMessage());
                                 e.printStackTrace();
                             }
-                            }
+//                            }
 //                        int i = 0;
 //                        //i represents each child in dividends .. like the divDate, divClosingPrice etc.
 //                        //for(DataSnapshot innerArray :dividend.getChildren()){

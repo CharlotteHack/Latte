@@ -1,6 +1,7 @@
 package com.salad.latte;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +25,8 @@ public class SuperInvestorPositionsActivity extends AppCompatActivity {
         investor = findViewById(R.id.tv_superinvestor_positions_investor);
         investor.setText(bundle.getString("investor"));
         postionsLV = findViewById(R.id.lv_superinvestor_positions);
+        holdings = (ArrayList<Holding>) getIntent().getSerializableExtra("holdings");
+        Log.d("SuperInvestorPosAct","Len: "+holdings.size());
 
     }
 }

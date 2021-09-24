@@ -1,6 +1,8 @@
 package com.salad.latte.Objects.SuperInvestor;
 
-public class Holding {
+import java.io.Serializable;
+
+public class Holding implements Serializable {
     String numShares;
     String portfolioWeight;
     String recentActivity;
