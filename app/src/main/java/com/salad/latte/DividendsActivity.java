@@ -23,6 +23,9 @@ public class DividendsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_our_dividends);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         dividendsList = new ArrayList();
         firebaseDB = new FirebaseDB();;
 
