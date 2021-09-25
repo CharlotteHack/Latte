@@ -45,6 +45,7 @@ public class DividendAdapter extends ArrayAdapter<Dividend> {
         ((TextView) v.findViewById(R.id.tv_period_dividend)).setText("Dividend date: "+dividends.get(position).getDate());
 
         ((TextView) v.findViewById(R.id.tv_dividend_entryPrice)).setText("$"+ FirebaseDB.getEntryPriceForStock(dividends.get(position).getTicker()));
+        Log.d("DividendAdapter","Entry Price: "+FirebaseDB.getEntryPriceForStock(dividends.get(position).getTicker()));
         ((TextView) v.findViewById(R.id.tv_dividend_entryPrice)).setText("$"+ FirebaseDB.getCurrentPriceForStock(dividends.get(position).getTicker()));
         ((TextView) v.findViewById(R.id.tv_equity_percent_return_dividend)).setText(dividends.get(position).getDividendAmount()+" per share");
         ((TextView) v.findViewById(R.id.tv_dividend_ticker)).setText(dividends.get(position).getTicker());
