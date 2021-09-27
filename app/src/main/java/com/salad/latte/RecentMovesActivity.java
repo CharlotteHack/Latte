@@ -37,6 +37,7 @@ public class RecentMovesActivity extends AppCompatActivity {
         }
 
 
+
         context = this;
         firebaseDB = new FirebaseDB();
         recentItems = new ArrayList();
