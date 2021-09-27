@@ -172,15 +172,16 @@ public class FirebaseDB {
                     }
                 }
                 openPos.setText(portfolioSize+"");
-                try {
+//                try {
                     totalReturn.setText(getTotalReturn(watchlistItems) + "%");
-                }
-                catch (NumberFormatException ex){
-                    ex.printStackTrace();
-                }
-                finally {
-                    totalReturn.setText("N/A" + "%");
-                }
+//                }
+//                catch (NumberFormatException ex){
+//                    Log.d("FirebaseDB","Error");
+//                    ex.printStackTrace();
+//                }
+//                finally {
+//                    totalReturn.setText("N/A" + "%");
+//                }
 
 
        }
