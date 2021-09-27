@@ -51,6 +51,8 @@ public class RecentMovesActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
         String[] languages = getResources().getStringArray(R.array.spinner_recents);
         if (recents_spinner != null) {
             ArrayAdapter adapter = new ArrayAdapter(this,
