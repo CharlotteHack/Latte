@@ -36,6 +36,7 @@ public class RecentMovesActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
         context = this;
         firebaseDB = new FirebaseDB();
         recentItems = new ArrayList();
