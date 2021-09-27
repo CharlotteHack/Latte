@@ -39,4 +39,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <View
+        android:id="@+id/btn_ourrecentmoves_finish"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:text="Finish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_recentmoves_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_ourrecentmoves_finish"
+        app:layout_constraintEnd_toEndOf="@+id/btn_ourrecentmoves_finish"
+        app:layout_constraintStart_toStartOf="@+id/btn_ourrecentmoves_finish"
+        app:layout_constraintTop_toTopOf="@+id/btn_ourrecentmoves_finish" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

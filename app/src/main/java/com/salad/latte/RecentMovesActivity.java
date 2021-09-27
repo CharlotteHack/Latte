@@ -27,7 +27,7 @@ public class RecentMovesActivity extends AppCompatActivity {
     FirebaseDB firebaseDB;
     Spinner recents_spinner;
     Context context;
-
+    View recentMovesFinish;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +40,17 @@ public class RecentMovesActivity extends AppCompatActivity {
         recentItems = new ArrayList();
         recentsList = findViewById(R.id.list_recents);
         recents_spinner = findViewById(R.id.spinner_recents);
+        recentMovesFinish = findViewById(R.id.btn_ourrecentmoves_finish);
         recentItems.addAll(firebaseDB.pullRecentsData(this,R.layout.custom_recents,recentsList));
         Log.d("RecentMovesActivity", "Results found for Recents: " + recentItems.size());
         recentsAdapter = new RecentsAdapter(this,R.layout.custom_recents,recentItems);
 
+        recentMovesFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         String[] languages = getResources().getStringArray(R.array.spinner_recents);
         if (recents_spinner != null) {
             ArrayAdapter adapter = new ArrayAdapter(this,

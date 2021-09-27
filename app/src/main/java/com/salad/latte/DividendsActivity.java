@@ -1,6 +1,7 @@
 package com.salad.latte;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ public class DividendsActivity extends AppCompatActivity {
     ArrayList<Dividend> dividendsList;
     DividendAdapter dividendAdapter;
     FirebaseDB firebaseDB;
+    View finishButton;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,13 @@ public class DividendsActivity extends AppCompatActivity {
         }
         dividendsList = new ArrayList();
         firebaseDB = new FirebaseDB();;
-
+        finishButton = findViewById(R.id.btn_ourdividends_finish);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         lv_dividends = findViewById(R.id.lv_dividends);
 //        dividendsList.add(Dividend("-","2","2","3"))
         dividendsList.addAll(firebaseDB.pullDividendsData(this,R.layout.custom_dividends,lv_dividends));
