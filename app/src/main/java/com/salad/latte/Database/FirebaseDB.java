@@ -49,6 +49,7 @@ public class FirebaseDB {
     ArrayList<Watchlist> watchlistItems;
     WatchListAdapter watchListAdapter;
 
+    //
     ValueEventListener historicalReference;
     ArrayList<Historical> historicalItems;
     HistoricalAdapter historicalAdapter;
