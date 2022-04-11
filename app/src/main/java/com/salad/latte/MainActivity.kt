@@ -114,7 +114,7 @@ class MainActivity : FragmentActivity() {
 //        iv_refresh.setOnClickListener(View.OnClickListener {
 //            Toast.makeText(baseContext,"Clicked refresh",Toast.LENGTH_LONG).show()
 //        })
-
+/
         fab_deposit.setOnClickListener(View.OnClickListener {
             Toast.makeText(baseContext,"Clicked deposit",Toast.LENGTH_LONG).show()
         })
