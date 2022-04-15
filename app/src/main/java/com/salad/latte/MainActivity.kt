@@ -62,7 +62,7 @@ class MainActivity : FragmentActivity() {
         iv_question = findViewById(R.id.iv_question)
         iv_pie = findViewById(R.id.iv_pie)
         iv_history = findViewById(R.id.history_iv)
-
+            //
         iv_instagram.setOnClickListener{
             var uri = Uri.parse("http://instagram.com/_u/dollarcostavg");
             var insta = Intent(Intent.ACTION_VIEW, uri);
@@ -114,7 +114,7 @@ class MainActivity : FragmentActivity() {
 //        iv_refresh.setOnClickListener(View.OnClickListener {
 //            Toast.makeText(baseContext,"Clicked refresh",Toast.LENGTH_LONG).show()
 //        })
-/
+
         fab_deposit.setOnClickListener(View.OnClickListener {
             Toast.makeText(baseContext,"Clicked deposit",Toast.LENGTH_LONG).show()
         })
