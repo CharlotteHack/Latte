@@ -14,15 +14,18 @@ class TabAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                DashboardFragment()
+                DailyWatchlistFragment()
             }
 //            1 -> {
 //               RecentFragment()
 //            }
             1 -> {
+                DashboardFragment()
+            }
+            2 -> {
                 SuperInvestorsFragment()
             }
-//            2 -> {
+//            3 -> {
 //                DividendsFragment()
 //            }
             else -> getItem(position)
