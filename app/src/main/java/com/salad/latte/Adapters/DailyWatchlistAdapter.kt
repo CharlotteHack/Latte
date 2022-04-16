@@ -1,6 +1,7 @@
 package com.salad.latte.Adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
     }
 
     override fun getItemCount(): Int {
+        Log.d("DailyWatchlistAdapter","Items: "+items.size)
         return items.size
     }
 }
