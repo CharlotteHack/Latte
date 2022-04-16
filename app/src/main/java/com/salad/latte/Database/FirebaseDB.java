@@ -18,12 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.salad.latte.Adapters.DailyWatchlistAdapter;
 import com.salad.latte.Adapters.DividendAdapter;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.SuperInvestorAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
+import com.salad.latte.Objects.DailyWatchlistItem;
 import com.salad.latte.Objects.Dividend;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
@@ -70,6 +72,10 @@ public class FirebaseDB {
     ArrayList<SuperInvestor> superInvestors;
     SuperInvestorAdapter superInvestorAdapter;
 
+    ValueEventListener dailyPicksReference;
+    ArrayList<DailyWatchlistItem> dailyPicks;
+    DailyWatchlistAdapter dailyWatchlistAdapter;
+
     String updatedTime = "";
 //
 
@@ -85,6 +91,7 @@ public class FirebaseDB {
         recentItems = new ArrayList<>();
         dividendItems = new ArrayList<>();
         superInvestors = new ArrayList<>();
+        dailyPicks = new ArrayList<>();
 
 
     }
