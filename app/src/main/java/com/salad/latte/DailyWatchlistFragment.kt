@@ -44,10 +44,10 @@ class DailyWatchlistFragment : Fragment() {
 //        items.add(DailyWatchlistItem("","MSFI",0.0f,0.0f,0.0f))
 //        items.add(DailyWatchlistItem("","MSFJ",0.0f,0.0f,0.0f))
         items.addAll(firebaseDB.pullDailyData(requireContext(),dailyWatchRV))
-//        var adapter = DailyWatchlistAdapter(items,requireContext())
-//        dailyWatchRV.layoutManager = LinearLayoutManager(activity)
-//        dailyWatchRV.adapter = adapter
-//        adapter.notifyDataSetChanged()
+        var adapter = DailyWatchlistAdapter(items,requireContext())
+        dailyWatchRV.layoutManager = LinearLayoutManager(activity)
+        dailyWatchRV.adapter = adapter
+        adapter.notifyDataSetChanged()
         return v;
     }
 

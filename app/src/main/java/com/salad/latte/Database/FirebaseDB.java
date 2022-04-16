@@ -129,10 +129,10 @@ public class FirebaseDB {
 
                 }
                 //
-                dailyWatchlistAdapter = new DailyWatchlistAdapter(dailyPicks,context);
-                Log.d("FirebaseDB","Calling daily watchlist adapter");
-                recyclerView.setAdapter(dailyWatchlistAdapter);
-                dailyWatchlistAdapter.notifyDataSetChanged();
+//                dailyWatchlistAdapter = new DailyWatchlistAdapter(dailyPicks,context);
+//                Log.d("FirebaseDB","Calling daily watchlist adapter");
+//                recyclerView.setAdapter(dailyWatchlistAdapter);
+//                dailyWatchlistAdapter.notifyDataSetChanged();
 //                recents_progress.setVisibility(View.INVISIBLE);
             }
 
