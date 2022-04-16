@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.salad.latte.Adapters.DailyWatchlistAdapter
@@ -17,14 +20,15 @@ import com.salad.latte.Objects.DailyWatchlistItem
 class DailyWatchlistFragment : Fragment() {
 
     lateinit var dailyWatchRV :RecyclerView
-    lateinit var postReference :DatabaseReference
+    lateinit var postReference : DatabaseReference
     var items = ArrayList<DailyWatchlistItem>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.fragment_daily_watchlist,container,false)
         postReference = Firebase.database.reference
-        getDailyPickItems()
+        Log.d("DailyWatchlistFragment",postReference.child("daily_picks").database.toString()+"")
+        postReference.addValueEventListener(getDailyPickItems(postReference))
 
         dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
         items.add(DailyWatchlistItem("","MSFA",0.0f,0.0f,0.0f))
@@ -44,10 +48,12 @@ class DailyWatchlistFragment : Fragment() {
         return v;
     }
 
-    private fun getDailyPickItems(){
+    private fun getDailyPickItems(postRef: DatabaseReference) : ValueEventListener{
         val postListener = object : ValueEventListener {
+
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                items.clear()
+//                items.clear()
                 Log.d("DailyWatchlistFragment","boop")
 
                 dataSnapshot.children.forEach({
@@ -60,6 +66,10 @@ class DailyWatchlistFragment : Fragment() {
                 Log.w("DailyWatchlistFragment", "loadPost:onCancelled", databaseError.toException())
             }
         }
-        postReference.addValueEventListener(postListener)
+
+        Log.d("DailyWatchlistFragment","boop 2 "+postRef.get())
+        return postListener
+
+
     }
 }
