@@ -19,10 +19,10 @@ class TabAdapter(
 //            1 -> {
 //               RecentFragment()
 //            }
+//            1 -> {
+//                DashboardFragment()
+//            }
             1 -> {
-                DashboardFragment()
-            }
-            2 -> {
                 SuperInvestorsFragment()
             }
 //            3 -> {

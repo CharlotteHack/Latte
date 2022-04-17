@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/daily_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:text="Stock picks for the day"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/daily_spinner" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/daily_watch_rv"
