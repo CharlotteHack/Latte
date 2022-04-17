@@ -50,4 +50,16 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/daily_watch_rv" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/calculate_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:tint="@color/white"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/daily_watch_rv"
+        app:layout_constraintEnd_toEndOf="@+id/daily_watch_rv"
+        app:srcCompat="@drawable/calculator" />
 </androidx.constraintlayout.widget.ConstraintLayout>
