@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.salad.latte.Adapters.DailyWatchlistAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Dialogs.CalculateDialogFragment
+import com.salad.latte.Objects.CalculateItem
 import com.salad.latte.Objects.DailyWatchlistItem
 import es.dmoral.toasty.Toasty
 
@@ -47,28 +48,35 @@ class DailyWatchlistFragment : Fragment() {
 //        fab_calculate.visibility = View.VISIBLE
         pb_daily_picks = v.findViewById(R.id.daily_stocks_pb)
         fab_calculate.setOnClickListener{
-            if(items.size > 0) {
+            if(firebaseDB.dailyPicks.size > 0) {
                 var intent = Intent(requireContext(), CalculateActivity::class.java)
-                intent.putExtra("picks", items)
+                var calcItems = ArrayList<CalculateItem>()
+                firebaseDB.dailyPicks.forEach({
+                    var calcItem = CalculateItem(it.imgUrl,it.ticker,it.entryPrice,0f,0f,it.allocation)
+                    calcItems.add(calcItem)
+                })
+                intent.putExtra("picks", calcItems)
                 startActivity(intent)
             }
+            Log.d("DailyWatchlistFragment","#Items: "+firebaseDB.dailyPicks.size)
 
 
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
-            Toasty.info(requireContext(),"new picks are displayed after hours (4PM EST) to avoid market volatility").show()
         }
+//        Toasty.info(requireContext(),"new picks are displayed after hours (4PM EST) to avoid market volatility").show()
         postReference = Firebase.database.reference
         daily_spinner = v.findViewById(R.id.daily_spinner)
         val spinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, dailyDates)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         daily_spinner.setAdapter(spinnerAdapter)
-        firebaseDB.setDailyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate)
+        dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
+
+        firebaseDB.setDailyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate,dailyWatchRV)
 
         spinnerAdapter.notifyDataSetChanged()
 //        postReference.addValueEventListener(getDailyPickItems(postReference))
 //        postReference.child("test").setValue("pewp")
-        dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
 
 
 //        pullDailyDataForDate(daily_spinner.selectedItem.toString())

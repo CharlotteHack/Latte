@@ -77,7 +77,7 @@ public class FirebaseDB {
     SuperInvestorAdapter superInvestorAdapter;
 
     ValueEventListener dailyPicksReference;
-    ArrayList<DailyWatchlistItem> dailyPicks;
+    public ArrayList<DailyWatchlistItem> dailyPicks;
     DailyWatchlistAdapter dailyWatchlistAdapter;
 
     ValueEventListener datesReference;
@@ -133,9 +133,10 @@ public class FirebaseDB {
         }
         mDatabase.addListenerForSingleValueEvent(stockPricesReference);
     }
-    public void setDailyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter, ProgressBar progressBar, FloatingActionButton floatingActionButton){
+    public void setDailyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter, ProgressBar progressBar, FloatingActionButton floatingActionButton, RecyclerView recyclerView){
         progressBar.setVisibility(View.VISIBLE);
         floatingActionButton.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
         if (datesReference != null){
             mDatabase.removeEventListener(datesReference);
         }
@@ -146,7 +147,7 @@ public class FirebaseDB {
 //                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
                     String keyDate = datasnap.getKey();
-//                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
+                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
                     dailyDates.add(keyDate);
 
 
@@ -155,7 +156,7 @@ public class FirebaseDB {
                 spinnerAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
                 floatingActionButton.setVisibility(View.VISIBLE);
-
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override

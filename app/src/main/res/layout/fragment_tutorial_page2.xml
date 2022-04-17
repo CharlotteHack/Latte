@@ -10,18 +10,18 @@
         android:id="@+id/tutorial_pagetwo"
         android:layout_width="320dp"
         android:layout_height="540dp"
-        android:src="@drawable/tutorialtwo"
+        android:src="@drawable/newtutorialtwo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="2/3"
         android:textColor="#000000"
         android:textSize="24dp"
@@ -33,12 +33,14 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View all allocated positions with the pie chart below"
+        android:text="Tap the calculator icon in the daily picks screen to calculate how many shares in each stock you need to purchase to match our suggested allocation"
         android:textColor="#000000"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
         android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tutorial_pagetwo" />
+        app:layout_constraintBottom_toTopOf="@+id/tutorial_pagetwo"
+        app:layout_constraintEnd_toEndOf="@+id/tutorial_pagetwo"
+        app:layout_constraintStart_toStartOf="@+id/tutorial_pagetwo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

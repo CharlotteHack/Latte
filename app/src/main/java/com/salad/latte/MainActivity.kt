@@ -44,10 +44,10 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         window.setStatusBarColor(getColor(R.color.purple_500))
         prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
-//        if(prefs!!.getBoolean("didViewTutorial",false) == false){
-//            val i = Intent(this, TutorialActivity::class.java)
-//            startActivity(i)
-//        }
+        if(prefs!!.getBoolean("didViewTutorial",false) == false){
+            val i = Intent(this, TutorialActivity::class.java)
+            startActivity(i)
+        }
         Toasty.info(this, "Not Investment Advice. Do Due Diligence.", Toast.LENGTH_SHORT, true).show();
         setContentView(R.layout.activity_main)
         fragmentManager = supportFragmentManager;
