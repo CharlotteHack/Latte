@@ -67,6 +67,7 @@ class DailyWatchlistFragment : Fragment() {
     }
 
 
+
     public fun pullDailyDataForDate(dateIn :String){
         Log.d("DailyWatchlistFragment", postReference.child("daily_picks").database.toString() + "")
         items.clear()

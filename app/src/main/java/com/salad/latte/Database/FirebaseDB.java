@@ -38,6 +38,7 @@ import com.salad.latte.Objects.Watchlist;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class FirebaseDB {
 
     ValueEventListener datesReference;
 
+    ValueEventListener stockPricesReference;
+
     String updatedTime = "";
 //
 
@@ -100,6 +103,35 @@ public class FirebaseDB {
 
     }
 
+    public void getCurrentStockPrice(DailyWatchlistItem dailyWatchlistItem,String ticker, DailyWatchlistAdapter adapter){
+        if (stockPricesReference != null){
+            mDatabase.removeEventListener(stockPricesReference);
+        }
+        try {
+            stockPricesReference = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float price = snapshot.child("stockPrices").child(ticker).child("price").getValue(Float.class);
+                    dailyWatchlistItem.setCurrentPrice(price);
+                    adapter.notifyDataSetChanged();
+
+                    Log.d("FirebaseDB","dailyWatchlistItem ticker: "+ticker+" Current Price: "+price);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            };
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.e("FirebaseDB",e.getLocalizedMessage());
+
+        }
+        mDatabase.addListenerForSingleValueEvent(stockPricesReference);
+    }
     public void setDailyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter){
         if (datesReference != null){
             mDatabase.removeEventListener(datesReference);
@@ -108,10 +140,10 @@ public class FirebaseDB {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dailyDates.clear();
-                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
+//                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
                     String keyDate = datasnap.getKey();
-                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
+//                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
                     dailyDates.add(keyDate);
 
 
@@ -155,6 +187,7 @@ public class FirebaseDB {
                                         innerData.child(tick).child("ticker").getValue(String.class),
                                         innerData.child(tick).child("entryPrice").getValue(Float.class),
                                         innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                        innerData.child(tick).child("currentPrice").getValue(Float.class),
                                         innerData.child(tick).child("allocation").getValue(Float.class)
                                 )
                         );
@@ -203,6 +236,7 @@ public class FirebaseDB {
                                             innerData.child(tick).child("ticker").getValue(String.class),
                                             innerData.child(tick).child("entryPrice").getValue(Float.class),
                                             innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                            innerData.child(tick).child("currentPrice").getValue(Float.class),
                                             innerData.child(tick).child("allocation").getValue(Float.class)
                                     )
                             );
