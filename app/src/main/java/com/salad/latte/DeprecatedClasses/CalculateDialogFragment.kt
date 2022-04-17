@@ -10,7 +10,7 @@ import com.salad.latte.R
 
 class CalculateDialogFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var v = inflater.inflate(R.layout.dialog_calculate_daily_investment_activity,container,false)
+        var v = inflater.inflate(R.layout.activity_calculate_daily_investment,container,false)
         return v
     }
 }

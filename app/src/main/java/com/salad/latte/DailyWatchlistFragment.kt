@@ -56,6 +56,7 @@ class DailyWatchlistFragment : Fragment() {
 
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
+            Toasty.info(requireContext(),"new picks are displayed after hours (4PM EST) to avoid market volatility").show()
         }
         postReference = Firebase.database.reference
         daily_spinner = v.findViewById(R.id.daily_spinner)
