@@ -34,7 +34,6 @@ class MainActivity : FragmentActivity() {
     lateinit var iv_pie :ImageView
     lateinit var viewPager :ViewPager
     lateinit var iv_history :ImageView
-    lateinit var fab_calculate :FloatingActionButton
     val PREFS_FILENAME = "com.tutorial"
     var prefs: SharedPreferences? = null
 
@@ -64,13 +63,7 @@ class MainActivity : FragmentActivity() {
         iv_question = findViewById(R.id.iv_question)
         iv_pie = findViewById(R.id.iv_pie)
         iv_history = findViewById(R.id.history_iv)
-        fab_calculate = findViewById(R.id.calculate_fab)
-            //
 
-        fab_calculate.setOnClickListener{
-            var calculateDialog = CalculateDialogFragment()
-            calculateDialog.show(fragmentManager,"CalculateDialog")
-        }
         iv_instagram.setOnClickListener{
             var uri = Uri.parse("http://instagram.com/_u/dollarcostavg");
             var insta = Intent(Intent.ACTION_VIEW, uri);

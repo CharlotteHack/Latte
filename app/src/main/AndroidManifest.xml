@@ -39,6 +39,9 @@
         <activity android:name=".SuperInvestorPositionsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".CalculateActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
