@@ -28,12 +28,15 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
         holder.entryPrice.setText(items.get(position).entryPrice.toString())
         Picasso.get().load(items.get(position).imgUrl).into(holder.img)
         if(items.get(position).exitPrice == 0f){
-            holder.currentOrExitPrice.setText("Current Price")
+            holder.currentOrExitPriceLabel.setText("Current Price")
         }
         else{
-            holder.currentOrExitPrice.setText("Exit Price")
+            holder.currentOrExitPriceLabel.setText("Exit Price")
+            holder.currentOrexitPrice.setText(items.get(position).exitPrice.toString())
+            var returnPercent = (items.get(position).exitPrice-items.get(position).entryPrice)/items.get(position).exitPrice
+            holder.return_tv.setText(String.format("%.3f", (returnPercent*100)).toDouble().toString()+"%")
+
         }
-        holder.return_tv.setText("%")
 //        holder.setText(items.get(position).ticker)
 //        holder.tick.setText(items.get(position).ticker)
 //        holder.tick.setText(items.get(position).ticker)
@@ -49,9 +52,9 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
 class DailyWatchViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView) {
     public var tick = itemView.findViewById<TextView>(R.id.daily_stock_ticker_tv)
     public var entryPrice = itemView.findViewById<TextView>(R.id.daily_stock_entry_price_tv)
-//    public var exitPrice = itemView.findViewById<TextView>(R.id.)
+    public var currentOrexitPrice = itemView.findViewById<TextView>(R.id.daily_stock_current_price_tv)
     public var allocation = itemView.findViewById<TextView>(R.id.daily_stock_allocation_tv)
-    public var currentOrExitPrice = itemView.findViewById<TextView>(R.id.daily_move_tv)
+    public var currentOrExitPriceLabel = itemView.findViewById<TextView>(R.id.daily_move_tv)
     public var return_tv = itemView.findViewById<TextView>(R.id.daily_stock_return_tv)
 
     var img = itemView.findViewById<ImageView>(R.id.daily_stock_iv)
