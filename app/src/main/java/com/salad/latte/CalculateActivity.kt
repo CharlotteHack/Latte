@@ -3,6 +3,7 @@ package com.salad.latte
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import java.lang.Exception
 
 
 class CalculateActivity : Activity() {
@@ -14,11 +15,17 @@ class CalculateActivity : Activity() {
 
         if(intent.hasExtra("picks")){
 //            var items = intent.getStringArrayExtra("items")
-            val args = intent.getBundleExtra("picks")
-            val items = args!!.getSerializable("picks") as ArrayList<Any>?
+    try {
+        val items = intent.getParcelableArrayExtra("picks")
+        Log.d("CalculateActivity", "Picks found: " + items!!.size)
+
+    }
+    catch (e : Exception){
+        e.printStackTrace()
+    }
 
 
-            Log.d("CalculateActivity", "Picks found: " + items!!.size)
         }
+
     }
 }

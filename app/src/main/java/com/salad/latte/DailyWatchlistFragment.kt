@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +19,7 @@ import com.salad.latte.Adapters.DailyWatchlistAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Dialogs.CalculateDialogFragment
 import com.salad.latte.Objects.DailyWatchlistItem
+import es.dmoral.toasty.Toasty
 
 
 class DailyWatchlistFragment : Fragment() {
@@ -29,6 +28,7 @@ class DailyWatchlistFragment : Fragment() {
     lateinit var postReference : DatabaseReference
     lateinit var daily_spinner :Spinner
     lateinit var fab_calculate :FloatingActionButton
+    lateinit var pb_daily_picks :ProgressBar
     var dailyDates = ArrayList<String>()
     var items = ArrayList<DailyWatchlistItem>()
     var firebaseDB = FirebaseDB()
@@ -44,11 +44,15 @@ class DailyWatchlistFragment : Fragment() {
         fab_calculate = v.findViewById(R.id.calculate_fab)
         fragManager = fragmentManager!!
         //
-
+//        fab_calculate.visibility = View.VISIBLE
+        pb_daily_picks = v.findViewById(R.id.daily_stocks_pb)
         fab_calculate.setOnClickListener{
-        var intent = Intent(requireContext(),CalculateActivity::class.java)
-            intent.putExtra("picks",items)
-            startActivity(intent)
+            if(items.size > 0) {
+                var intent = Intent(requireContext(), CalculateActivity::class.java)
+                intent.putExtra("picks", items)
+                startActivity(intent)
+            }
+
 
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
@@ -58,7 +62,7 @@ class DailyWatchlistFragment : Fragment() {
         val spinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, dailyDates)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         daily_spinner.setAdapter(spinnerAdapter)
-        firebaseDB.setDailyDates(dailyDates,spinnerAdapter)
+        firebaseDB.setDailyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate)
 
         spinnerAdapter.notifyDataSetChanged()
 //        postReference.addValueEventListener(getDailyPickItems(postReference))

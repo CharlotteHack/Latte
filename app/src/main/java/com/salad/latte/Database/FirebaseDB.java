@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -132,7 +133,9 @@ public class FirebaseDB {
         }
         mDatabase.addListenerForSingleValueEvent(stockPricesReference);
     }
-    public void setDailyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter){
+    public void setDailyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter, ProgressBar progressBar, FloatingActionButton floatingActionButton){
+        progressBar.setVisibility(View.VISIBLE);
+        floatingActionButton.setVisibility(View.INVISIBLE);
         if (datesReference != null){
             mDatabase.removeEventListener(datesReference);
         }
@@ -150,6 +153,8 @@ public class FirebaseDB {
                 }
                 Collections.reverse(dailyDates);
                 spinnerAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
+                floatingActionButton.setVisibility(View.VISIBLE);
 
             }
 
@@ -212,7 +217,6 @@ public class FirebaseDB {
     }
 
     public ArrayList<DailyWatchlistItem> pullDailyDataForDate(Context context, RecyclerView recyclerView, String dateIn){
-//        recents_progress.setVisibility(View.VISIBLE);
         if (dailyPicksReference != null){
             mDatabase.removeEventListener(dailyPicksReference);
         }
@@ -249,7 +253,6 @@ public class FirebaseDB {
                 //
 //                Log.d("FirebaseDB","Calling daily watchlist adapter");
                 recyclerView.setAdapter(dailyWatchlistAdapter);
-//                recents_progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
