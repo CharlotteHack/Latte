@@ -22,9 +22,9 @@ class TabAdapter(
 //            1 -> {
 //                DashboardFragment()
 //            }
-            1 -> {
-                SuperInvestorsFragment()
-            }
+//            1 -> {
+//                SuperInvestorsFragment()
+//            }
 //            3 -> {
 //                DividendsFragment()
 //            }
