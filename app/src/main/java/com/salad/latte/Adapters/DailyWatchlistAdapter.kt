@@ -61,7 +61,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
     }
 
     override fun getItemCount(): Int {
-//        Log.d("FirebaseDB","Items: "+items.size)
+        Log.d("DailyWatchlistAdapter","Items: "+items.size)
         return items.size
     }
 }

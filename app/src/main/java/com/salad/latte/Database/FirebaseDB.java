@@ -263,7 +263,7 @@ public class FirebaseDB {
 
             }
         };
-        mDatabase.addListenerForSingleValueEvent(dailyPicksReference);
+        mDatabase.addValueEventListener(dailyPicksReference);
         return dailyPicks;
     }
 
