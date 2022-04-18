@@ -30,7 +30,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
         holder.entryPrice.setText(items.get(position).entryPrice.toString())
         Picasso.get().load(items.get(position).imgUrl).into(holder.img)
         if(items.get(position).exitPrice == 0f){
-            holder.currentOrExitPriceLabel.setText("Current Price")
+            holder.currentOrExitPriceLabel.setText("Market Price")
             holder.currentOrexitPrice.setText(items.get(position).currentPrice.toString())
             var returnPercent = (items.get(position).currentPrice-items.get(position).entryPrice)/items.get(position).currentPrice
             holder.return_tv.setText(String.format("%.3f", (returnPercent*100)).toDouble().toString()+"%")

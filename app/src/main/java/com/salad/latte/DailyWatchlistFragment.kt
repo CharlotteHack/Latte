@@ -34,6 +34,7 @@ class DailyWatchlistFragment : Fragment() {
     var items = ArrayList<DailyWatchlistItem>()
     var firebaseDB = FirebaseDB()
     lateinit var fragManager : FragmentManager
+    lateinit var daily_stock_updatetime :TextView
 
 
     override fun onCreateView(
@@ -47,6 +48,7 @@ class DailyWatchlistFragment : Fragment() {
         //
 //        fab_calculate.visibility = View.VISIBLE
         pb_daily_picks = v.findViewById(R.id.daily_stocks_pb)
+        daily_stock_updatetime = v.findViewById(R.id.daily_stock_updatetime)
         fab_calculate.setOnClickListener{
             if(firebaseDB.dailyPicks.size > 0) {
                 var intent = Intent(requireContext(), CalculateActivity::class.java)
@@ -73,7 +75,7 @@ class DailyWatchlistFragment : Fragment() {
         dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
 
         firebaseDB.setDailyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate,dailyWatchRV)
-
+        firebaseDB.pullUpdatedDailyPickTime(daily_stock_updatetime)
         spinnerAdapter.notifyDataSetChanged()
 //        postReference.addValueEventListener(getDailyPickItems(postReference))
 //        postReference.child("test").setValue("pewp")

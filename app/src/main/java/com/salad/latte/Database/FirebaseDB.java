@@ -166,6 +166,7 @@ public class FirebaseDB {
         };
         mDatabase.addValueEventListener(datesReference);
     }
+
     public ArrayList<DailyWatchlistItem> pullDailyData(Context context, RecyclerView recyclerView){
 //        recents_progress.setVisibility(View.VISIBLE);
         if (dailyPicksReference != null){
@@ -248,12 +249,13 @@ public class FirebaseDB {
                         }
                 }
 //                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
-                    dailyWatchlistAdapter.notifyDataSetChanged();
 
                 }
                 //
 //                Log.d("FirebaseDB","Calling daily watchlist adapter");
                 recyclerView.setAdapter(dailyWatchlistAdapter);
+                dailyWatchlistAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -265,7 +267,28 @@ public class FirebaseDB {
         return dailyPicks;
     }
 
+    public String pullUpdatedDailyPickTime(TextView updateTime){
+        ValueEventListener returnTime = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                for(DataSnapshot datasnap: snapshot.child("daily_picks_lastUpdate").getChildren()){
+                    String key = datasnap.getKey();
+                    Log.d("FirebaseDB","Updated Key: "+key);/////////
+//                    Log.d("FirebaseDB","Updated Time: "+datasnap.getValue(String.class));
+                    updateTime.setText("Stocks for the day. Prices updated as of: "+datasnap.getValue(String.class)+" EST");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(returnTime);
+
+        return updatedTime;
+    }
     public String pullUpdatedTime(TextView updateTime){
         ValueEventListener returnTime = new ValueEventListener() {
             @Override
