@@ -52,6 +52,7 @@ class CalculateActivity : Activity() {
                     Log.d("CalculateActivity","EditText value: "+investmentVal)
                     if (isNumber(investmentVal)) {
                         updateListWithNewCapital(calculateItems,investmentVal.toFloat())
+                        Toast.makeText(this, "Updated the shares to buy column",Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this, "Not a valid number", Toast.LENGTH_LONG).show()
                     }
