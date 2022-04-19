@@ -42,7 +42,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
             }
         }
         else{
-            holder.currentOrExitPriceLabel.setText("   Exit Price")
+            holder.currentOrExitPriceLabel.setText(" Exit Price ")
             holder.currentOrexitPrice.setText(items.get(position).exitPrice.toString())
             var returnPercent = (items.get(position).exitPrice-items.get(position).entryPrice)/items.get(position).exitPrice
             if(returnPercent > 0){

@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.salad.latte.Adapters.TabAdapter
+import com.salad.latte.Database.CustomFirebaseMessagingService
 import com.salad.latte.Dialogs.AddDialogFragment
 import com.salad.latte.Dialogs.CalculateDialogFragment
 import com.salad.latte.Tutorial.TutorialActivity
@@ -42,6 +43,8 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var customFBService = CustomFirebaseMessagingService()
+        customFBService.getToken()
         window.setStatusBarColor(getColor(R.color.purple_500))
         prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
         if(prefs!!.getBoolean("didViewTutorial",false) == false){

@@ -276,7 +276,7 @@ public class FirebaseDB {
                     String key = datasnap.getKey();
                     Log.d("FirebaseDB","Updated Key: "+key);/////////
 //                    Log.d("FirebaseDB","Updated Time: "+datasnap.getValue(String.class));
-                    updateTime.setText("Stocks for the day. Prices updated as of: "+datasnap.getValue(String.class)+" EST");
+                    updateTime.setText("Stocks to buy on this date at or after market close. \nPrices updated as of: "+datasnap.getValue(String.class)+" EST");
                 }
             }
 
