@@ -111,8 +111,9 @@ public class FirebaseDB {
 
     }
 
-    public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv){
-//        recents_progress.setVisibility(View.VISIBLE);
+    public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv,ProgressBar historicalDailyPB){
+        historicalDailyPB.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
         if (dailyHistorialReference != null){
             mDatabase.removeEventListener(dailyHistorialReference);
         }
@@ -132,29 +133,36 @@ public class FirebaseDB {
                     for(DataSnapshot innerData : snapshot.child("daily_picks").child(keyDate).getChildren()){
                         String tick = innerData.getKey();
 //                        Log.d("FirebaseDB","First ticker: "+tick);
-
-                        dailyHistoricalItems.add(
-                                new DailyWatchlistHistoricalItem(
-                                        innerData.child(tick).child("imgUrl").getValue(String.class),
-                                        innerData.child(tick).child("ticker").getValue(String.class),
-                                        keyDate,
-                                        innerData.child(tick).child("entryPrice").getValue(Float.class),
-                                        innerData.child(tick).child("exitPrice").getValue(Float.class)
-                                )
-                        );
-                        Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
-                        Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
-                        totalReturn = totalReturn + (((exit-entry)/entry)*100);
+                        if(innerData.child(tick).child("exitPrice").getValue(Float.class) > 0) {
+                            dailyHistoricalItems.add(
+                                    new DailyWatchlistHistoricalItem(
+                                            innerData.child(tick).child("imgUrl").getValue(String.class),
+                                            innerData.child(tick).child("ticker").getValue(String.class),
+                                            keyDate,
+                                            innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                            innerData.child(tick).child("exitPrice").getValue(Float.class)
+                                    )
+                            );
+                            Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
+                            Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                            totalReturn = totalReturn + (((exit - entry) / entry) * 100);
+                        }
                     }
 //                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
-                    customDailyHistoricalAdapter.notifyDataSetChanged();
-                    return_tv.setText("Total performance: "+totalReturn+"%");
+
 
                 }
+                String formatTotalReturn = String.format("%.02f", totalReturn);
+
+                return_tv.setText("Total performance: "+formatTotalReturn+"%");
+                Collections.reverse(dailyHistoricalItems);
+                customDailyHistoricalAdapter.notifyDataSetChanged();
+                Log.d("FirebaseDBSalad","Daily Historical items: "+dailyHistoricalItems.size());
                 //
 //                Log.d("FirebaseDB","Calling daily watchlist adapter");
                 recyclerView.setAdapter(customDailyHistoricalAdapter);
-//                recents_progress.setVisibility(View.INVISIBLE);
+                historicalDailyPB.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override

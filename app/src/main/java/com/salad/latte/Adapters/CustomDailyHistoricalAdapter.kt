@@ -9,15 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.salad.latte.Objects.DailyWatchlistHistoricalItem
-import com.salad.latte.Objects.DailyWatchlistItem
 import com.salad.latte.R
 import com.squareup.picasso.Picasso
-import org.w3c.dom.Text
 
-class CustomDailyHistoricalAdapter(var items :ArrayList<DailyWatchlistHistoricalItem>, var context :Context) : RecyclerView.Adapter<DailyHistoricalViewHolder>()  {
+class CustomDailyHistoricalAdapter(var items: ArrayList<DailyWatchlistHistoricalItem>, var context: Context) : RecyclerView.Adapter<DailyHistoricalViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyHistoricalViewHolder {
-        val inflater = LayoutInflater.from(context).inflate(R.layout.custom_daily_historical_stock,parent,false)
+        val inflater = LayoutInflater.from(context).inflate(R.layout.custom_daily_historical_stock, parent, false)
         return DailyHistoricalViewHolder(inflater)
     }
 
@@ -35,7 +33,9 @@ class CustomDailyHistoricalAdapter(var items :ArrayList<DailyWatchlistHistorical
             holder.returnTV.setTextColor(context.resources.getColor(R.color.red))
 
         }
-        holder.returnTV.setText(ret.toString()+"%");
+        val formatTotalReturn = String.format("%.02f", ret)
+
+        holder.returnTV.setText(formatTotalReturn + "%");
 
 
     }
@@ -45,7 +45,7 @@ class CustomDailyHistoricalAdapter(var items :ArrayList<DailyWatchlistHistorical
     }
 }
 
-class DailyHistoricalViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+class DailyHistoricalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var img = itemView.findViewById<ImageView>(R.id.custom_daily_historical_ticker_iv)
      var ticker = itemView.findViewById<TextView>(R.id.custom_daily_historical_ticker)
      var date = itemView.findViewById<TextView>(R.id.custom_daily_historical_date)
