@@ -13,15 +13,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/apple" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/custom_daily_historical_ticker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="AAPL"
+        android:text="--"
         android:textColor="#000000"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="@+id/custom_daily_historical_ticker_iv"
@@ -56,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="100%"
+        android:text="--"
         android:textColor="#000000"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="@+id/textView62"
@@ -68,9 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="4-14-2022"
-        android:textSize="20dp"
+        android:text="--"
         android:textColor="#000000"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/textView61"
         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
