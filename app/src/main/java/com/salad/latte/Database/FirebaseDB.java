@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.salad.latte.Adapters.CustomDailyHistoricalAdapter;
 import com.salad.latte.Adapters.DailyWatchlistAdapter;
 import com.salad.latte.Adapters.DividendAdapter;
 import com.salad.latte.Adapters.PieAdapter;
@@ -28,6 +29,7 @@ import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.SuperInvestorAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
+import com.salad.latte.Objects.DailyWatchlistHistoricalItem;
 import com.salad.latte.Objects.DailyWatchlistItem;
 import com.salad.latte.Objects.Dividend;
 import com.salad.latte.Objects.Pie;
@@ -84,6 +86,10 @@ public class FirebaseDB {
 
     ValueEventListener stockPricesReference;
 
+    ValueEventListener dailyHistorialReference;
+    public ArrayList<DailyWatchlistHistoricalItem> dailyHistoricalItems;
+    CustomDailyHistoricalAdapter customDailyHistoricalAdapter;
+
     String updatedTime = "";
 //
 
@@ -100,8 +106,64 @@ public class FirebaseDB {
         dividendItems = new ArrayList<>();
         superInvestors = new ArrayList<>();
         dailyPicks = new ArrayList<>();
+        dailyHistoricalItems = new ArrayList<>();
 
 
+    }
+
+    public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv){
+//        recents_progress.setVisibility(View.VISIBLE);
+        if (dailyHistorialReference != null){
+            mDatabase.removeEventListener(dailyHistorialReference);
+        }
+        customDailyHistoricalAdapter = new CustomDailyHistoricalAdapter(dailyHistoricalItems,context);
+        dailyHistorialReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dailyHistoricalItems.clear();
+                Float totalReturn = 0f;
+//                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
+
+                for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
+                    String keyDate = datasnap.getKey();
+//                    Log.d("FirebaseDB","First date: "+keyDate);
+
+
+                    for(DataSnapshot innerData : snapshot.child("daily_picks").child(keyDate).getChildren()){
+                        String tick = innerData.getKey();
+//                        Log.d("FirebaseDB","First ticker: "+tick);
+
+                        dailyHistoricalItems.add(
+                                new DailyWatchlistHistoricalItem(
+                                        innerData.child(tick).child("imgUrl").getValue(String.class),
+                                        innerData.child(tick).child("ticker").getValue(String.class),
+                                        keyDate,
+                                        innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                        innerData.child(tick).child("exitPrice").getValue(Float.class)
+                                )
+                        );
+                        Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
+                        Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                        totalReturn = totalReturn + (((exit-entry)/entry)*100);
+                    }
+//                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
+                    customDailyHistoricalAdapter.notifyDataSetChanged();
+                    return_tv.setText("Total performance: "+totalReturn+"%");
+
+                }
+                //
+//                Log.d("FirebaseDB","Calling daily watchlist adapter");
+                recyclerView.setAdapter(customDailyHistoricalAdapter);
+//                recents_progress.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(dailyHistorialReference);
+        return dailyHistoricalItems;
     }
 
     public void getCurrentStockPrice(DailyWatchlistItem dailyWatchlistItem,String ticker, DailyWatchlistAdapter adapter){

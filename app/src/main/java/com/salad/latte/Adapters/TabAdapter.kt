@@ -16,6 +16,9 @@ class TabAdapter(
             0 -> {
                 DailyWatchlistFragment()
             }
+            1 -> {
+               DailyHistoricalFragment()
+            }
 //            1 -> {
 //               RecentFragment()
 //            }
