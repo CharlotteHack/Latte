@@ -140,12 +140,14 @@ public class FirebaseDB {
                                             innerData.child(tick).child("ticker").getValue(String.class),
                                             keyDate,
                                             innerData.child(tick).child("entryPrice").getValue(Float.class),
-                                            innerData.child(tick).child("exitPrice").getValue(Float.class)
+                                            innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                            innerData.child(tick).child("allocation").getValue(Float.class)
                                     )
                             );
                             Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
                             Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
-                            totalReturn = totalReturn + (((exit - entry) / entry) * 100);
+                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
+                            totalReturn = totalReturn + (((exit - entry) / entry) * alloc * 100);
                         }
                     }
 //                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
