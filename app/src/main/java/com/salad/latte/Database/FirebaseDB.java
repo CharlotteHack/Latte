@@ -123,6 +123,7 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dailyHistoricalItems.clear();
                 Float totalReturn = 0f;
+                Float logReturn = 0f;
 //                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
 
                 for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
@@ -147,7 +148,8 @@ public class FirebaseDB {
                             Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
                             Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
                             Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
-                            totalReturn = totalReturn + (((exit - entry) / entry) * alloc * 100);
+                            totalReturn = totalReturn + ((exit - entry) / entry) * (alloc * 100);
+                            logReturn = logReturn + ((exit - entry) / entry) * 100;
                         }
                     }
 //                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
@@ -155,7 +157,9 @@ public class FirebaseDB {
 
                 }
                 String formatTotalReturn = String.format("%.02f", totalReturn);
+                Log.d("FirebaseDB","Return diplayed: "+String.format("%.02f", totalReturn));
 
+                Log.d("FirebaseDB",String.format("%.02f", logReturn));
                 return_tv.setText("Total performance: "+formatTotalReturn+"%");
                 Collections.reverse(dailyHistoricalItems);
                 customDailyHistoricalAdapter.notifyDataSetChanged();
