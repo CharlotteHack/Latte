@@ -123,7 +123,11 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dailyHistoricalItems.clear();
                 Float totalReturn = 0f;
-                Float logReturn = 0f;
+                Float openPositionsTotalReturn = 0f;
+                int openPositionsCount = 0;
+                int closedPositionsWins = 0;
+                int closedPositionsLosses = 0;
+                int closedPositionsCount = 0;
 //                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
 
                 for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
@@ -148,8 +152,26 @@ public class FirebaseDB {
                             Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
                             Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
                             Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
-                            totalReturn = totalReturn + ((exit - entry) / entry) * (alloc * 100);
-                            logReturn = logReturn + ((exit - entry) / entry) * 100;
+                            float ret = ((exit - entry) / entry);
+                            totalReturn = totalReturn + (ret * (alloc * 100));
+                            closedPositionsCount = closedPositionsCount + 1;
+                            if(ret < 0.0f){
+                                closedPositionsLosses = closedPositionsLosses + 1;
+                            }
+                            else{
+                                closedPositionsWins = closedPositionsWins + 1;
+                            }
+
+                        }
+                        else{
+                            //These are open positions we have
+                            Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
+                            Float currentPrice = innerData.child(tick).child("currentPrice").getValue(Float.class);
+                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
+                            float ret = ((currentPrice - entry) / entry);
+                            Log.d("OpenPoss: ","Ticker: "+tick+" Return: "+String.format("%.02f", ret*100));
+                            openPositionsTotalReturn = openPositionsTotalReturn + (ret * 100 * alloc);
+                            openPositionsCount = openPositionsCount + 1;
                         }
                     }
 //                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
@@ -157,9 +179,13 @@ public class FirebaseDB {
 
                 }
                 String formatTotalReturn = String.format("%.02f", totalReturn);
-                Log.d("FirebaseDB","Return diplayed: "+String.format("%.02f", totalReturn));
+                Log.d("FirebaseDB","Return displayed: "+String.format("%.02f", totalReturn));
+                Log.d("FirebaseDB","Return of closed positions: "+String.format("%.02f", totalReturn));
+                Log.d("FirebaseDB","Return of open positions "+String.format("%.02f", openPositionsTotalReturn));
+                Log.d("FirebaseDB","Open Positions Count: "+openPositionsCount);
+                Log.d("FirebaseDB","Closed Position Wins: "+closedPositionsWins);
+                Log.d("FirebaseDB","Closed Position Losses: "+closedPositionsLosses);
 
-                Log.d("FirebaseDB",String.format("%.02f", logReturn));
                 return_tv.setText("Total performance: "+formatTotalReturn+"%");
                 Collections.reverse(dailyHistoricalItems);
                 customDailyHistoricalAdapter.notifyDataSetChanged();
