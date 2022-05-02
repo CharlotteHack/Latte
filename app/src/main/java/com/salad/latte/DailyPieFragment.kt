@@ -3,57 +3,40 @@ package com.salad.latte
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.github.mikephil.charting.charts.PieChart
+import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.components.Legend
 import com.google.firebase.database.*
 import com.salad.latte.Adapters.PieAdapter
-import com.salad.latte.GeneratePieData.generatePieData
 import com.salad.latte.Objects.Pie
+import org.eazegraph.lib.charts.PieChart
+import java.util.zip.Inflater
 
+class DailyPieFragment() : Fragment() {
 
-class PieActivity : AppCompatActivity(){
-    lateinit var chart: PieChart
-    private var closedPosList :ArrayList<Pie>? = null;
-    private lateinit var listViewClosed :ListView;
-    lateinit var allocPositons :TextView
-    lateinit var mDatabase :DatabaseReference
-    lateinit var pieReference :ValueEventListener;
+    lateinit var pieChart :PieChart
+    lateinit var pieList :ArrayList<Pie>
     lateinit var pieAdapter: PieAdapter;
-    private var allocationCount = 0
-    lateinit var v: View
-    lateinit var progress_piechart :ProgressBar
+    lateinit var mDatabase : DatabaseReference
+    lateinit var pieReference : ValueEventListener;
 
-    override fun onCreate(
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pie)
+    ): View? {
 
-//        val bundle = this.arguments
-//        if (bundle != null) {
-//            allocationCount = bundle.getInt("allocationCount", 0)
-//            Log.d("PiechartFragment: ","allocation found!, num allocations: "+allocationCount);
-//
-//        }
+
+        val view = inflater.inflate(R.layout.fragment_pie_positions,container,false);
+        pieChart = view.findViewById(R.id.dailyPie)
+        pieList = ArrayList<Pie>()
         mDatabase = FirebaseDatabase.getInstance().getReference()
-
-        allocPositons = findViewById(R.id.tv_pie_allocated_count)
-
-         chart =  (findViewById(R.id.dailyPie)) as PieChart
-
-        //
-        listViewClosed = findViewById(com.salad.latte.R.id.lv_piechart_closedPos) as ListView
-        progress_piechart = findViewById(R.id.progress_piechart)
-
-        closedPosList = ArrayList<Pie>();
-        closedPosList!!.addAll(pullPieChart(this,R.layout.custom_pie,listViewClosed,chart,progress_piechart));
+        pieList!!.addAll(pullPieChart(this,R.layout.custom_pie,listViewClosed,chart,progress_piechart));
         pieAdapter = PieAdapter(this,R.layout.custom_pie,closedPosList!!)
-
         var closedAdapter = PieAdapter(
             this,
             R.layout.custom_pie,
@@ -85,11 +68,12 @@ class PieActivity : AppCompatActivity(){
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
 
-//        chart.setData(generatePieData(context,allocationCount))
 
+
+        return view
     }
 
-    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa :PieChart , pie_progress :ProgressBar): ArrayList<Pie> {
+    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa : com.github.mikephil.charting.charts.PieChart, pie_progress : ProgressBar): ArrayList<Pie> {
         progress_piechart.visibility = View.VISIBLE
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
@@ -127,7 +111,7 @@ class PieActivity : AppCompatActivity(){
                 pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
                 closedList.adapter = pieAdapter
                 allocPositons.text = "Allocated Positions: "+closedPosList!!.size
-                chaa.data = generatePieData(context,closedPosList!!.size/2)
+                chaa.data = GeneratePieData.generatePieData(context, closedPosList!!.size / 2)
                 chaa.invalidate()
                 pieAdapter.notifyDataSetChanged()
                 progress_piechart.visibility = View.INVISIBLE
@@ -140,10 +124,4 @@ class PieActivity : AppCompatActivity(){
         Log.d("FirebaseDB", "Results found for Pie: " + closedPosList!!.size)
         return closedPosList!!
     }
-
-
-
-
-
-
 }

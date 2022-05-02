@@ -203,6 +203,7 @@ public class FirebaseDB {
             }
         };
         mDatabase.addValueEventListener(dailyHistorialReference);
+        Log.d("DB Message","If this log was hit, sorry bro functions not working :(");
         return dailyHistoricalItems;
     }
 
