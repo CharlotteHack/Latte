@@ -155,7 +155,7 @@ public class FirebaseDB {
                             Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
                             Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
                             float ret = ((exit - entry) / entry);
-                            totalReturn = (totalReturn + (ret * alloc));
+                            totalReturn = (totalReturn + ret);
                             closedPositionsCount = closedPositionsCount + 1;
                             closedPostionsTotalReturn = closedPostionsTotalReturn + ret;
                             if(ret < 0.0f){
@@ -261,7 +261,7 @@ public class FirebaseDB {
                 Collections.reverse(dailyDates);
                 spinnerAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
-                floatingActionButton.setVisibility(View.VISIBLE);
+//                floatingActionButton.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
 

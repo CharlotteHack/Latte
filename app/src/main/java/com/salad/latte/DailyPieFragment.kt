@@ -6,18 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
-import com.salad.latte.Adapters.PieAdapter
-import com.salad.latte.Objects.Pie
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
+import com.google.firebase.database.*
 import com.salad.latte.Adapters.DailyPieAdapter
-import java.util.zip.Inflater
+import com.salad.latte.Objects.Pie
 
 class DailyPieFragment() : Fragment() {
 
@@ -28,6 +26,8 @@ class DailyPieFragment() : Fragment() {
     lateinit var pieReference : ValueEventListener;
     lateinit var pieRecyclerView :RecyclerView
     lateinit var pieProgBar :ProgressBar
+    lateinit var pieOpenPositions :TextView
+    lateinit var pieTotalReturn : TextView
 //    lateinit var chart: com.github.mikephil.charting.charts.PieChart
 
 
@@ -38,12 +38,14 @@ class DailyPieFragment() : Fragment() {
     ): View? {
 
 
-        val view = inflater.inflate(R.layout.fragment_pie_positions,container,false);
+        val view = inflater.inflate(R.layout.fragment_pie_positions, container, false);
         pieChart = view.findViewById(R.id.dailyPie) as PieChart
         pieList = ArrayList<Pie>()
         pieRecyclerView = view.findViewById(R.id.pieRecyclerView)
         mDatabase = FirebaseDatabase.getInstance().getReference()
         pieProgBar = view.findViewById(R.id.pieProgBar)
+        pieOpenPositions = view.findViewById(R.id.pie_num_open_pos)
+        pieTotalReturn = view.findViewById(R.id.pie_total_return)
 
 //        pieAdapter = PieAdapter(context!!,R.layout.custom_pie,pieList!!)
         pieRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -55,7 +57,15 @@ class DailyPieFragment() : Fragment() {
         );
         closedAdapter.notifyDataSetChanged()
         pieRecyclerView.adapter = closedAdapter;
-        pieList!!.addAll(pullPieChart(context,R.layout.custom_pie,closedAdapter,pieChart,pieProgBar));
+        pieList!!.addAll(
+            pullPieChart(
+                context,
+                R.layout.custom_pie,
+                closedAdapter,
+                pieChart,
+                pieProgBar
+            )
+        );
 
         //
 
@@ -85,7 +95,13 @@ class DailyPieFragment() : Fragment() {
         return view
     }
 
-    fun pullPieChart(context: Context?, layout: Int, recyclerViewAdapter: DailyPieAdapter, chaa : com.github.mikephil.charting.charts.PieChart, pie_progress : ProgressBar): ArrayList<Pie> {
+    fun pullPieChart(
+        context: Context?,
+        layout: Int,
+        recyclerViewAdapter: DailyPieAdapter,
+        chaa: com.github.mikephil.charting.charts.PieChart,
+        pie_progress: ProgressBar
+    ): ArrayList<Pie> {
         pieProgBar.visibility = View.VISIBLE
         pieRecyclerView.visibility = View.INVISIBLE
 //        if (pieReference != null) {
@@ -93,8 +109,12 @@ class DailyPieFragment() : Fragment() {
 //        }
         pieReference = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                var pieReturn = 0f
                 pieList!!.clear()
-                Log.d("DailyPieFragment", "Snapshot count: " + snapshot.child("daily_picks").childrenCount)
+                Log.d(
+                    "DailyPieFragment",
+                    "Snapshot count: " + snapshot.child("daily_picks").childrenCount
+                )
                 for (datasnap in snapshot.child("daily_picks").children) {
                     var key = datasnap.key!!
 //                    Log.d("DailyPieFragment","Key date: "+key)
@@ -102,19 +122,42 @@ class DailyPieFragment() : Fragment() {
                     for ( innerData in snapshot.child("daily_picks").child(key).children){
                         var ticker = innerData.key!!
 
-                        var exitPrice = snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("exitPrice").getValue(Float::class.java)
+                        var exitPrice = snapshot.child("daily_picks").child(key).child(ticker).child(
+                            ticker
+                        ).child("exitPrice").getValue(Float::class.java)
 //                        Log.d("DailyPieFragment","Exit price for :"+ticker+" -> "+exitPrice)
                         if(exitPrice == 0f){
                             //We are still in this position, add to allocator
 //                                Log.d("DailyPieFragment","Adding ticker to list: "+ticker)
+                            var entryPrice = snapshot.child("daily_picks").child(key).child(ticker).child(
+                                ticker
+                            ).child("entryPrice").getValue(Float::class.java)
+                            var currentPrice = snapshot.child("daily_picks").child(key).child(ticker).child(
+                                ticker
+                            ).child("currentPrice").getValue(Float::class.java)
+                            val ret: Float = (currentPrice!! - entryPrice!!) / entryPrice!!
+                            pieReturn = pieReturn + ret
+
                             pieList!!.add(
                                 Pie(
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("imgUrl").getValue(String::class.java),
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("ticker").getValue(String::class.java),
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("date").getValue(String::class.java),
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("entryPrice").getValue(Float::class.java).toString(),
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("currentPrice").getValue(Float::class.java).toString(),
-                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("allocation").getValue(Float::class.java).toString()
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("imgUrl").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("ticker").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("date").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("entryPrice").getValue(Float::class.java).toString(),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("currentPrice").getValue(Float::class.java).toString(),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(
+                                        ticker
+                                    ).child("allocation").getValue(Float::class.java).toString()
                                 )
                             )
                         }
@@ -139,6 +182,10 @@ class DailyPieFragment() : Fragment() {
                 pieProgBar.visibility = View.INVISIBLE
 
                 pieRecyclerView.visibility = View.VISIBLE
+                pieOpenPositions.setText(pieList!!.size.toString())
+                pieTotalReturn.setText(String.format("%.02f", pieReturn * 100) + "%")
+
+
                 Log.d("DailyPieFragment", "Results found for Pie: " + pieList!!.size)
 
             }
