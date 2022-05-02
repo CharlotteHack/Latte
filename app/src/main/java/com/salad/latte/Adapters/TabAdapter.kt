@@ -19,6 +19,9 @@ class TabAdapter(
             1 -> {
                DailyHistoricalFragment()
             }
+            2 -> {
+                DailyPieFragment()
+            }
 //            1 -> {
 //               RecentFragment()
 //            }

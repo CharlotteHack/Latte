@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import com.github.mikephil.charting.components.Legend
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.salad.latte.Adapters.PieAdapter
 import com.salad.latte.Objects.Pie
-import org.eazegraph.lib.charts.PieChart
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.salad.latte.Adapters.DailyPieAdapter
 import java.util.zip.Inflater
 
 class DailyPieFragment() : Fragment() {
@@ -23,6 +25,10 @@ class DailyPieFragment() : Fragment() {
     lateinit var pieAdapter: PieAdapter;
     lateinit var mDatabase : DatabaseReference
     lateinit var pieReference : ValueEventListener;
+    lateinit var pieRecyclerView :RecyclerView
+    lateinit var pieProgBar :ProgressBar
+//    lateinit var chart: com.github.mikephil.charting.charts.PieChart
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,37 +38,40 @@ class DailyPieFragment() : Fragment() {
 
 
         val view = inflater.inflate(R.layout.fragment_pie_positions,container,false);
-        pieChart = view.findViewById(R.id.dailyPie)
+        pieChart = view.findViewById(R.id.dailyPie) as PieChart
         pieList = ArrayList<Pie>()
+        pieRecyclerView = view.findViewById(R.id.pieRecyclerView)
         mDatabase = FirebaseDatabase.getInstance().getReference()
-        pieList!!.addAll(pullPieChart(this,R.layout.custom_pie,listViewClosed,chart,progress_piechart));
-        pieAdapter = PieAdapter(this,R.layout.custom_pie,closedPosList!!)
-        var closedAdapter = PieAdapter(
-            this,
+        pieProgBar = view.findViewById(R.id.pieProgBar)
+
+        pieAdapter = PieAdapter(context!!,R.layout.custom_pie,pieList!!)
+        var closedAdapter = DailyPieAdapter(
+            context!!,
             R.layout.custom_pie,
-            closedPosList!!
+            pieList!!
         );
         closedAdapter.notifyDataSetChanged()
-        listViewClosed.adapter = closedAdapter;
+        pieRecyclerView.adapter = closedAdapter;
+        pieList!!.addAll(pullPieChart(context,R.layout.custom_pie,closedAdapter,pieChart,pieProgBar));
 
         //
 
-        chart.getDescription().isEnabled = false
+        pieChart.getDescription().isEnabled = false
 
         //val tf = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
 
         //chart.setCenterTextTypeface(tf)
-        chart.setCenterText("Allocations: 2% Each Position")
-        chart.setCenterTextSize(10f)
+        pieChart.setCenterText("Allocations")
+        pieChart.setCenterTextSize(10f)
         //chart.setCenterTextTypeface(tf)
 
         // radius of the center hole in percent of maximum radius
 
         // radius of the center hole in percent of maximum radius
-        chart.setHoleRadius(45f)
-        chart.setTransparentCircleRadius(50f)
+        pieChart.setHoleRadius(45f)
+        pieChart.setTransparentCircleRadius(50f)
 
-        val l = chart.getLegend()
+        val l = pieChart.getLegend()
         l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
         l.orientation = Legend.LegendOrientation.VERTICAL
@@ -73,55 +82,63 @@ class DailyPieFragment() : Fragment() {
         return view
     }
 
-    fun pullPieChart(context: Context?, layout: Int, closedList: ListView, chaa : com.github.mikephil.charting.charts.PieChart, pie_progress : ProgressBar): ArrayList<Pie> {
-        progress_piechart.visibility = View.VISIBLE
+    fun pullPieChart(context: Context?, layout: Int, recyclerViewAdapter: DailyPieAdapter, chaa : com.github.mikephil.charting.charts.PieChart, pie_progress : ProgressBar): ArrayList<Pie> {
+//        progress_piechart.visibility = View.VISIBLE
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
 //        }
         pieReference = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                closedPosList!!.clear()
-                Log.d("FirebaseDB", "Snapshot count: " + snapshot.child("pie").childrenCount)
-                for (datasnap in snapshot.child("pie").children) {
-                    //Only include the items that we are actually carrying in our portfolio
-                    if(datasnap.child("inOurPortfolio").getValue(Boolean::class.java) as Boolean) {
-                        closedPosList!!.add(
-                            Pie(datasnap.child("icon").getValue(String::class.java).toString() + "",
-                                datasnap.child("ticker").getValue(String::class.java)
-                                    .toString() + "",
-                                datasnap.child("entryDate").getValue(String::class.java)
-                                    .toString() + "",
-                                datasnap.child("entryPrice").getValue(String::class.java)
-                                    .toString() + "",
-                                datasnap.child("currentPrice").getValue(String::class.java)
-                                    .toString() + "",
-                                datasnap.child("allocation").getValue(String::class.java)
-                                    .toString() + ""
+                pieList!!.clear()
+                Log.d("DailyPieFragment", "Snapshot count: " + snapshot.child("daily_picks").childrenCount)
+                for (datasnap in snapshot.child("daily_picks").children) {
+                    var key = datasnap.key!!
+//                    Log.d("DailyPieFragment","Key date: "+key)
+
+                    for ( innerData in snapshot.child("daily_picks").child(key).children){
+                        var ticker = innerData.key!!
+
+                        var exitPrice = snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("exitPrice").getValue(Float::class.java)
+//                        Log.d("DailyPieFragment","Exit price for :"+ticker+" -> "+exitPrice)
+                        if(exitPrice != 0f){
+                            //We are still in this position, add to allocator
+                            pieList!!.add(
+                                Pie(
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("imgUrl").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("ticker").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("date").getValue(String::class.java),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("entryPrice").getValue(Float::class.java).toString(),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("currentPrice").getValue(Float::class.java).toString(),
+                                    snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("allocation").getValue(Float::class.java).toString()
+                                )
                             )
-                        )
+                        }
                     }
+                    //Only include the items that we are actually carrying in our portfolio
                 }
                 //
 
-                closedPosList!!.sort()
+                pieList!!.sort()
 //                for (item in closedPosList!!) {
 //                    Log.d("PieChartFragment", item.ticker)
 //                }
 
-                pieAdapter = PieAdapter(context!!, layout, closedPosList!!)
-                closedList.adapter = pieAdapter
-                allocPositons.text = "Allocated Positions: "+closedPosList!!.size
-                chaa.data = GeneratePieData.generatePieData(context, closedPosList!!.size / 2)
+                pieAdapter = PieAdapter(context!!, layout, pieList!!)
+//                closedList.adapter = pieAdapter
+//                allocPositons.text = "Allocated Positions: "+pieList!!.size
+                chaa.data = GeneratePieData.generatePieData(context, pieList!!.size / 2)
                 chaa.invalidate()
                 pieAdapter.notifyDataSetChanged()
-                progress_piechart.visibility = View.INVISIBLE
+                recyclerViewAdapter.notifyDataSetChanged()
+
+//                progress_piechart.visibility = View.INVISIBLE
+                Log.d("DailyPieFragment", "Results found for Pie: " + pieList!!.size)
 
             }
 
             override fun onCancelled(error: DatabaseError) {}
         }
         mDatabase.addValueEventListener(pieReference)
-        Log.d("FirebaseDB", "Results found for Pie: " + closedPosList!!.size)
-        return closedPosList!!
+        return pieList!!
     }
 }
