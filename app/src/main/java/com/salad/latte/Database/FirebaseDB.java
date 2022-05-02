@@ -124,6 +124,7 @@ public class FirebaseDB {
                 dailyHistoricalItems.clear();
                 Float totalReturn = 0f;
                 Float openPositionsTotalReturn = 0f;
+                Float closedPostionsTotalReturn = 0f;
                 int openPositionsCount = 0;
                 int closedPositionsWins = 0;
                 int closedPositionsLosses = 0;
@@ -138,7 +139,8 @@ public class FirebaseDB {
                     for(DataSnapshot innerData : snapshot.child("daily_picks").child(keyDate).getChildren()){
                         String tick = innerData.getKey();
 //                        Log.d("FirebaseDB","First ticker: "+tick);
-                        if(innerData.child(tick).child("exitPrice").getValue(Float.class) > 0) {
+                        Float exitPrice = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                        if(exitPrice > 0) {
                             dailyHistoricalItems.add(
                                     new DailyWatchlistHistoricalItem(
                                             innerData.child(tick).child("imgUrl").getValue(String.class),
@@ -153,8 +155,9 @@ public class FirebaseDB {
                             Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
                             Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
                             float ret = ((exit - entry) / entry);
-                            totalReturn = totalReturn + (ret * (alloc * 100));
+                            totalReturn = (totalReturn + (ret * alloc));
                             closedPositionsCount = closedPositionsCount + 1;
+                            closedPostionsTotalReturn = closedPostionsTotalReturn + ret;
                             if(ret < 0.0f){
                                 closedPositionsLosses = closedPositionsLosses + 1;
                             }
@@ -163,14 +166,14 @@ public class FirebaseDB {
                             }
 
                         }
-                        else{
+                        else if (exitPrice == 0f){
                             //These are open positions we have
                             Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
                             Float currentPrice = innerData.child(tick).child("currentPrice").getValue(Float.class);
                             Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
                             float ret = ((currentPrice - entry) / entry);
                             Log.d("OpenPoss: ","Ticker: "+tick+" Return: "+String.format("%.02f", ret*100));
-                            openPositionsTotalReturn = openPositionsTotalReturn + (ret * 100 * alloc);
+                            openPositionsTotalReturn = (openPositionsTotalReturn + (ret*alloc));
                             openPositionsCount = openPositionsCount + 1;
                         }
                     }
@@ -178,9 +181,9 @@ public class FirebaseDB {
 
 
                 }
-                String formatTotalReturn = String.format("%.02f", totalReturn);
+                String formatTotalReturn = String.format("%.02f", totalReturn*100);
                 Log.d("FirebaseDB","Return displayed: "+String.format("%.02f", totalReturn));
-                Log.d("FirebaseDB","Return of closed positions: "+String.format("%.02f", totalReturn));
+                Log.d("FirebaseDB","Return of closed positions: "+String.format("%.02f", closedPostionsTotalReturn));
                 Log.d("FirebaseDB","Return of open positions "+String.format("%.02f", openPositionsTotalReturn));
                 Log.d("FirebaseDB","Open Positions Count: "+openPositionsCount);
                 Log.d("FirebaseDB","Closed Position Wins: "+closedPositionsWins);
@@ -203,7 +206,7 @@ public class FirebaseDB {
             }
         };
         mDatabase.addValueEventListener(dailyHistorialReference);
-        Log.d("DB Message","If this log was hit, sorry bro functions not working :(");
+//        Log.d("DB Message","If this log was hit, sorry bro functions not working :(");
         return dailyHistoricalItems;
     }
 
@@ -250,7 +253,7 @@ public class FirebaseDB {
 //                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
                     String keyDate = datasnap.getKey();
-                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
+//                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
                     dailyDates.add(keyDate);
 
 

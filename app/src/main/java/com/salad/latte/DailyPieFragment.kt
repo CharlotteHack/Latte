@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.salad.latte.Adapters.PieAdapter
@@ -22,7 +23,7 @@ class DailyPieFragment() : Fragment() {
 
     lateinit var pieChart :PieChart
     lateinit var pieList :ArrayList<Pie>
-    lateinit var pieAdapter: PieAdapter;
+//    lateinit var pieAdapter: PieAdapter;
     lateinit var mDatabase : DatabaseReference
     lateinit var pieReference : ValueEventListener;
     lateinit var pieRecyclerView :RecyclerView
@@ -44,7 +45,9 @@ class DailyPieFragment() : Fragment() {
         mDatabase = FirebaseDatabase.getInstance().getReference()
         pieProgBar = view.findViewById(R.id.pieProgBar)
 
-        pieAdapter = PieAdapter(context!!,R.layout.custom_pie,pieList!!)
+//        pieAdapter = PieAdapter(context!!,R.layout.custom_pie,pieList!!)
+        pieRecyclerView.layoutManager = LinearLayoutManager(activity)
+
         var closedAdapter = DailyPieAdapter(
             context!!,
             R.layout.custom_pie,
@@ -83,7 +86,8 @@ class DailyPieFragment() : Fragment() {
     }
 
     fun pullPieChart(context: Context?, layout: Int, recyclerViewAdapter: DailyPieAdapter, chaa : com.github.mikephil.charting.charts.PieChart, pie_progress : ProgressBar): ArrayList<Pie> {
-//        progress_piechart.visibility = View.VISIBLE
+        pieProgBar.visibility = View.VISIBLE
+        pieRecyclerView.visibility = View.INVISIBLE
 //        if (pieReference != null) {
 //            mDatabase.removeEventListener(pieReference)
 //        }
@@ -100,8 +104,9 @@ class DailyPieFragment() : Fragment() {
 
                         var exitPrice = snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("exitPrice").getValue(Float::class.java)
 //                        Log.d("DailyPieFragment","Exit price for :"+ticker+" -> "+exitPrice)
-                        if(exitPrice != 0f){
+                        if(exitPrice == 0f){
                             //We are still in this position, add to allocator
+//                                Log.d("DailyPieFragment","Adding ticker to list: "+ticker)
                             pieList!!.add(
                                 Pie(
                                     snapshot.child("daily_picks").child(key).child(ticker).child(ticker).child("imgUrl").getValue(String::class.java),
@@ -123,15 +128,17 @@ class DailyPieFragment() : Fragment() {
 //                    Log.d("PieChartFragment", item.ticker)
 //                }
 
-                pieAdapter = PieAdapter(context!!, layout, pieList!!)
+//                pieAdapter = PieAdapter(context!!, layout, pieList!!)
 //                closedList.adapter = pieAdapter
 //                allocPositons.text = "Allocated Positions: "+pieList!!.size
                 chaa.data = GeneratePieData.generatePieData(context, pieList!!.size / 2)
                 chaa.invalidate()
-                pieAdapter.notifyDataSetChanged()
+//                pieAdapter.notifyDataSetChanged()
                 recyclerViewAdapter.notifyDataSetChanged()
 
-//                progress_piechart.visibility = View.INVISIBLE
+                pieProgBar.visibility = View.INVISIBLE
+
+                pieRecyclerView.visibility = View.VISIBLE
                 Log.d("DailyPieFragment", "Results found for Pie: " + pieList!!.size)
 
             }
