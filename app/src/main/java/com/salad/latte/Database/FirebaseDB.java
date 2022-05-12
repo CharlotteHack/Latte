@@ -170,9 +170,13 @@ public class FirebaseDB {
                             //These are open positions we have
                             Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
                             Float currentPrice = innerData.child(tick).child("currentPrice").getValue(Float.class);
-                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
-                            float ret = ((currentPrice - entry) / entry);
-                            Log.d("OpenPoss: ","Ticker: "+tick+" Return: "+String.format("%.02f", ret*100));
+                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class)/100;
+                            float ret = ((currentPrice - entry) / entry) ;
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Entry: "+entry);
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Current: "+currentPrice);
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Alloc: "+alloc);
+//                            Log.d("OpenPosTracker: ","Ticker: "+tick+" Entry: "+String.format("%.02f", entry));
+
                             openPositionsTotalReturn = (openPositionsTotalReturn + (ret*alloc));
                             openPositionsCount = openPositionsCount + 1;
                         }
@@ -182,6 +186,7 @@ public class FirebaseDB {
 
                 }
                 String formatTotalReturn = String.format("%.02f", totalReturn*100);
+                String openPositionsRet = String.format("%.02f", openPositionsTotalReturn);
                 Log.d("FirebaseDB","Return displayed: "+String.format("%.02f", totalReturn));
                 Log.d("FirebaseDB","Return of closed positions: "+String.format("%.02f", closedPostionsTotalReturn));
                 Log.d("FirebaseDB","Return of open positions "+String.format("%.02f", openPositionsTotalReturn));

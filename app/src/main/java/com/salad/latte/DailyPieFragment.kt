@@ -135,8 +135,11 @@ class DailyPieFragment() : Fragment() {
                             var currentPrice = snapshot.child("daily_picks").child(key).child(ticker).child(
                                 ticker
                             ).child("currentPrice").getValue(Float::class.java)
+                            var alloc = snapshot.child("daily_picks").child(key).child(ticker).child(
+                                    ticker
+                            ).child("allocation").getValue(Float::class.java)
                             val ret: Float = (currentPrice!! - entryPrice!!) / entryPrice!!
-                            pieReturn = pieReturn + ret
+                            pieReturn = pieReturn + (ret*alloc!!)
 
                             pieList!!.add(
                                 Pie(
