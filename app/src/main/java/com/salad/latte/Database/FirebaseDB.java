@@ -458,32 +458,37 @@ public class FirebaseDB {
 
 //                Log.d("FirebaseDB","Snapshot count: "+snapshot.child("dashboard").child("watchlist").getChildrenCount());
                 for(DataSnapshot datasnap: snapshot.child("dashboard").child("watchlist").getChildren()){
-                    watchlistItems.add(
-                            new Watchlist(
-                                    datasnap.child("icon").getValue(String.class),
-                                    datasnap.child("ticker").getValue(String.class),
-                                    datasnap.child("targetEntry").getValue(String.class),
-                                    datasnap.child("currentPrice").getValue(String.class),
-                                    datasnap.child("allocation").getValue(String.class),
-                                    datasnap.child("entryDate").getValue(String.class).split(" ")[0],
-                                    datasnap.child("inOurPortfolio").getValue(Boolean.class)
-                            )
-                    );
-                }
-                //
-                Collections.sort(watchlistItems);
-                watchListAdapter = new WatchListAdapter(context,layout,watchlistItems);
-                gridView.setAdapter(watchListAdapter);
-                watchListAdapter.notifyDataSetChanged();
-                dashboard_progress.setVisibility(View.INVISIBLE);
-                int portfolioSize = 0;
-                for (Watchlist item: watchlistItems
-                     ) {
-                    if(item.inOurPortfolio){
-                        portfolioSize = portfolioSize + 1;
+                    String currentPrice = datasnap.child("currentPrice").getValue(String.class);
+                    if(!currentPrice.equals("")) {
+                        watchlistItems.add(
+                                new Watchlist(
+                                        datasnap.child("icon").getValue(String.class),
+                                        datasnap.child("ticker").getValue(String.class),
+                                        datasnap.child("targetEntry").getValue(String.class),
+                                        datasnap.child("currentPrice").getValue(String.class),
+                                        datasnap.child("allocation").getValue(String.class),
+                                        datasnap.child("entryDate").getValue(String.class).split(" ")[0],
+                                        datasnap.child("inOurPortfolio").getValue(Boolean.class)
+                                )
+                        );
                     }
                 }
-                openPos.setText(portfolioSize+"");
+                if(watchlistItems.size() > 0) {
+                    //
+                    Log.d("FirebaseDB", "Size of watchlist: " + watchlistItems.size());
+                    Collections.sort(watchlistItems);
+                    watchListAdapter = new WatchListAdapter(context, layout, watchlistItems);
+                    gridView.setAdapter(watchListAdapter);
+                    watchListAdapter.notifyDataSetChanged();
+                    dashboard_progress.setVisibility(View.INVISIBLE);
+                    int portfolioSize = 0;
+                    for (Watchlist item : watchlistItems
+                    ) {
+                        if (item.inOurPortfolio) {
+                            portfolioSize = portfolioSize + 1;
+                        }
+                    }
+                    openPos.setText(portfolioSize + "");
 //                try {
                     totalReturn.setText(getTotalReturn(watchlistItems) + "%");
 //                }
@@ -495,7 +500,7 @@ public class FirebaseDB {
 //                    totalReturn.setText("N/A" + "%");
 //                }
 
-
+                }
        }
 
             @Override

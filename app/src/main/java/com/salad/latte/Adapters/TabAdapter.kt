@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.salad.latte.*
+import com.salad.latte.DeprecatedClasses.HistoricalFragment
+import com.salad.latte.DeprecatedClasses.RecentFragment
 
 class TabAdapter(
     var context: Context,
@@ -14,14 +16,14 @@ class TabAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                DailyWatchlistFragment()
+                DashboardFragment()
             }
             1 -> {
-               DailyHistoricalFragment()
+               SuperInvestorsFragment()
             }
-            2 -> {
-                DailyPieFragment()
-            }
+//            2 -> {
+//                RecentFragment()
+//            }
 //            1 -> {
 //               RecentFragment()
 //            }

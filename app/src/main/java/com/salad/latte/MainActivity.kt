@@ -98,7 +98,7 @@ class MainActivity : FragmentActivity() {
         })
 
 //        Create TabLayout Adapter
-        val tabLayout = TabAdapter(baseContext,fragmentManager,3)
+        val tabLayout = TabAdapter(baseContext,fragmentManager,2)
         viewPager.adapter = tabLayout
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tb_tabbar))
         tb_tabbar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

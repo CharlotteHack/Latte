@@ -1,5 +1,7 @@
 package com.salad.latte.Objects;
 
+import android.util.Log;
+
 public class Watchlist implements Comparable<Watchlist> {
     public String icon = "";
     public String ticker = "";
@@ -22,6 +24,8 @@ public class Watchlist implements Comparable<Watchlist> {
     public String entryDate = "";
 
     public float getReturn(){
+//        Log.d("Watchlist: ","Ticker: "+ticker);
+//        Log.d("Watchlist: ","Current Price: "+currentPrice);
         return  ((Float.parseFloat(currentPrice)/Float.parseFloat(targetEntry))-1)*100;
     }
 
