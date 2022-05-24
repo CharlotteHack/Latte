@@ -19,7 +19,7 @@ class TabAdapter(
                 DashboardFragment()
             }
             1 -> {
-               SuperInvestorsFragment()
+               DailyHistoricalFragment()
             }
 //            2 -> {
 //                RecentFragment()

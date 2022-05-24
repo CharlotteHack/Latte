@@ -29,7 +29,7 @@
         android:layout_marginVertical="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="29dp"
-        android:text="Latte - Passive Investing"
+        android:text="Latte - Swing Trading"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:visibility="visible"
@@ -64,7 +64,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inst. Investors" />
+            android:text="Past picks" />
 <!--        <com.google.android.material.tabs.TabItem-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
