@@ -7,7 +7,11 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion '30.0.3'
+    lintOptions {
 
+        checkReleaseBuilds false
+
+    }
     defaultConfig {
         applicationId "com.salad.latte"
         minSdkVersion 23
