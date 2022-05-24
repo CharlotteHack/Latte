@@ -16,7 +16,7 @@ class TabAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                DashboardFragment()
+                DailyWatchlistFragment()
             }
             1 -> {
                DailyHistoricalFragment()

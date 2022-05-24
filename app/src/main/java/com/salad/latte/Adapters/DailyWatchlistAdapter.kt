@@ -28,7 +28,12 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
         holder.tick.setText(items.get(position).ticker)
         holder.allocation.setText(items.get(position).allocation.toString()+"%");
         holder.entryPrice.setText(items.get(position).entryPrice.toString())
-        Picasso.get().load(items.get(position).imgUrl).into(holder.img)
+        try{
+            Picasso.get().load(items.get(position).imgUrl).into(holder.img)
+            }
+        catch  (e :Exception){
+            e.printStackTrace()
+        }
         if(items.get(position).exitPrice == 0f){
             holder.currentOrExitPriceLabel.setText("Market Price")
             holder.currentOrexitPrice.setText(items.get(position).currentPrice.toString())

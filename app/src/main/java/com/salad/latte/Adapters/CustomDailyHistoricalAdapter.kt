@@ -22,7 +22,12 @@ class CustomDailyHistoricalAdapter(var items: ArrayList<DailyWatchlistHistorical
     override fun onBindViewHolder(holder: DailyHistoricalViewHolder, position: Int) {
         holder.ticker.setText(items.get(position).ticker)
         holder.date.setText(items.get(position).dt)
-        Picasso.get().load(items.get(position).imgUrl).into(holder.img)
+        try {
+            Picasso.get().load(items.get(position).imgUrl).into(holder.img)
+        }
+        catch (e :Exception){
+            e.printStackTrace()
+        }
         var exit = items.get(position).exitPoint.toDouble()
         var entry = items.get(position).entryPoint.toDouble()
         var ret = ((exit-entry)/entry)*100
