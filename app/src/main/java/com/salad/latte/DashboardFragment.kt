@@ -36,6 +36,7 @@ class DashboardFragment : Fragment(){
     lateinit var our_recentmoves_btn :Button
     lateinit var our_dividends :Button
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.salad.latte.Adapters.DailyWatchlistAdapter
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Dialogs.CalculateDialogFragment
+import com.salad.latte.Dialogs.HowToBuyDialogFragment
 import com.salad.latte.Objects.CalculateItem
 import com.salad.latte.Objects.DailyWatchlistItem
 import es.dmoral.toasty.Toasty
@@ -35,6 +37,7 @@ class DailyWatchlistFragment : Fragment() {
     var firebaseDB = FirebaseDB()
     lateinit var fragManager : FragmentManager
     lateinit var daily_stock_updatetime :TextView
+    lateinit var howto_btn :Button
 
 
     override fun onCreateView(
@@ -49,6 +52,7 @@ class DailyWatchlistFragment : Fragment() {
 //        fab_calculate.visibility = View.VISIBLE
         pb_daily_picks = v.findViewById(R.id.daily_stocks_pb)
         daily_stock_updatetime = v.findViewById(R.id.daily_stock_updatetime)
+        howto_btn = v.findViewById(R.id.howtobuy_btn)
         fab_calculate.setOnClickListener{
             if(firebaseDB.dailyPicks.size > 0) {
                 var intent = Intent(requireContext(), CalculateActivity::class.java)
@@ -66,6 +70,10 @@ class DailyWatchlistFragment : Fragment() {
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
         }
+
+    howto_btn.setOnClickListener(View.OnClickListener {
+        HowToBuyDialogFragment().show(fragManager, "HowToBuyDialogFragment")
+    })
 //        Toasty.info(requireContext(),"new picks are displayed after hours (4PM EST) to avoid market volatility").show()
         postReference = Firebase.database.reference
         daily_spinner = v.findViewById(R.id.daily_spinner)
@@ -110,5 +118,6 @@ class DailyWatchlistFragment : Fragment() {
         dailyWatchRV.adapter = adapter
         adapter.notifyDataSetChanged()
     }
+
 
 }
