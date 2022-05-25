@@ -72,6 +72,7 @@ class DailyWatchlistFragment : Fragment() {
         }
 
     howto_btn.setOnClickListener(View.OnClickListener {
+
         HowToBuyDialogFragment().show(fragManager, "HowToBuyDialogFragment")
     })
 //        Toasty.info(requireContext(),"new picks are displayed after hours (4PM EST) to avoid market volatility").show()
