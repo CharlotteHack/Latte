@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.datepicker.CompositeDateValidator
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -25,7 +26,9 @@ import com.salad.latte.Objects.DailyWatchlistItem
 import com.salad.latte.Objects.User
 import es.dmoral.toasty.Toasty
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlin.math.roundToInt
 
 
 class DailyWatchlistFragment : Fragment() {
@@ -73,7 +76,6 @@ class DailyWatchlistFragment : Fragment() {
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
         }
-//        val observa = Observable.
 
         val testObserv = Observable.just(1,2,3,4)
 //        testObserv.subscribe{
@@ -87,8 +89,44 @@ class DailyWatchlistFragment : Fragment() {
                 Log.d("DailyWatchlistFragment","Test Observation complete");
             }
         )
-        var user = User()
-//        user.update(observa.,"");
+
+        /*
+        Subscribe use case
+         */
+        val randObserables = Observable.range(1,10)
+        val subscribtions = CompositeDisposable()
+        val disposable = randObserables.subscribe {
+            val n = it.toDouble()
+            val fib = ((Math.pow(1.61803, n) - Math.pow(
+                    0.61803,n
+            )) / 2.23606).roundToInt()
+            Log.d("DailyWatchlistFragment",fib.toString())
+        }
+        subscribtions.addAll(disposable)
+        subscribtions.dispose()
+
+        /*
+        Create use case
+         */
+        val disposables = CompositeDisposable()
+        Observable.create<String> {  emitter ->
+            emitter.onNext("1")
+            emitter.onError(RuntimeException("Error"))
+            emitter.onComplete()
+            emitter.onNext("?")
+        }.subscribeBy (
+            onNext = {
+                Log.d("DailyWatchlistFragment",it.toString())
+            },
+        onComplete = {
+            Log.d("DailyWatchlistFragment","Completed")
+            },
+                onError = {
+                    Log.d("DailyWatchlistFragment",it.toString())
+                }
+
+
+                )
 
     howto_btn.setOnClickListener(View.OnClickListener {
 
