@@ -22,7 +22,10 @@ import com.salad.latte.Dialogs.CalculateDialogFragment
 import com.salad.latte.Dialogs.HowToBuyDialogFragment
 import com.salad.latte.Objects.CalculateItem
 import com.salad.latte.Objects.DailyWatchlistItem
+import com.salad.latte.Objects.User
 import es.dmoral.toasty.Toasty
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 
 class DailyWatchlistFragment : Fragment() {
@@ -70,8 +73,25 @@ class DailyWatchlistFragment : Fragment() {
 //            var calculateDialog = CalculateDialogFragment()
 //            calculateDialog.show(fragManager,"CalculateDialog")
         }
+//        val observa = Observable.
+
+        val testObserv = Observable.just(1,2,3,4)
+//        testObserv.subscribe{
+//            Log.d("DailyWatchlistFragment",it.toString());
+//        }
+        testObserv.subscribeBy (
+            onNext = {
+                     Log.d("DailyWatchlistFragment","Looping through item: "+it.toString())
+            },
+            onComplete = {
+                Log.d("DailyWatchlistFragment","Test Observation complete");
+            }
+        )
+        var user = User()
+//        user.update(observa.,"");
 
     howto_btn.setOnClickListener(View.OnClickListener {
+
 
         HowToBuyDialogFragment().show(fragManager, "HowToBuyDialogFragment")
     })
