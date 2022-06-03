@@ -26,6 +26,8 @@ import com.salad.latte.Objects.DailyWatchlistItem
 import com.salad.latte.Objects.User
 import es.dmoral.toasty.Toasty
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
+import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlin.math.roundToInt
@@ -77,56 +79,19 @@ class DailyWatchlistFragment : Fragment() {
 //            calculateDialog.show(fragManager,"CalculateDialog")
         }
 
-        val testObserv = Observable.just(1,2,3,4)
-//        testObserv.subscribe{
-//            Log.d("DailyWatchlistFragment",it.toString());
-//        }
-        testObserv.subscribeBy (
-            onNext = {
-                     Log.d("DailyWatchlistFragment","Looping through item: "+it.toString())
-            },
-            onComplete = {
-                Log.d("DailyWatchlistFragment","Test Observation complete");
-            }
-        )
 
         /*
-        Subscribe use case
+        Create an observable with just item ready to be emitted, 1
          */
-        val randObserables = Observable.range(1,10)
-        val subscribtions = CompositeDisposable()
-        val disposable = randObserables.subscribe {
-            val n = it.toDouble()
-            val fib = ((Math.pow(1.61803, n) - Math.pow(
-                    0.61803,n
-            )) / 2.23606).roundToInt()
-            Log.d("DailyWatchlistFragment",fib.toString())
+
+        var obserable = Observable.create(ObservableOnSubscribe<User>(){
+            emitter ->  Log.d("DailyWatchlistFragment",emitter.toString())
+
         }
-        subscribtions.addAll(disposable)
-        subscribtions.dispose()
-
-        /*
-        Create use case
-         */
-        val disposables = CompositeDisposable()
-        Observable.create<String> {  emitter ->
-            emitter.onNext("1")
-            emitter.onError(RuntimeException("Error"))
-            emitter.onComplete()
-            emitter.onNext("?")
-        }.subscribeBy (
-            onNext = {
-                Log.d("DailyWatchlistFragment",it.toString())
-            },
-        onComplete = {
-            Log.d("DailyWatchlistFragment","Completed")
-            },
-                onError = {
-                    Log.d("DailyWatchlistFragment",it.toString())
-                }
+        )
+        var observer = obserable.subscribe()
 
 
-                )
 
     howto_btn.setOnClickListener(View.OnClickListener {
 
@@ -167,7 +132,9 @@ class DailyWatchlistFragment : Fragment() {
     }
 
 
-
+    public fun pullRandomData() : String  {
+        return "fkkkk";
+    }
     public fun pullDailyDataForDate(dateIn :String){
         Log.d("DailyWatchlistFragment", postReference.child("daily_picks").database.toString() + "")
         items.clear()
