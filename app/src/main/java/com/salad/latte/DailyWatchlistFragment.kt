@@ -1,5 +1,6 @@
 package com.salad.latte
 
+import android.app.DownloadManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.datepicker.CompositeDateValidator
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DatabaseReference
@@ -84,12 +89,21 @@ class DailyWatchlistFragment : Fragment() {
         Create an observable with just item ready to be emitted, 1
          */
 
-        var obserable = Observable.create(ObservableOnSubscribe<User>(){
-            emitter ->  Log.d("DailyWatchlistFragment",emitter.toString())
+        var obserable = Observable.create(ObservableOnSubscribe<Unit>(){
+            emitter ->
+            var test = 1
+            pullRandomData()
+            var user = User()
+            user.name = "Mike"
+            /* Do Logic in here */
 
+            emitter.onNext(user.writeName())
+//            emitter.onNext()
+//            emitter.onNext("")
         }
         )
         var observer = obserable.subscribe()
+
 
 
 
@@ -133,7 +147,19 @@ class DailyWatchlistFragment : Fragment() {
 
 
     public fun pullRandomData() : String  {
-        return "fkkkk";
+        val queue = Volley.newRequestQueue(context)
+        val url = "https://www.google.com"
+
+// Request a string response from the provided URL.
+        val stringRequest = StringRequest(Request.Method.GET, url,
+                Response.Listener<String> { response ->
+                    // Display the first 500 characters of the response string.
+                    textView.text = "Response is: ${response.substring(0, 500)}"
+                },
+                Response.ErrorListener { textView.text = "That didn't work!" })
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest)
     }
     public fun pullDailyDataForDate(dateIn :String){
         Log.d("DailyWatchlistFragment", postReference.child("daily_picks").database.toString() + "")

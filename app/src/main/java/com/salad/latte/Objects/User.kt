@@ -14,4 +14,8 @@ class User : Observer{
     override fun update(o: java.util.Observable?, arg: Any?) {
         Log.d("DailyWatchlistFragment","User is an observer")
     }
+
+    fun writeName(){
+        Log.d("DailyWatchlistFragment","User name: "+name)
+    }
 }
