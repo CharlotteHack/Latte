@@ -89,15 +89,14 @@ class DailyWatchlistFragment : Fragment() {
         Create an observable with just item ready to be emitted, 1
          */
 
-        var obserable = Observable.create(ObservableOnSubscribe<Unit>(){
+        var obserable = Observable.create(ObservableOnSubscribe<String>(){
             emitter ->
-            var test = 1
-            pullRandomData()
-            var user = User()
-            user.name = "Mike"
+            var test = pullRandomData()
+
+
             /* Do Logic in here */
 
-            emitter.onNext(user.writeName())
+            emitter.onNext(test)
 //            emitter.onNext()
 //            emitter.onNext("")
         }
@@ -152,14 +151,17 @@ class DailyWatchlistFragment : Fragment() {
 
 // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
-                Response.Listener<String> { response ->
+                { response ->
+
                     // Display the first 500 characters of the response string.
-                    textView.text = "Response is: ${response.substring(0, 500)}"
+                    var rep = "Response is: ${response.substring(0, 500)}"
                 },
-                Response.ErrorListener { textView.text = "That didn't work!" })
+                { var rep = "That didn't work!"
+                }
+        )
 
 // Add the request to the RequestQueue.
-        queue.add(stringRequest)
+        return queue.add(stringRequest).url
     }
     public fun pullDailyDataForDate(dateIn :String){
         Log.d("DailyWatchlistFragment", postReference.child("daily_picks").database.toString() + "")
