@@ -18,6 +18,9 @@ class TabAdapter(
             0 -> {
                 DailyWatchlistFragment()
             }
+//            1 -> {
+//                OpenPostionsFragment()
+//            }
             1 -> {
                DailyHistoricalFragment()
             }

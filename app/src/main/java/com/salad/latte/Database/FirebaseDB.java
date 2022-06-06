@@ -278,6 +278,40 @@ public class FirebaseDB {
         mDatabase.addValueEventListener(datesReference);
     }
 
+    public void setMonthlyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter, ProgressBar progressBar, FloatingActionButton floatingActionButton, RecyclerView recyclerView){
+        progressBar.setVisibility(View.VISIBLE);
+        floatingActionButton.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        if (datesReference != null){
+            mDatabase.removeEventListener(datesReference);
+        }
+        datesReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dailyDates.clear();
+//                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()){
+                    String keyDate = datasnap.getKey();
+//                    Log.d("FirebaseDB","Date found in daily_picks: "+keyDate);
+                    dailyDates.add(keyDate);
+
+
+                }
+                Collections.reverse(dailyDates);
+                spinnerAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
+//                floatingActionButton.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(datesReference);
+    }
+
     public ArrayList<DailyWatchlistItem> pullDailyData(Context context, RecyclerView recyclerView){
 //        recents_progress.setVisibility(View.VISIBLE);
         if (dailyPicksReference != null){
@@ -291,11 +325,11 @@ public class FirebaseDB {
                 dailyPicks.clear();
 
 //                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
-                for(DataSnapshot datasnap: snapshot.child("daily_picks").getChildren()){
+                for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()){
                     String keyDate = datasnap.getKey();
 //                    Log.d("FirebaseDB","First date: "+keyDate);
 
-                    for(DataSnapshot innerData : snapshot.child("daily_picks").child(keyDate).getChildren()){
+                    for(DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()){
                         String tick = innerData.getKey();
 //                        Log.d("FirebaseDB","First ticker: "+tick);
 
@@ -318,6 +352,55 @@ public class FirebaseDB {
 //                Log.d("FirebaseDB","Calling daily watchlist adapter");
                 recyclerView.setAdapter(dailyWatchlistAdapter);
 //                recents_progress.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(dailyPicksReference);
+        return dailyPicks;
+    }
+
+    public ArrayList<DailyWatchlistItem> pullMonthDataForDate(Context context, RecyclerView recyclerView, String dateIn){
+        if (dailyPicksReference != null){
+            mDatabase.removeEventListener(dailyPicksReference);
+        }
+        dailyWatchlistAdapter = new DailyWatchlistAdapter(dailyPicks,context);
+        dailyPicksReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dailyPicks.clear();
+
+//                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
+                for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()) {
+                    String keyDate = datasnap.getKey();
+//                    Log.d("FirebaseDB","First date: "+keyDate);
+                    if (keyDate.equals(dateIn)) {
+                        for (DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()) {
+                            String tick = innerData.getKey();
+//                        Log.d("FirebaseDB","First ticker: "+tick);
+                            dailyPicks.add(
+                                    new DailyWatchlistItem(
+                                            innerData.child(tick).child("imgUrl").getValue(String.class),
+                                            innerData.child(tick).child("ticker").getValue(String.class),
+                                            innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                            innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                            innerData.child(tick).child("currentPrice").getValue(Float.class),
+                                            innerData.child(tick).child("allocation").getValue(Float.class)
+                                    )
+                            );
+                        }
+                    }
+//                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
+
+                }
+                //
+//                Log.d("FirebaseDB","Calling daily watchlist adapter");
+                recyclerView.setAdapter(dailyWatchlistAdapter);
+                dailyWatchlistAdapter.notifyDataSetChanged();
+
             }
 
             @Override

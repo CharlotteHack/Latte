@@ -92,11 +92,28 @@ class DailyWatchlistFragment : Fragment() {
         var obserable = Observable.create(ObservableOnSubscribe<String>(){
             emitter ->
             var test = pullRandomData()
+            val queue = Volley.newRequestQueue(context)
+            val url = "https://www.google.com"
 
+// Request a string response from the provided URL.
+            val stringRequest = StringRequest(Request.Method.GET, url,
+                { response ->
+
+                    // Display the first 500 characters of the response string.
+                    var rep = "Response is: ${response.substring(0, 500)}"
+                    emitter.onNext(rep)
+
+                },
+                { var rep = "That didn't work!"
+                    emitter.onNext(rep)
+
+                }
+            )
+            queue.add(stringRequest)
 
             /* Do Logic in here */
 
-            emitter.onNext(test)
+
 //            emitter.onNext()
 //            emitter.onNext("")
         }
@@ -119,7 +136,7 @@ class DailyWatchlistFragment : Fragment() {
         daily_spinner.setAdapter(spinnerAdapter)
         dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
 
-        firebaseDB.setDailyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate,dailyWatchRV)
+        firebaseDB.setMonthlyDates(dailyDates,spinnerAdapter,pb_daily_picks,fab_calculate,dailyWatchRV)
         firebaseDB.pullUpdatedDailyPickTime(daily_stock_updatetime)
         spinnerAdapter.notifyDataSetChanged()
 //        postReference.addValueEventListener(getDailyPickItems(postReference))
@@ -155,6 +172,7 @@ class DailyWatchlistFragment : Fragment() {
 
                     // Display the first 500 characters of the response string.
                     var rep = "Response is: ${response.substring(0, 500)}"
+
                 },
                 { var rep = "That didn't work!"
                 }
@@ -164,9 +182,9 @@ class DailyWatchlistFragment : Fragment() {
         return queue.add(stringRequest).url
     }
     public fun pullDailyDataForDate(dateIn :String){
-        Log.d("DailyWatchlistFragment", postReference.child("daily_picks").database.toString() + "")
+        Log.d("DailyWatchlistFragment", postReference.child("daily_monthly_picks").database.toString() + "")
         items.clear()
-        items.addAll(firebaseDB.pullDailyDataForDate(requireContext(), dailyWatchRV, dateIn))
+        items.addAll(firebaseDB.pullMonthDataForDate(requireContext(), dailyWatchRV, dateIn))
         var adapter = DailyWatchlistAdapter(items, requireContext())
         dailyWatchRV.layoutManager = LinearLayoutManager(activity)
         dailyWatchRV.adapter = adapter
