@@ -19,11 +19,11 @@ class TabAdapter(
             0 -> {
                 DailyWatchlistFragment()
             }
-//            1 -> {
-//                CorporateInsidersFragment()
-//            }
             1 -> {
-               DailyHistoricalFragment()
+                DailyHistoricalFragment()
+            }
+            2 -> {
+               NewsFragment()
             }
 //            2 -> {
 //                RecentFragment()

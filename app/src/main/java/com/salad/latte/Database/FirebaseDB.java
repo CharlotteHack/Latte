@@ -12,6 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.salad.latte.Adapters.CustomDailyHistoricalAdapter;
 import com.salad.latte.Adapters.DailyWatchlistAdapter;
 import com.salad.latte.Adapters.DividendAdapter;
+import com.salad.latte.Adapters.NewsAdapter2;
 import com.salad.latte.Adapters.PieAdapter;
 import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
@@ -32,6 +39,7 @@ import com.salad.latte.Adapters.WatchListAdapter;
 import com.salad.latte.Objects.DailyWatchlistHistoricalItem;
 import com.salad.latte.Objects.DailyWatchlistItem;
 import com.salad.latte.Objects.Dividend;
+import com.salad.latte.Objects.News;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
 import com.salad.latte.Objects.SuperInvestor.Holding;
@@ -89,6 +97,10 @@ public class FirebaseDB {
     ValueEventListener dailyHistorialReference;
     public ArrayList<DailyWatchlistHistoricalItem> dailyHistoricalItems;
     CustomDailyHistoricalAdapter customDailyHistoricalAdapter;
+
+    ValueEventListener newsReference;
+    public ArrayList<News> news;
+    NewsAdapter2 newsAdapter;
 
     String updatedTime = "";
 //
@@ -1225,6 +1237,8 @@ public class FirebaseDB {
 //        Log.d("FirebaseDB", "Results found for watchlist: " + watchlistItems.size());
         return superInvestors;
     }
+
+
 
     public static float getCurrentPriceForStock(String ticker){
             return 0.0f;
