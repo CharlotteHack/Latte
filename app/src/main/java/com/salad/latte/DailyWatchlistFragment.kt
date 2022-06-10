@@ -34,6 +34,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlin.math.roundToInt
 
@@ -51,6 +52,9 @@ class DailyWatchlistFragment : Fragment() {
     lateinit var fragManager : FragmentManager
     lateinit var daily_stock_updatetime :TextView
     lateinit var howto_btn :Button
+    lateinit var monthlyItemsObservable :Observable<ArrayList<DailyWatchlistItem>>
+    lateinit var monthlyItemObserver :Disposable
+
 
 
     override fun onCreateView(
@@ -101,15 +105,17 @@ class DailyWatchlistFragment : Fragment() {
 
                     // Display the first 500 characters of the response string.
                     var rep = "Response is: ${response.substring(0, 500)}"
+                    Log.d("DailyWatchlistFragment","Got response")
                     emitter.onNext(rep)
 
                 },
                 { var rep = "That didn't work!"
+                    Log.d("DailyWatchlistFragment","didnt get response")
                     emitter.onNext(rep)
 
                 }
             )
-            queue.add(stringRequest)
+            queue.add(stringRequest);
 
             /* Do Logic in here */
 
@@ -118,7 +124,9 @@ class DailyWatchlistFragment : Fragment() {
 //            emitter.onNext("")
         }
         )
-        var observer = obserable.subscribe()
+        var observer = obserable.subscribeBy(
+                onNext = { Log.d("DailyWatchlistFragment","emitted response: "+it.toString()) }
+        )
 
 
 
@@ -182,13 +190,26 @@ class DailyWatchlistFragment : Fragment() {
         return queue.add(stringRequest).url
     }
     public fun pullDailyDataForDate(dateIn :String){
-        Log.d("DailyWatchlistFragment", postReference.child("daily_monthly_picks").database.toString() + "")
-        items.clear()
-        items.addAll(firebaseDB.pullMonthDataForDate(requireContext(), dailyWatchRV, dateIn))
-        var adapter = DailyWatchlistAdapter(items, requireContext())
-        dailyWatchRV.layoutManager = LinearLayoutManager(activity)
-        dailyWatchRV.adapter = adapter
-        adapter.notifyDataSetChanged()
+        var monthlyItemsObservable = Observable.create<ArrayList<DailyWatchlistItem>>{
+            emitter ->
+            items.clear()
+            items.addAll(firebaseDB.pullMonthDataForDate(requireContext(), dailyWatchRV, dateIn))
+            //Actions happen in here
+            emitter.onNext(items)
+        }
+
+        monthlyItemObserver = monthlyItemsObservable.subscribeBy(
+                onNext = {
+                    var adapter = DailyWatchlistAdapter(it, requireContext())
+                    dailyWatchRV.layoutManager = LinearLayoutManager(activity)
+                    dailyWatchRV.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                    Log.d("DailyWatchlistFragment", "Observable called for monthly items")
+
+
+                }
+        )
+
     }
 
 

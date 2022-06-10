@@ -215,6 +215,111 @@ public class FirebaseDB {
         return dailyHistoricalItems;
     }
 
+
+    public ArrayList<DailyWatchlistHistoricalItem> pullMonthlyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv,ProgressBar historicalDailyPB){
+        historicalDailyPB.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        if (dailyHistorialReference != null){
+            mDatabase.removeEventListener(dailyHistorialReference);
+        }
+        customDailyHistoricalAdapter = new CustomDailyHistoricalAdapter(dailyHistoricalItems,context);
+        dailyHistorialReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dailyHistoricalItems.clear();
+                Float totalReturn = 0f;
+                Float openPositionsTotalReturn = 0f;
+                Float closedPostionsTotalReturn = 0f;
+                int openPositionsCount = 0;
+                int closedPositionsWins = 0;
+                int closedPositionsLosses = 0;
+                int closedPositionsCount = 0;
+//                Log.d("FirebaseDB","Daily Snapshot count: "+snapshot.child("daily_picks").getChildrenCount());
+
+                for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()){
+                    String keyDate = datasnap.getKey();
+//                    Log.d("FirebaseDB","First date: "+keyDate);
+
+
+                    for(DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()){
+                        String tick = innerData.getKey();
+//                        Log.d("FirebaseDB","First ticker: "+tick);
+                        Float exitPrice = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                        if(exitPrice > 0) {
+                            dailyHistoricalItems.add(
+                                    new DailyWatchlistHistoricalItem(
+                                            innerData.child(tick).child("imgUrl").getValue(String.class),
+                                            innerData.child(tick).child("ticker").getValue(String.class),
+                                            keyDate,
+                                            innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                            innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                            innerData.child(tick).child("allocation").getValue(Float.class)
+                                    )
+                            );
+                            Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
+                            Float exit = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class);
+                            float ret = ((exit - entry) / entry);
+                            totalReturn = (totalReturn + ret);
+                            closedPositionsCount = closedPositionsCount + 1;
+                            closedPostionsTotalReturn = closedPostionsTotalReturn + ret;
+                            if(ret < 0.0f){
+                                closedPositionsLosses = closedPositionsLosses + 1;
+                            }
+                            else{
+                                closedPositionsWins = closedPositionsWins + 1;
+                            }
+
+                        }
+                        else if (exitPrice == 0f){
+                            //These are open positions we have
+                            Float entry = innerData.child(tick).child("entryPrice").getValue(Float.class);
+                            Float currentPrice = innerData.child(tick).child("currentPrice").getValue(Float.class);
+                            Float alloc = innerData.child(tick).child("allocation").getValue(Float.class)/100;
+                            float ret = ((currentPrice - entry) / entry) ;
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Entry: "+entry);
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Current: "+currentPrice);
+                            Log.d("OpenPosTracker: ","ATicker: "+tick+" Alloc: "+alloc);
+//                            Log.d("OpenPosTracker: ","Ticker: "+tick+" Entry: "+String.format("%.02f", entry));
+
+                            openPositionsTotalReturn = (openPositionsTotalReturn + (ret*alloc));
+                            openPositionsCount = openPositionsCount + 1;
+                        }
+                    }
+//                    Log.d("FirebaseDB", "Results found for dailyPicks: " + dailyPicks.size());
+
+
+                }
+                String formatTotalReturn = String.format("%.02f", totalReturn*100);
+                String openPositionsRet = String.format("%.02f", openPositionsTotalReturn);
+                Log.d("FirebaseDB","Return displayed: "+String.format("%.02f", totalReturn));
+                Log.d("FirebaseDB","Return of closed positions: "+String.format("%.02f", closedPostionsTotalReturn));
+                Log.d("FirebaseDB","Return of open positions "+String.format("%.02f", openPositionsTotalReturn));
+                Log.d("FirebaseDB","Open Positions Count: "+openPositionsCount);
+                Log.d("FirebaseDB","Closed Position Wins: "+closedPositionsWins);
+                Log.d("FirebaseDB","Closed Position Losses: "+closedPositionsLosses);
+
+                return_tv.setText("Total performance: "+formatTotalReturn+"%");
+                Collections.reverse(dailyHistoricalItems);
+                customDailyHistoricalAdapter.notifyDataSetChanged();
+                Log.d("FirebaseDBSalad","Monthly Historical items: "+dailyHistoricalItems.size());
+                //
+//                Log.d("FirebaseDB","Calling daily watchlist adapter");
+                recyclerView.setAdapter(customDailyHistoricalAdapter);
+                historicalDailyPB.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(dailyHistorialReference);
+//        Log.d("DB Message","If this log was hit, sorry bro functions not working :(");
+        return dailyHistoricalItems;
+    }
+
     public void getCurrentStockPrice(DailyWatchlistItem dailyWatchlistItem,String ticker, DailyWatchlistAdapter adapter){
         if (stockPricesReference != null){
             mDatabase.removeEventListener(stockPricesReference);
@@ -298,6 +403,7 @@ public class FirebaseDB {
 
                 }
                 Collections.reverse(dailyDates);
+                dailyDates.add(0,"Open Positions");
                 spinnerAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
 //                floatingActionButton.setVisibility(View.VISIBLE);
@@ -340,7 +446,8 @@ public class FirebaseDB {
                                         innerData.child(tick).child("entryPrice").getValue(Float.class),
                                         innerData.child(tick).child("exitPrice").getValue(Float.class),
                                         innerData.child(tick).child("currentPrice").getValue(Float.class),
-                                        innerData.child(tick).child("allocation").getValue(Float.class)
+                                        innerData.child(tick).child("allocation").getValue(Float.class),
+                                        innerData.child(tick).child("date").getValue(String.class)
                                 )
                         );
                     }
@@ -377,7 +484,28 @@ public class FirebaseDB {
                 for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()) {
                     String keyDate = datasnap.getKey();
 //                    Log.d("FirebaseDB","First date: "+keyDate);
-                    if (keyDate.equals(dateIn)) {
+                    if(dateIn.equals("Open Positions")){
+
+                        for (DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()) {
+                            String tick = innerData.getKey();
+//                        Log.d("FirebaseDB","First ticker: "+tick);
+                            float exitPrice = innerData.child(tick).child("exitPrice").getValue(Float.class);
+                            if(exitPrice == 0.0f) {
+                                dailyPicks.add(
+                                        new DailyWatchlistItem(
+                                                innerData.child(tick).child("imgUrl").getValue(String.class),
+                                                innerData.child(tick).child("ticker").getValue(String.class),
+                                                innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                                innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                                innerData.child(tick).child("currentPrice").getValue(Float.class),
+                                                innerData.child(tick).child("allocation").getValue(Float.class),
+                                                innerData.child(tick).child("date").getValue(String.class)
+                                        )
+                                );
+                            }
+                        }
+                    }
+                    else if (keyDate.equals(dateIn)) {
                         for (DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()) {
                             String tick = innerData.getKey();
 //                        Log.d("FirebaseDB","First ticker: "+tick);
@@ -388,7 +516,8 @@ public class FirebaseDB {
                                             innerData.child(tick).child("entryPrice").getValue(Float.class),
                                             innerData.child(tick).child("exitPrice").getValue(Float.class),
                                             innerData.child(tick).child("currentPrice").getValue(Float.class),
-                                            innerData.child(tick).child("allocation").getValue(Float.class)
+                                            innerData.child(tick).child("allocation").getValue(Float.class),
+                                            innerData.child(tick).child("date").getValue(String.class)
                                     )
                             );
                         }
@@ -437,7 +566,8 @@ public class FirebaseDB {
                                             innerData.child(tick).child("entryPrice").getValue(Float.class),
                                             innerData.child(tick).child("exitPrice").getValue(Float.class),
                                             innerData.child(tick).child("currentPrice").getValue(Float.class),
-                                            innerData.child(tick).child("allocation").getValue(Float.class)
+                                            innerData.child(tick).child("allocation").getValue(Float.class),
+                                            innerData.child(tick).child("date").getValue(String.class)
                                     )
                             );
                         }

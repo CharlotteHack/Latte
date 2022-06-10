@@ -37,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:visibility="invisible"
         android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/linearLayout8"
         app:layout_constraintTop_toTopOf="@+id/linearLayout8">
 
@@ -46,10 +46,10 @@
             android:id="@+id/textView50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Allocation" />
+            android:text="Entry Date" />
 
         <TextView
-            android:id="@+id/daily_stock_allocation_tv"
+            android:id="@+id/daily_stock_entry_date_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

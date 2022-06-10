@@ -3,13 +3,14 @@ package com.salad.latte.Objects
 import android.os.Parcel
 import android.os.Parcelable
 
-class DailyWatchlistItem(imgr :String, tick :String, enp :Float, exp :Float,cp :Float, alloc :Float) : Parcelable {
+class DailyWatchlistItem(imgr :String, tick :String, enp :Float, exp :Float,cp :Float, alloc :Float, ed :String) : Parcelable {
     public var imgUrl = imgr
     public var ticker = tick
     public var entryPrice = enp
     public var exitPrice = exp
     public var allocation = alloc
     public var currentPrice = cp;
+    public var entryDate = ed;
 
 
     override fun describeContents(): Int {
@@ -22,7 +23,8 @@ class DailyWatchlistItem(imgr :String, tick :String, enp :Float, exp :Float,cp :
             parcel.readFloat(),
             parcel.readFloat(),
             parcel.readFloat(),
-            parcel.readFloat())
+            parcel.readFloat(),
+            parcel.readString()!!)
 
     companion object CREATOR : Parcelable.Creator<DailyWatchlistItem> {
         override fun createFromParcel(parcel: Parcel): DailyWatchlistItem {
@@ -41,5 +43,6 @@ class DailyWatchlistItem(imgr :String, tick :String, enp :Float, exp :Float,cp :
         dest!!.writeFloat(exitPrice)
         dest!!.writeFloat(allocation)
         dest!!.writeFloat(currentPrice)
+        dest!!.writeString(entryDate)
     }
 }

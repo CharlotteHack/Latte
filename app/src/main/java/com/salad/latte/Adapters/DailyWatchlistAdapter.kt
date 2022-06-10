@@ -6,11 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.DailyWatchlistItem
 import com.salad.latte.R
 import com.squareup.picasso.Picasso
@@ -26,7 +24,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
 
     override fun onBindViewHolder(holder: DailyWatchViewHolder, position: Int) {
         holder.tick.setText(items.get(position).ticker)
-        holder.allocation.setText(items.get(position).allocation.toString()+"%");
+        holder.entryDate.setText(items.get(position).entryDate);
         holder.entryPrice.setText(items.get(position).entryPrice.toString())
         try{
             Picasso.get().load(items.get(position).imgUrl).into(holder.img)
@@ -75,7 +73,7 @@ class DailyWatchViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView) {
     public var tick = itemView.findViewById<TextView>(R.id.daily_stock_ticker_tv)
     public var entryPrice = itemView.findViewById<TextView>(R.id.daily_stock_entry_price_tv)
     public var currentOrexitPrice = itemView.findViewById<TextView>(R.id.daily_stock_current_price_tv)
-    public var allocation = itemView.findViewById<TextView>(R.id.daily_stock_allocation_tv)
+    public var entryDate = itemView.findViewById<TextView>(R.id.daily_stock_entry_date_tv)
     public var currentOrExitPriceLabel = itemView.findViewById<TextView>(R.id.daily_move_tv)
     public var return_tv = itemView.findViewById<TextView>(R.id.daily_stock_return_tv)
 

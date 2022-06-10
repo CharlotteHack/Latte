@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.salad.latte.*
 import com.salad.latte.DeprecatedClasses.HistoricalFragment
 import com.salad.latte.DeprecatedClasses.RecentFragment
+import com.salad.latte.Tutorial.CorporateInsidersFragment
 
 class TabAdapter(
     var context: Context,
@@ -19,7 +20,7 @@ class TabAdapter(
                 DailyWatchlistFragment()
             }
 //            1 -> {
-//                OpenPostionsFragment()
+//                CorporateInsidersFragment()
 //            }
             1 -> {
                DailyHistoricalFragment()
