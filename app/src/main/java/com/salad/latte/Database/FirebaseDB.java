@@ -58,6 +58,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static com.salad.latte.GeneratePieData.generatePieData;
 
@@ -126,7 +127,21 @@ public class FirebaseDB {
     }
     public void sendFeedback(String email, String feedback){
         Feedback feed = new Feedback(email,feedback);
-        mDatabase.child("feedback").push().setValue(feed);
+        JSONObject feedObject = new JSONObject();
+        Map<String, Feedback> feedbacks = new HashMap<>();
+//        feedbacks.put()
+
+        try {
+            feedObject.put("email", email);
+            feedObject.put("feedback",feedback);
+            String key = mDatabase.child("feedback").push().getKey();
+            mDatabase.child("feedback").child(key).child("email").setValue(email);
+            mDatabase.child("feedback").child(key).child("feedback").setValue(feedback);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.d("FirebaseDB",e.getMessage()+" feedback ");
+        }
     }
 
     public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv,ProgressBar historicalDailyPB){
@@ -400,6 +415,54 @@ public class FirebaseDB {
         };
         mDatabase.addValueEventListener(datesReference);
     }
+    public void setYTDResults(TextView ytd){
+
+        ArrayList<DailyWatchlistItem> tempList = new ArrayList<>();
+
+        ValueEventListener dpr = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                tempList.clear();
+
+                for(DataSnapshot datasnap: snapshot.child("daily_monthly_picks").getChildren()){
+                    String keyDate = datasnap.getKey();
+//                    Log.d("FirebaseDB","First date: "+keyDate);
+
+                    for(DataSnapshot innerData : snapshot.child("daily_monthly_picks").child(keyDate).getChildren()){
+                        String tick = innerData.getKey();
+
+                        tempList.add(
+                                new DailyWatchlistItem(
+                                        innerData.child(tick).child("imgUrl").getValue(String.class),
+                                        innerData.child(tick).child("ticker").getValue(String.class),
+                                        innerData.child(tick).child("entryPrice").getValue(Float.class),
+                                        innerData.child(tick).child("exitPrice").getValue(Float.class),
+                                        innerData.child(tick).child("currentPrice").getValue(Float.class),
+                                        innerData.child(tick).child("allocation").getValue(Float.class),
+                                        innerData.child(tick).child("date").getValue(String.class)
+                                )
+                        );
+                    }
+
+                }
+                float totalReturn = 0f;
+                String numItems = tempList.size() + "";
+                for (DailyWatchlistItem item: tempList) {
+                    totalReturn = totalReturn + (item.getCurrentPrice() - item.getEntryPrice()) / item.getEntryPrice() * 100;
+                }
+                totalReturn = totalReturn / Float.parseFloat(numItems+"");
+                Log.d("FirebaseDB2", "Num of items: $numItems total return: $totalReturn");
+                ytd.setText("Year to date performance: "+String.format("%.02f", totalReturn)+"%");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addValueEventListener(dpr);
+    }
+
 
     public void setMonthlyDates(ArrayList<String> dailyDates, ArrayAdapter<String> spinnerAdapter, ProgressBar progressBar, FloatingActionButton floatingActionButton, RecyclerView recyclerView){
         progressBar.setVisibility(View.VISIBLE);
@@ -426,6 +489,10 @@ public class FirebaseDB {
                 progressBar.setVisibility(View.INVISIBLE);
 //                floatingActionButton.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
+
+
+
+
             }
 
             @Override
@@ -631,6 +698,8 @@ public class FirebaseDB {
 
         return updatedTime;
     }
+
+
     public String pullUpdatedTime(TextView updateTime){
         ValueEventListener returnTime = new ValueEventListener() {
             @Override

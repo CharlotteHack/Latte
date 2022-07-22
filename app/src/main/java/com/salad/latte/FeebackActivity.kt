@@ -1,7 +1,9 @@
 package com.salad.latte
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -21,19 +23,21 @@ class FeebackActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback);
         cancelBtn = findViewById(R.id.cancel_feedback_btn)
-        submitBtn = findViewById(R.id.cancel_feedback_btn)
+        submitBtn = findViewById(R.id.submit_feedback_btn)
+        emailEt = findViewById(R.id.email_feeback_et)
+        feedbackEt = findViewById(R.id.feedback_et)
         cancelBtn.setOnClickListener(View.OnClickListener {
-            finish()
+            val i = Intent(this,MainActivity::class.java)
+            startActivity(i)
         })
         submitBtn.setOnClickListener(View.OnClickListener {
-            finish()
             if(isEmailValid(emailEt.text.toString())){
              if(isFeedbackValid(feedbackEt.text.toString())){
                  //Valid, send to firebase
                      var fb = FirebaseDB()
                  fb.sendFeedback(emailEt.text.toString(),feedbackEt.text.toString())
                  val builder = AlertDialog.Builder(this)
-                 builder.setTitle("Feeback Sent!")
+                 builder.setTitle("Feedback Sent!")
                  builder.setMessage("We will reply to your feedback/comment shortly, thank you")
                  builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
                  builder.show()
@@ -41,7 +45,7 @@ class FeebackActivity : AppCompatActivity() {
                 else{
                     //Feedback Invalid
                  val builder = AlertDialog.Builder(this)
-                 builder.setTitle("Feeback Invalid!")
+                 builder.setTitle("Feedback Invalid!")
                  builder.setMessage("Please enter atleast 3 characters for feedback to be sent")
                  builder.setPositiveButton("OK",null)
                  builder.show()
@@ -58,7 +62,9 @@ class FeebackActivity : AppCompatActivity() {
     }
 
     val positiveButtonClick = { dialog: DialogInterface, which: Int ->
-        finish()
+        val i = Intent(this,MainActivity::class.java)
+        Log.d("FeedbackActivity","Positive button clicked")
+        startActivity(i)
     }
     fun isEmailValid(email :String) : Boolean{
         if(email.length < 3 || !email.contains("@"))

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,7 +33,7 @@ class MainActivity : FragmentActivity() {
     lateinit var title :TextView
     lateinit var iv_instagram :ImageView
     lateinit var iv_question :ImageView
-    lateinit var iv_feedback :ImageView
+    lateinit var feedback_iv :ImageView
     lateinit var iv_pie :ImageView
     lateinit var viewPager :ViewPager
     lateinit var iv_history :ImageView
@@ -65,7 +66,7 @@ class MainActivity : FragmentActivity() {
         viewPager = findViewById(R.id.viewpager)
         iv_instagram = findViewById(R.id.iv_instagram)
         iv_question = findViewById(R.id.iv_question)
-        iv_feedback = findViewById(R.id.iv_feedback)
+        feedback_iv = findViewById(R.id.feedback_iv)
         iv_pie = findViewById(R.id.iv_pie)
         iv_history = findViewById(R.id.history_iv)
 
@@ -83,6 +84,13 @@ class MainActivity : FragmentActivity() {
 
 
         }
+
+        feedback_iv.setOnClickListener(View.OnClickListener {
+            val i = Intent(this,FeebackActivity::class.java)
+            Log.d("MainActivity","Hit feedback")
+
+            startActivity(i)
+        })
 
         iv_question.setOnClickListener(View.OnClickListener {
             val i = Intent(this, TutorialActivity::class.java)
