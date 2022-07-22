@@ -16,7 +16,7 @@ android {
         applicationId "com.salad.latte"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2
+        versionCode 17
         versionName "1.1"
 
 
