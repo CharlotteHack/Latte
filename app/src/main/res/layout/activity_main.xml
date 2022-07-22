@@ -178,4 +178,14 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/iv_pie"
         app:layout_constraintTop_toTopOf="@+id/iv_pie" />
+
+    <ImageView
+        android:id="@+id/feedback_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/feedbacktt"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_question"
+        app:layout_constraintEnd_toStartOf="@+id/iv_question"
+        app:layout_constraintTop_toTopOf="@+id/iv_question" />
 </androidx.constraintlayout.widget.ConstraintLayout>

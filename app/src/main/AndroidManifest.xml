@@ -57,6 +57,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".FeebackActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
 
         <service
             android:name=".Database.CustomFirebaseMessagingService"

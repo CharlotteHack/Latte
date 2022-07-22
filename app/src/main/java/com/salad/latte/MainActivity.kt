@@ -32,6 +32,7 @@ class MainActivity : FragmentActivity() {
     lateinit var title :TextView
     lateinit var iv_instagram :ImageView
     lateinit var iv_question :ImageView
+    lateinit var iv_feedback :ImageView
     lateinit var iv_pie :ImageView
     lateinit var viewPager :ViewPager
     lateinit var iv_history :ImageView
@@ -64,6 +65,7 @@ class MainActivity : FragmentActivity() {
         viewPager = findViewById(R.id.viewpager)
         iv_instagram = findViewById(R.id.iv_instagram)
         iv_question = findViewById(R.id.iv_question)
+        iv_feedback = findViewById(R.id.iv_feedback)
         iv_pie = findViewById(R.id.iv_pie)
         iv_history = findViewById(R.id.history_iv)
 

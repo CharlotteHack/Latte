@@ -39,6 +39,7 @@ import com.salad.latte.Adapters.WatchListAdapter;
 import com.salad.latte.Objects.DailyWatchlistHistoricalItem;
 import com.salad.latte.Objects.DailyWatchlistItem;
 import com.salad.latte.Objects.Dividend;
+import com.salad.latte.Objects.Feedback;
 import com.salad.latte.Objects.News;
 import com.salad.latte.Objects.Pie;
 import com.salad.latte.Objects.Historical;
@@ -54,6 +55,7 @@ import org.w3c.dom.Text;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -121,6 +123,10 @@ public class FirebaseDB {
         dailyHistoricalItems = new ArrayList<>();
 
 
+    }
+    public void sendFeedback(String email, String feedback){
+        Feedback feed = new Feedback(email,feedback);
+        mDatabase.child("feedback").push().setValue(feed);
     }
 
     public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv,ProgressBar historicalDailyPB){
