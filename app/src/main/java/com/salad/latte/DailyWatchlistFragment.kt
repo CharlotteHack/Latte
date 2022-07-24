@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.android.volley.Response
+import com.android.volley.toolbox.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -27,6 +27,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import org.json.JSONObject
 
 
 class DailyWatchlistFragment : Fragment() {
@@ -45,6 +46,7 @@ class DailyWatchlistFragment : Fragment() {
     lateinit var monthlyItemsObservable :Observable<ArrayList<DailyWatchlistItem>>
     lateinit var monthlyItemObserver :Disposable
     lateinit var getYTD :TextView
+    lateinit var getSPYYTD :TextView
 
 
 
@@ -62,6 +64,7 @@ class DailyWatchlistFragment : Fragment() {
         daily_stock_updatetime = v.findViewById(R.id.daily_stock_updatetime)
         howto_btn = v.findViewById(R.id.howtobuy_btn)
         getYTD = v.findViewById(R.id.getytd_tv)
+        getSPYYTD = v.findViewById(R.id.spy_tv)
         fab_calculate.setOnClickListener{
             if(firebaseDB.dailyPicks.size > 0) {
                 var intent = Intent(requireContext(), CalculateActivity::class.java)
@@ -136,10 +139,12 @@ class DailyWatchlistFragment : Fragment() {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         daily_spinner.setAdapter(spinnerAdapter)
         dailyWatchRV = v.findViewById(R.id.daily_watch_rv)
+        setSPYYtd()
 
         firebaseDB.setMonthlyDates(dailyDates, spinnerAdapter, pb_daily_picks, fab_calculate, dailyWatchRV)
         firebaseDB.pullUpdatedDailyPickTime(daily_stock_updatetime)
         firebaseDB.setYTDResults(getYTD)
+
 
 //        firebaseDB.pullUpdatedYTD(getYTD)
 
@@ -165,7 +170,38 @@ class DailyWatchlistFragment : Fragment() {
         }
         return v;
     }
+    public fun calculateSPYYTD(entry: Double, current: Double) : String {
 
+        return String.format("%.02f", (((current-entry)/entry)*100))
+    }
+    public fun setSPYYtd(){
+
+        Log.d("LOL22", "crud")
+        val url = "https://api.polygon.io/v2/last/trade/SPY?apiKey=vGM47_0HjvEz4RB_05YtzyLdSQhddiKgZHCl0d"
+
+
+
+        val queue = Volley.newRequestQueue(activity)
+
+// Request a string response from the provided URL.
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+                Response.Listener { response ->
+                    var exit = response["results"]
+                    var jsonObj = JSONObject(exit.toString())
+                    var currentPrice = jsonObj.getDouble("p")
+                    Log.d("LOL2", calculateSPYYTD(477.71, currentPrice))
+//                    textView.text = "Response: %s".format(response.toString())
+                    getSPYYTD.text = "S&P 500 YTD Return: " + calculateSPYYTD(477.71, currentPrice) + "%"
+                },
+                Response.ErrorListener {
+                    // TODO: Handle error
+                    Log.d("LOL2", it.message.toString())
+                })
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest)
+
+    }
 
     public fun pullRandomData() : String  {
         val queue = Volley.newRequestQueue(context)

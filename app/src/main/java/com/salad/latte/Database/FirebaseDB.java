@@ -452,7 +452,7 @@ public class FirebaseDB {
                 }
                 totalReturn = totalReturn / Float.parseFloat(numItems+"");
                 Log.d("FirebaseDB2", "Num of items: $numItems total return: $totalReturn");
-                ytd.setText("Year to date performance: "+String.format("%.02f", totalReturn)+"%");
+                ytd.setText("Our year to date performance: "+String.format("%.02f", totalReturn)+"%");
             }
 
             @Override
