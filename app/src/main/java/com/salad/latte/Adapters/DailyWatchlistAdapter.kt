@@ -43,6 +43,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
             else{
                 holder.return_tv.setTextColor(Color.RED)
             }
+            holder.easyPrint.setText("On "+items.get(position).entryDate+" we bought shares of "+items.get(position).ticker+" priced at \$"+items.get(position).entryPrice+" per share.")
         }
         else{
             holder.currentOrExitPriceLabel.setText(" Exit Price ")
@@ -55,6 +56,7 @@ class DailyWatchlistAdapter(var items :ArrayList<DailyWatchlistItem>, var contex
                 holder.return_tv.setTextColor(Color.RED)
             }
             holder.return_tv.setText(String.format("%.3f", (returnPercent*100)).toDouble().toString()+"%")
+            holder.easyPrint.setText("We sold the shares of "+ items.get(position).ticker+" for \$"+items.get(position).exitPrice+" per share.")
 
         }
 //        holder.setText(items.get(position).ticker)
@@ -76,6 +78,7 @@ class DailyWatchViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView) {
     public var entryDate = itemView.findViewById<TextView>(R.id.daily_stock_entry_date_tv)
     public var currentOrExitPriceLabel = itemView.findViewById<TextView>(R.id.daily_move_tv)
     public var return_tv = itemView.findViewById<TextView>(R.id.daily_stock_return_tv)
+    var easyPrint = itemView.findViewById<TextView>(R.id.tv_easyPrint)
 
     var img = itemView.findViewById<ImageView>(R.id.daily_stock_iv)
 //    public var tick = itemView.findViewById<TextView>(R.id.daily_stock_ticker_tv)
