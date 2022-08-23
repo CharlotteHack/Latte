@@ -89,6 +89,7 @@ public class FirebaseDB {
     ArrayList<SuperInvestor> superInvestors;
     SuperInvestorAdapter superInvestorAdapter;
 
+    
     ValueEventListener dailyPicksReference;
     public ArrayList<DailyWatchlistItem> dailyPicks;
     DailyWatchlistAdapter dailyWatchlistAdapter;
