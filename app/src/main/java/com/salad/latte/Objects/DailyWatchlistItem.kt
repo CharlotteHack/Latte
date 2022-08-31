@@ -36,6 +36,9 @@ class DailyWatchlistItem(imgr :String, tick :String, enp :Float, exp :Float,cp :
         }
     }
 
+    fun calculateReturn() : Float {
+        return (currentPrice-entryPrice)/entryPrice
+    }
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest!!.writeString(imgUrl)
         dest!!.writeString(ticker)

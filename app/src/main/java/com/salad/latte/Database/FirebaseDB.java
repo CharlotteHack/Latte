@@ -47,6 +47,7 @@ import com.salad.latte.Objects.SuperInvestor.Holding;
 import com.salad.latte.Objects.SuperInvestor.SIActivity;
 import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.Objects.Watchlist;
+import com.salad.latte.PennyFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,10 +56,14 @@ import org.w3c.dom.Text;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import static com.salad.latte.GeneratePieData.generatePieData;
 
@@ -109,6 +114,10 @@ public class FirebaseDB {
     String updatedTime = "";
 //
 
+    ValueEventListener pennysReference;
+    public ArrayList<DailyWatchlistItem> dailyPennyItems;
+//    CustomDailyHistoricalAdapter customDailyHistoricalAdapter;
+
     double totalReturns = 0;
 
     int length = 0;
@@ -145,6 +154,62 @@ public class FirebaseDB {
         }
     }
 
+
+    public void pullPennyPicks(PennyFragment pennyFragment){
+
+//        DailyWatchlistItem penny = new DailyWatchlistItem("","Test",2.0f,0.0f,4.0f,100.0f,"8/30/2022");
+//        pennies.add(penny);
+        if(pennysReference != null){
+            mDatabase.removeEventListener(pennysReference);
+        }
+        pennysReference = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("FirebaseDB","penny_stocks size: "+snapshot.child("daily_penny_picks").getChildrenCount()+"");
+                pennyFragment.pennies.clear();
+                for(DataSnapshot snap : snapshot.child("daily_penny_picks").getChildren()){
+                    String date = snap.getKey();
+                    Log.d("FirebaseDB","penny_stocks date: "+date);
+                    for(DataSnapshot tick_snap : snapshot.child("daily_penny_picks").child(date).getChildren()){
+                        String ticker = tick_snap.getKey();
+                        Log.d("FirebaseDB","penny_stocks ticker: "+ticker);
+                        Log.d("FirebaseDB","penny_stocks items: "+snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).getChildrenCount());
+
+
+                            Float entryPrice = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("entryPrice").getValue(Float.class);
+                            Float allocation = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("allocation").getValue(Float.class);
+                            Float currentPrice = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("currentPrice").getValue(Float.class);
+                            Float exitPrice = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("exitPrice").getValue(Float.class);
+                            String imgUrl = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("imgUrl").getValue(String.class);
+                            String sentiment = snapshot.child("daily_penny_picks").child(date).child(ticker).child(ticker).child("sentiment").getValue(String.class);
+                            DailyWatchlistItem item = new DailyWatchlistItem(imgUrl,ticker,entryPrice,exitPrice,currentPrice,allocation,date);
+                            pennyFragment.pennies.add(item);
+                            Log.d("FirebaseDB","Adding Penny Ticker: "+ticker);
+
+                    }
+                }
+                Collections.sort(pennyFragment.pennies, new Comparator<DailyWatchlistItem>() {
+                    @Override
+                    public int compare(DailyWatchlistItem o1, DailyWatchlistItem o2) {
+                        if(o1.calculateReturn() == o2.calculateReturn())
+                            return 0;
+                        return o1.calculateReturn() < o2.calculateReturn() ? -1 : 1;
+                    }
+                });
+                Collections.reverse(pennyFragment.pennies);
+
+                pennyFragment.updateObserver();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        mDatabase.addValueEventListener(pennysReference);
+
+    }
     public ArrayList<DailyWatchlistHistoricalItem> pullDailyHistoricalItems(Context context, RecyclerView recyclerView, TextView return_tv,ProgressBar historicalDailyPB){
         historicalDailyPB.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
@@ -229,7 +294,7 @@ public class FirebaseDB {
                 Log.d("FirebaseDB","Closed Position Losses: "+closedPositionsLosses);
 
                 return_tv.setText("Total performance: "+formatTotalReturn+"%");
-                Collections.reverse(dailyHistoricalItems);
+//                Collections.reverse(dailyHistoricalItems);
                 customDailyHistoricalAdapter.notifyDataSetChanged();
                 Log.d("FirebaseDBSalad","Daily Historical items: "+dailyHistoricalItems.size());
                 //
@@ -334,7 +399,7 @@ public class FirebaseDB {
                 Log.d("FirebaseDB","Closed Position Losses: "+closedPositionsLosses);
 
                 return_tv.setText("Total performance: "+formatTotalReturn+"%");
-                Collections.reverse(dailyHistoricalItems);
+//                Collections.reverse(dailyHistoricalItems);
                 customDailyHistoricalAdapter.notifyDataSetChanged();
                 Log.d("FirebaseDBSalad","Monthly Historical items: "+dailyHistoricalItems.size());
                 //
@@ -402,7 +467,7 @@ public class FirebaseDB {
 
 
                 }
-                Collections.reverse(dailyDates);
+//                Collections.reverse(dailyDates);
                 spinnerAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
 //                floatingActionButton.setVisibility(View.VISIBLE);
@@ -484,7 +549,7 @@ public class FirebaseDB {
 
 
                 }
-                Collections.reverse(dailyDates);
+//                Collections.reverse(dailyDates);
                 dailyDates.add(0,"Open Positions");
                 spinnerAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
@@ -613,6 +678,7 @@ public class FirebaseDB {
                 }
                 //
 //                Log.d("FirebaseDB","Calling daily watchlist adapter");
+                Collections.reverse(dailyPicks);
                 recyclerView.setAdapter(dailyWatchlistAdapter);
                 dailyWatchlistAdapter.notifyDataSetChanged();
 
@@ -839,7 +905,7 @@ public class FirebaseDB {
                     );
                 }
                 //
-                Collections.reverse(recentItems);
+//                Collections.reverse(recentItems);
                 recentsAdapter = new RecentsAdapter(context,layout,recentItems);
                 listView.setAdapter(recentsAdapter);
                 recentsAdapter.notifyDataSetChanged();
@@ -884,7 +950,7 @@ public class FirebaseDB {
                     }
                 }
                 //
-                Collections.reverse(recentItems);
+//                Collections.reverse(recentItems);
                 recentsAdapter = new RecentsAdapter(context,layout,recentItems);
                 listView.setAdapter(recentsAdapter);
                 recentsAdapter.notifyDataSetChanged();
