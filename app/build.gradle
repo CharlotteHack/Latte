@@ -12,6 +12,7 @@ android {
         checkReleaseBuilds false
 
     }
+
     defaultConfig {
         applicationId "com.salad.latte"
         minSdkVersion 23
@@ -42,6 +43,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+//    buildFeatures {
+//        viewBinding =  true
+//    }
+
 }
 
 dependencies {
@@ -72,6 +77,12 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.2"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
     implementation 'com.android.volley:volley:1.2.1'
+    // Import the BoM for the Firebase platform
+//    implementation platform('com.google.firebase:firebase-bom:30.4.0')
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
 
 

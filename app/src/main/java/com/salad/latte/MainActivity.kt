@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.salad.latte.Adapters.TabAdapter
 import com.salad.latte.Database.CustomFirebaseMessagingService
+import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Dialogs.AddDialogFragment
 import com.salad.latte.Dialogs.CalculateDialogFragment
 import com.salad.latte.Tutorial.TutorialActivity
@@ -48,6 +49,12 @@ class MainActivity : FragmentActivity() {
         var customFBService = CustomFirebaseMessagingService()
         customFBService.getToken()
         window.setStatusBarColor(getColor(R.color.purple_500))
+        var firebaseDB = FirebaseDB()
+        if(!firebaseDB.isAuthenticated){
+            Log.d("MainActivity","Not logged in. Authentication required.")
+            var intent = Intent(this,ActivityLogin::class.java)
+            startActivity(intent)
+        }
         prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
         if(prefs!!.getBoolean("didViewTutorial",false) == false){
             val i = Intent(this, TutorialActivity::class.java)

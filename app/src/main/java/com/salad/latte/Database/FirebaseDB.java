@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +23,15 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.salad.latte.ActivityLogin;
 import com.salad.latte.Adapters.CustomDailyHistoricalAdapter;
 import com.salad.latte.Adapters.DailyWatchlistAdapter;
 import com.salad.latte.Adapters.DividendAdapter;
@@ -65,6 +70,7 @@ import java.util.Map;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
+import static android.content.ContentValues.TAG;
 import static com.salad.latte.GeneratePieData.generatePieData;
 
 public class FirebaseDB {
@@ -110,6 +116,7 @@ public class FirebaseDB {
     ValueEventListener newsReference;
     public ArrayList<News> news;
     NewsAdapter2 newsAdapter;
+    private FirebaseAuth mAuth;
 
     String updatedTime = "";
 //
@@ -132,8 +139,25 @@ public class FirebaseDB {
         superInvestors = new ArrayList<>();
         dailyPicks = new ArrayList<>();
         dailyHistoricalItems = new ArrayList<>();
+    // ...
+    // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
 
+    }
+    public FirebaseAuth getAuth(){
+        return mAuth;
+    }
+
+    public boolean isAuthenticated(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            return true;
+        } else {
+            // No user is signed in
+            return false;
+        }
     }
     public void sendFeedback(String email, String feedback){
         Feedback feed = new Feedback(email,feedback);
