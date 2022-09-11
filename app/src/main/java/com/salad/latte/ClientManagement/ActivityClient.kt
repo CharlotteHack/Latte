@@ -42,7 +42,17 @@ class ActivityClient : AppCompatActivity(){
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            if(position == 0){
+                tab.text = "Home"
+            }
+            else if(position == 1){
+                tab.text = "Transactions"
 
+            }
+            else{
+                tab.text = "Account"
+
+            }
         }.attach()
 
     }
@@ -67,7 +77,7 @@ class ActivityClient : AppCompatActivity(){
                 return FragmentClientTransactions()
             }
             else {
-                return FragmentClientDashboard()
+                return FragmentClientSettings()
             }
         }
 
