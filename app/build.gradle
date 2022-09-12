@@ -83,8 +83,26 @@ dependencies {
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth-ktx'
+    // to offer card payments
+    implementation 'com.braintreepayments.api:card:4.15.0'
+
+    // to collect device data
+    implementation 'com.braintreepayments.api:data-collector:4.15.0'
 
 
+// retrofit
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+// GSON
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+// coroutine
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 
 
 
