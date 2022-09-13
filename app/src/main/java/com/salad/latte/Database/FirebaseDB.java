@@ -159,6 +159,31 @@ public class FirebaseDB {
             return false;
         }
     }
+
+    public void setupStripeID(String key,String ibkrID){
+        //Using the customers ibkr id, check if that id exists in stripe
+//        Stripe.apiKey = key;
+//
+//        Customer customer =
+//                Customer.retrieve(ibkrID);
+//
+//        if(customer == null){
+//            Map<String, Object> params = new HashMap<>();
+//            params.put(
+//                    "description",
+//                    "My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"
+//            );
+//            params.put(
+//                    "id",
+//                    ibkrID
+//            );
+//
+//            Customer createdCustomer = Customer.create(params);
+
+//        }
+
+    }
+
     public void sendFeedback(String email, String feedback){
         Feedback feed = new Feedback(email,feedback);
         JSONObject feedObject = new JSONObject();
@@ -180,7 +205,6 @@ public class FirebaseDB {
 
 
     public void pullPennyPicks(PennyFragment pennyFragment){
-
 //        DailyWatchlistItem penny = new DailyWatchlistItem("","Test",2.0f,0.0f,4.0f,100.0f,"8/30/2022");
 //        pennies.add(penny);
         if(pennysReference != null){
