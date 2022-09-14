@@ -160,28 +160,26 @@ public class FirebaseDB {
         }
     }
 
-    public void setupStripeID(String key,String ibkrID){
-        //Using the customers ibkr id, check if that id exists in stripe
-//        Stripe.apiKey = key;
-//
-//        Customer customer =
-//                Customer.retrieve(ibkrID);
-//
-//        if(customer == null){
-//            Map<String, Object> params = new HashMap<>();
-//            params.put(
-//                    "description",
-//                    "My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"
-//            );
-//            params.put(
-//                    "id",
-//                    ibkrID
-//            );
-//
-//            Customer createdCustomer = Customer.create(params);
 
-//        }
+    public void savePaymentIntent(String id,String paymentIntent){
+        String convertIDToFirebase = id.replace(".","|");
+        mDatabase.child("Clients").child(convertIDToFirebase).child("transactions").child(paymentIntent).push();
 
+    }
+//    Make a function to get all transactions for the user instead
+    public ArrayList<String> getPaymentIntentIDs(String id){
+        String convertIDToFirebase = id.replace(".","|");
+        mDatabase.child("Clients").child(convertIDToFirebase).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
     }
 
     public void sendFeedback(String email, String feedback){
