@@ -167,20 +167,20 @@ public class FirebaseDB {
 
     }
 //    Make a function to get all transactions for the user instead
-    public ArrayList<String> getPaymentIntentIDs(String id){
-        String convertIDToFirebase = id.replace(".","|");
-        mDatabase.child("Clients").child(convertIDToFirebase).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
-    }
+//    public ArrayList<String> getPaymentIntentIDs(String id){
+//        String convertIDToFirebase = id.replace(".","|");
+//        mDatabase.child("Clients").child(convertIDToFirebase).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.e("firebase", "Error getting data", task.getException());
+//                }
+//                else {
+//                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+//                }
+//            }
+//        });
+//    }
 
     public void sendFeedback(String email, String feedback){
         Feedback feed = new Feedback(email,feedback);

@@ -38,16 +38,10 @@ class ActivityClient : AppCompatActivity(){
 //        )
 
         val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createStripeCustomer?stripeid="+stripeID+"&firstname=Mohamed&lastname=Salad")
-        val connection = url.openConnection()
-        BufferedReader(InputStreamReader(connection.getInputStream())).use { inp ->
-            var line: String?
-            while (inp.readLine().also { line = it } != null) {
-                println(line)
-                Log.d("ActivityClient","createStripeCustomer: "+line)
 
 
-            }
-        }
+
+        
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {

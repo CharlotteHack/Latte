@@ -39,16 +39,7 @@ class FragmentClientSettings : Fragment() {
         depositBtn.setOnClickListener {
         //Create transaction and save paymentIntent on firebase.
             val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693995")
-            val connection = url.openConnection()
-            BufferedReader(InputStreamReader(connection.getInputStream())).use { inp ->
-                var line: String?
-                while (inp.readLine().also { line = it } != null) {
-                    println(line)
-                    Log.d("FragmentClientSettings","PaymentIntentID: "+line)
-                    firebaseDB.savePaymentIntent("yurpinc@gmail.com",line)
 
-                }
-            }
 
 
         }
