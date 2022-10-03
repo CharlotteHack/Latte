@@ -1,5 +1,6 @@
 package com.salad.latte.ClientManagement
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,15 +28,22 @@ class FragmentClientSettings : Fragment() {
     lateinit var depositBtn :Button
     final var stripeID = "U4693996"
     lateinit var firebaseDB :FirebaseDB
+    lateinit var logoutBtn :Button
 //    private lateinit var braintreeClient: BraintreeClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.fragment_client_settings,container,false)
         depositBtn = v.findViewById(R.id.client_deposit_button)
+        logoutBtn = v.findViewById(R.id.client_logout_button)
         firebaseDB = FirebaseDB()
 //        braintreeClient = BraintreeClient(requireContext(), "sandbox_tvrwq73x_2rd4b67txtr9drx2")
 //        braintreeClient = BraintreeClient(requireContext(), ExampleClientTokenProvider())
 
+        logoutBtn.setOnClickListener {
+            firebaseDB.auth.signOut()
+            var intent = Intent(this@FragmentClientSettings.context,LoginActivity::class.java)
+            startActivity(intent)
+        }
         depositBtn.setOnClickListener {
         //Create transaction and save paymentIntent on firebase.
             val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693995")

@@ -1,5 +1,6 @@
 package com.salad.latte.ClientManagement
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -24,14 +25,21 @@ class ActivityClient : AppCompatActivity(){
     lateinit var viewPager :ViewPager2
     lateinit var tabLayout :TabLayout
     lateinit var adapter :ClientTabAdapter
-    lateinit var firebaseDB : FirebaseDB
+    val firebaseDB = FirebaseDB()
     final var stripeID = "U4693996"
+
+    override fun onStart() {
+        super.onStart()
+        if(!firebaseDB.isAuthenticated("ActivityClient")){
+            var intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_client_dashboard)
         viewPager = findViewById(R.id.client_viewpager)
         tabLayout = findViewById(R.id.clientTabLayout)
-        firebaseDB = FirebaseDB()
 //        PaymentConfiguration.init(
 //            applicationContext,
 //            "pk_test_51LhElXHPhIXe6prQpqIO2xrJt6UFmTK05C0Jf1oR0xqj8x0jcYP9dbuNf416QaAbuUpUAHZGCxLQxQqFoF4mGq9X00eWHCQ8i7"

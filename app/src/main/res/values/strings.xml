@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Latte</string>
+    <string name="forgot">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="logout">Logout</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

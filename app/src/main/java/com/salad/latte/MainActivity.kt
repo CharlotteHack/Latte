@@ -50,7 +50,7 @@ class MainActivity : FragmentActivity() {
         customFBService.getToken()
         window.setStatusBarColor(getColor(R.color.purple_500))
         var firebaseDB = FirebaseDB()
-        if(!firebaseDB.isAuthenticated){
+        if(!firebaseDB.isAuthenticated("MainActivity")){
             Log.d("MainActivity","Not logged in. Authentication required.")
             var intent = Intent(this,ActivityLogin::class.java)
             startActivity(intent)

@@ -149,13 +149,17 @@ public class FirebaseDB {
         return mAuth;
     }
 
-    public boolean isAuthenticated(){
+
+    public boolean isAuthenticated(String tag){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
+            Log.d(tag,"User is signed in");
             return true;
         } else {
             // No user is signed in
+            Log.d(tag,"User is not signed in");
+
             return false;
         }
     }
