@@ -4,6 +4,7 @@
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

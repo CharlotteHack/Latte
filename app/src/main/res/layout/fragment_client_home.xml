@@ -7,10 +7,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView78"
+        android:id="@+id/tv_welcome_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back Mohamed!"
+        android:text="--"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -18,23 +18,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView79"
+        android:id="@+id/tv_account_value_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:text="Total Account Value: $1,000,000.00"
+        android:layout_marginTop="16dp"
+        android:text="--"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView78" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcome_home" />
 
     <TextView
-        android:id="@+id/textView83"
+        android:id="@+id/tv_urealized_pl_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Realized P/L: $1,000,000.00"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="--"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView88" />
@@ -43,23 +43,34 @@
         android:id="@+id/textView88"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unrealized P/L: 24,000"
+        android:layout_marginStart="16dp"
 
         android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
+        android:text="Unrealized P/L: 24,000"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView79" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_account_value_home" />
 
     <view
-        android:id="@+id/view"
-        class="com.github.mikephil.charting.charts.BarChart"
+        android:id="@+id/chart_home"
+        class="com.naqdi.chart.ChainChartView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView83" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_urealized_pl_home" />
+
+    <ProgressBar
+        android:id="@+id/pb_client_home"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -98,6 +98,8 @@ dependencies {
 //// retrofit
 //
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.github.oky2abbas:chainChart:v0+'
+
 //
 //// GSON
 //

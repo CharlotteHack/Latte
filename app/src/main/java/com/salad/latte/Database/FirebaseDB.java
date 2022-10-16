@@ -41,6 +41,7 @@ import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.SuperInvestorAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
+import com.salad.latte.Objects.Client;
 import com.salad.latte.Objects.DailyWatchlistHistoricalItem;
 import com.salad.latte.Objects.DailyWatchlistItem;
 import com.salad.latte.Objects.Dividend;
@@ -74,7 +75,7 @@ import static android.content.ContentValues.TAG;
 import static com.salad.latte.GeneratePieData.generatePieData;
 
 public class FirebaseDB {
-    private final DatabaseReference mDatabase;
+    public final DatabaseReference mDatabase;
     ValueEventListener watchlistReference;
     ArrayList<Watchlist> watchlistItems;
     WatchListAdapter watchListAdapter;
@@ -164,6 +165,12 @@ public class FirebaseDB {
         }
     }
 
+
+//    public Client loadClient(String id){
+//        String convertIDToFirebase = id.replace(".","|");
+
+
+//    }
 
     public void savePaymentIntent(String id,String paymentIntent){
         String convertIDToFirebase = id.replace(".","|");

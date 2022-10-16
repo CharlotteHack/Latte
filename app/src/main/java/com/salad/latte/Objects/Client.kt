@@ -7,8 +7,26 @@ class Client {
      var client_unrealized_profit = ""
      var client_email = ""
      var client_balance = ""
+    var clientValueByDate = HashMap<String,String>()
+    var dates = ArrayList<String>()
+    var dateValues = ArrayList<String>()
+    var dateValuesAsFloat = ArrayList<Float>()
 
     init {
 
+    }
+
+    fun clearClientValues(){
+        clientValueByDate = HashMap<String,String>()
+        dateValues.clear()
+        dateValuesAsFloat.clear()
+        dates.clear()
+    }
+
+    fun addDateToValue(date :String, value :String){
+        clientValueByDate.put(date,value)
+        dates.add(date)
+        dateValues.add(value)
+        dateValuesAsFloat.add(value.toFloat())
     }
 }

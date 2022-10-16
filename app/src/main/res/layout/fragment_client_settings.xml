@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    
+
     android:layout_height="match_parent">
 
     <TextView
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Withdrawl"
+        android:text="Withdrawal"
         app:layout_constraintStart_toEndOf="@+id/client_deposit_button"
         app:layout_constraintTop_toBottomOf="@+id/textView87" />
 
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Tax statement"
+        android:text="Automatic deposits not setup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView89" />
 
@@ -240,6 +240,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Receive Email Updates"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
 
