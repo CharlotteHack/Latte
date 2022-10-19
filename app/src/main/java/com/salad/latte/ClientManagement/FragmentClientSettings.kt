@@ -42,6 +42,7 @@ class FragmentClientSettings : Fragment() {
     lateinit var retrofit : Retrofit
     lateinit var viewModel : FragmentSettingsViewModel
     lateinit var binding : FragmentClientSettingsBinding
+
 //    private lateinit var braintreeClient: BraintreeClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +60,7 @@ class FragmentClientSettings : Fragment() {
           var uiUpdate = viewModel.clientStateFlow.collect {
               if(it.size > 0) {
                   var client = it.get(0)
-                  binding.tvClientAccountbalanceSettings.setText("Net Account Value: "+client.client_balance)
+                  binding.tvClientAccountbalanceSettings.setText("Net Account Value: "+client.formatAccountValue())
                   binding.etClientFirstname.setText(client.client_name)
                   binding.tvClientEmailSettings.setText("Email: "+client.client_email)
               }
@@ -91,7 +92,7 @@ class FragmentClientSettings : Fragment() {
 
             }
             automaticDepositsBtn.setOnClickListener {
-                Toast.makeText(context,"Automatic deposits are not rolled out yet! Please continue to deposit/withdrawal per your leisure!",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"Automatic deposits are not rolled out yet",Toast.LENGTH_LONG).show()
             }
         }
 

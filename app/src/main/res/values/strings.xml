@@ -8,6 +8,7 @@
     <string name="assets">Assets we invest in</string>
     <string name="asset_img">--</string>
     <string name="toolbar">Latte — Automate Investments</string>
+    <string name="slogan">Automate your investments.</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

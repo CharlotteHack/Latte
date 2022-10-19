@@ -1,5 +1,6 @@
 package com.salad.latte.ClientManagement.ViewModels
 
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.naqdi.chart.model.Line
 //import com.quipper.qandroidcomposechart.models.ChartTheme
 import com.salad.latte.ClientManagement.FragmentClientDashboard
+import com.salad.latte.ClientManagement.LoginActivity
 import com.salad.latte.ClientManagement.SampleAsset
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.Client
@@ -31,8 +33,15 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
     init {
         viewModelScope.launch {
-            init()
-            initAssets()
+            firebaseDB = FirebaseDB()
+            if(firebaseDB.auth.currentUser != null) {
+                init()
+                initAssets()
+            }
+            else{
+                var intent = Intent(clientDashboard.context,LoginActivity::class.java)
+                clientDashboard.startActivity(intent)
+            }
         }
     }
 
@@ -102,7 +111,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             if(identifer.equals("accountValue"))
                 client.client_balance = it.value.toString()
             dashboard.binding.apply {
-                tvAccountValueHome.setText("Total Account Value: "+client.client_balance)
+                if("." in client.client_balance)
+                    tvAccountValueHome.setText("Total Account Value: "+client.formatAccountValue())
             }
             if(identifer.equals("accountValueByDates")){
 //                client.client_balance = it.value.toString()

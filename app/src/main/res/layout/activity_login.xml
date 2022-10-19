@@ -28,12 +28,12 @@
 
 
             <TextView
-                android:id="@+id/textView74"
+                android:id="@+id/tv_slogan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
                 android:layout_marginBottom="24dp"
-                android:text="Make money work for you."
+                android:text="@string/slogan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_login" />
 
             <TextView
-                android:id="@+id/textView97"
+                android:id="@+id/tv_forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -102,5 +102,5 @@
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toTopOf="@+id/cardView2"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/web_hi_res_512" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,12 @@ class Client {
     init {
 
     }
+    fun Float.format(digits: Int) = "%.${digits}f".format(this)
 
+    fun formatAccountValue() : String {
+        var av = client_balance.toFloat()
+        return av.format(2).toString()
+    }
     fun clearClientValues(){
         clientValueByDate = HashMap<String,String>()
         dateValues.clear()
