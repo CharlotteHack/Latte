@@ -39,7 +39,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button7" />
+        app:layout_constraintTop_toBottomOf="@+id/automatic_deposits_btn" />
 
     <TextView
         android:id="@+id/textView86"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView85" />
 
     <TextView
-        android:id="@+id/textView87"
+        android:id="@+id/tv_client_accountbalance_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -71,7 +71,7 @@
         android:layout_marginTop="16dp"
         android:text="Deposit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView87" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_client_accountbalance_settings" />
 
     <Button
         android:id="@+id/button5"
@@ -81,7 +81,7 @@
         android:layout_marginTop="16dp"
         android:text="Withdrawal"
         app:layout_constraintStart_toEndOf="@+id/client_deposit_button"
-        app:layout_constraintTop_toBottomOf="@+id/textView87" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_client_accountbalance_settings" />
 
     <Button
         android:id="@+id/button6"
@@ -110,7 +110,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/automatic_deposits_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -141,7 +141,7 @@
         android:text="Contact"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/textView85"
-        app:layout_constraintTop_toBottomOf="@+id/button7" />
+        app:layout_constraintTop_toBottomOf="@+id/automatic_deposits_btn" />
 
     <TextView
         android:id="@+id/textView96"
@@ -152,7 +152,7 @@
         android:text="Contact"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/textView85"
-        app:layout_constraintTop_toBottomOf="@+id/button7" />
+        app:layout_constraintTop_toBottomOf="@+id/automatic_deposits_btn" />
 
     <TextView
         android:id="@+id/textView94"
@@ -175,7 +175,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView94" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_discord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
@@ -190,29 +190,29 @@
         android:layout_marginTop="24dp"
         android:text="Client Credentials"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintStart_toStartOf="@+id/btn_discord"
+        app:layout_constraintTop_toBottomOf="@+id/btn_discord" />
 
     <TextView
-        android:id="@+id/textView102"
+        android:id="@+id/tv_client_email_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Email: yurpinc@gmail.com"
+        android:text="--"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/textView99"
         app:layout_constraintTop_toBottomOf="@+id/textView99" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/et_client_firstname"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="First Name"
-        app:layout_constraintStart_toStartOf="@+id/textView102"
-        app:layout_constraintTop_toBottomOf="@+id/textView102" />
+        android:inputType="none"
+        android:editable="false"
+        app:layout_constraintStart_toStartOf="@+id/tv_client_email_settings"
+        app:layout_constraintTop_toBottomOf="@+id/tv_client_email_settings" />
 
     <EditText
         android:id="@+id/editTextTextPersonName4"
@@ -222,8 +222,9 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Last Name"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName3" />
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/et_client_firstname"
+        app:layout_constraintTop_toTopOf="@+id/et_client_firstname" />
 
 <!--    <Button-->
 <!--        android:id="@+id/button8"-->
@@ -241,8 +242,8 @@
         android:layout_marginTop="16dp"
         android:text="Receive Email Updates"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintStart_toStartOf="@+id/et_client_firstname"
+        app:layout_constraintTop_toBottomOf="@+id/et_client_firstname" />
 
     <Button
         android:id="@+id/client_logout_button"
