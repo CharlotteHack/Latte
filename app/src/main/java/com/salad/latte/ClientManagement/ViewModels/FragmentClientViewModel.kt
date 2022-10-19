@@ -41,7 +41,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         viewModelScope.launch {
             var emp_list = listOf(
                 SampleAsset("https://getlogovector.com/wp-content/uploads/2020/03/proshares-logo-vector.png","TQQQ"),
-                SampleAsset("https://1000logos.net/wp-content/uploads/2016/10/Bank-of-America-Emblem.png","BAC"),
+                SampleAsset("https://p.kindpng.com/picc/s/127-1270696_bank-of-america-logo-icon-hd-png-download.png","BAC"),
                 SampleAsset("https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/yti8ctzowi1vnl6jzvab","SWK"),
                 SampleAsset("https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png","AAPL"),
                 SampleAsset("https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png","MSFT"),
@@ -147,21 +147,21 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     displayProgress(false)
 
                 }
+                else {
+                    dashboard.binding.apply {
+                        tvUrealizedPlHome.setText("Total Net Account Loss: "+client.client_unrealized_profit)
+                        displayProgress(false)
 
-            }
-            else {
-                dashboard.binding.apply {
-                    tvUrealizedPlHome.setText("Total Net Account Loss: "+client.client_unrealized_profit)
-                    displayProgress(false)
-
+                    }
                 }
+
             }
 
 
         }.addOnFailureListener{
             Log.e("firebase", "Error getting account "+identifer+" -- email: "+convertIDToFirebase, it)
         if("Client is offline" in it.message.toString()){
-            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again in 3 seconds",Toast.LENGTH_LONG).show()
+//            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again in 3 seconds",Toast.LENGTH_LONG).show()
             dashboard.binding.pbClientHome.visibility = View.INVISIBLE
             viewModelScope.launch {
 

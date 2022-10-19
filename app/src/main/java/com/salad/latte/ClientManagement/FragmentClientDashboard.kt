@@ -27,7 +27,7 @@ class FragmentClientDashboard : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.fragment_client_home,container,false)
         binding = FragmentClientHomeBinding.bind(v);
-        binding.rvAssets.layoutManager = GridLayoutManager(context,3)
+        binding.rvAssets.layoutManager = GridLayoutManager(context,3,GridLayoutManager.VERTICAL,false)
         lifecycleScope.launch {
             viewModel = FragmentClientViewModel(this@FragmentClientDashboard)
             viewModel.assetsStateFlow.collect{
