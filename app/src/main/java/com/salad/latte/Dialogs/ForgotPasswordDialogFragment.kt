@@ -1,4 +1,6 @@
 package com.salad.latte.Dialogs
 
-class ForgotPasswordDialogFragment {
+import androidx.fragment.app.DialogFragment
+
+class ForgotPasswordDialogFragment : DialogFragment() {
 }

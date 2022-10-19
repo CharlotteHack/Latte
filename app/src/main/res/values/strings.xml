@@ -9,6 +9,9 @@
     <string name="asset_img">--</string>
     <string name="toolbar">Latte — Automate Investments</string>
     <string name="slogan">Automate your investments.</string>
+    <string name="forgot_hint">Enter your email to get a password reset</string>
+    <string name="reset">Send Reset</string>
+    <string name="cancel_reset">Cancel</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">
