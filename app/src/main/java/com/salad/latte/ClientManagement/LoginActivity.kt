@@ -3,11 +3,20 @@ package com.salad.latte.ClientManagement
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.salad.latte.ClientManagement.ViewModels.LoginActivityViewModel
+import com.salad.latte.Database.FirebaseDB
+import com.salad.latte.R
 import com.salad.latte.databinding.ActivityLoginBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
@@ -49,7 +58,54 @@ class LoginActivity : AppCompatActivity() {
                         }
                 }
             }
+            binding.tvForgotPassword.setOnClickListener {
+
+                val dialog = LayoutInflater.from(this@LoginActivity).inflate(R.layout.dialog_forgot_password,null,false)
+
+                val builder = AlertDialog.Builder(dialog.context).create()
+                dialog.findViewById<Button>(R.id.btn_cancel_reset)!!.setOnClickListener {
+                    builder.dismiss()
+                }
+                dialog.findViewById<Button>(R.id.btn_send_reset)!!.setOnClickListener {
+                    fun isValidEmail(email :String) : Boolean {
+                        if(email.length > 0 && email.contains("@") && email.contains(".")){
+                            return true
+                        }
+                        return false
+                    }
+                    lifecycleScope.launch {
+                        var email = dialog.findViewById<EditText>(R.id.et_reset_email)!!.text.toString()
+                        if (isValidEmail(email)) {
+                            FirebaseDB().auth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        lifecycleScope.launch {
+                                            Log.d("ForgotPasswordDialogFragment", "Email sent.")
+                                            delay(3000)
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "Password reset email sent.",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                            builder.dismiss()
+                                        }
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Failed to reset email. Email must contain @ and .",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+                builder.setView(dialog)
+                builder.show()
+            }
 
         }
+
     }
 }
