@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
 //                                updateUI(user)
                                 Log.d("LoginActivity","Navigating to Client Dashboard")
                                 var intent = Intent(this@LoginActivity,ActivityClient::class.java)
+                                startActivity(intent)
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("LoginActivity", "signInWithEmail:failure", task.exception)
