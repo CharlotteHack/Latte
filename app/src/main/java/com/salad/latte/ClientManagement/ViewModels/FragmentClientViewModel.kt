@@ -10,23 +10,49 @@ import com.github.mikephil.charting.charts.LineChart
 import com.naqdi.chart.model.Line
 //import com.quipper.qandroidcomposechart.models.ChartTheme
 import com.salad.latte.ClientManagement.FragmentClientDashboard
+import com.salad.latte.ClientManagement.SampleAsset
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.Client
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.Float
 
 class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewModel(){
     lateinit var firebaseDB : FirebaseDB
-        lateinit var client : Client
+    lateinit var client : Client
     lateinit var convertIDToFirebase :String
     var dashboard = clientDashboard
+    var assetsMutableStateFlow : MutableStateFlow<List<SampleAsset>> = MutableStateFlow(emptyList<SampleAsset>())
+    var assetsStateFlow : StateFlow<List<SampleAsset>> = assetsMutableStateFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
             init()
+            initAssets()
         }
+    }
+
+    //Used to retrive the assets we are invested in
+    suspend fun initAssets(){
+        viewModelScope.launch {
+            var emp_list = listOf(
+                SampleAsset("https://getlogovector.com/wp-content/uploads/2020/03/proshares-logo-vector.png","TQQQ"),
+                SampleAsset("https://1000logos.net/wp-content/uploads/2016/10/Bank-of-America-Emblem.png","BAC"),
+                SampleAsset("https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/yti8ctzowi1vnl6jzvab","SWK"),
+                SampleAsset("https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png","AAPL"),
+                SampleAsset("https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png","MSFT"),
+                SampleAsset("https://www.freepnglogos.com/uploads/tesla-logo-png-25.png","TSLA"),
+                SampleAsset("https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Occidental-Petroleum-Logo.svg/1200px-Occidental-Petroleum-Logo.svg.png","OXY"),
+                SampleAsset("https://s21.q4cdn.com/616071541/files/multimedia-gallery/assets/Logos/american-airlines/THUMB-aa_aa__vrt_rgb_grd_pos.png","AAL"),
+                SampleAsset("https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png","GOOG")
+            )
+            assetsMutableStateFlow.value = emp_list
+        }
+
     }
 
     suspend fun init(){
@@ -47,6 +73,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 tvWelcomeHome.visibility = View.GONE
                 tvUrealizedPlHome.visibility = View.GONE
                 chartHome.visibility = View.GONE
+                tvAssetsWeinvestin.visibility = View.GONE
+                rvAssets.visibility = View.GONE
                 pbClientHome.visibility = View.VISIBLE
             }
         }
@@ -56,6 +84,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 tvWelcomeHome.visibility = View.VISIBLE
                 tvUrealizedPlHome.visibility = View.VISIBLE
                 chartHome.visibility = View.VISIBLE
+                tvAssetsWeinvestin.visibility = View.VISIBLE
+                rvAssets.visibility = View.VISIBLE
                 pbClientHome.visibility = View.GONE
             }
         }
@@ -82,8 +112,12 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     var dataset = it.value as? HashMap<String,String>
                     client.clearClientValues()
                     dataset!!.forEach { (key, value) ->
-                        println("$key = $value")
-                        client.addDateToValue(key,value)
+                        var month = key.toString().split("-")[1]
+                        var day = key.toString().split("-")[2]
+
+
+                        Log.d("Fragment Client View Model client date",month+"-"+day)
+                        client.addDateToValue(month+"-"+day,value)
                     }
 //                    var chart = LineChart(dashboard.context)
 //                    val chartTheme = ChartTheme.Builder().build()
