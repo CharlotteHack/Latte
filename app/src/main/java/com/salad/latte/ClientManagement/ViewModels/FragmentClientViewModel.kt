@@ -103,11 +103,12 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
     suspend fun setValue(identifer :String){
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child(identifer).get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
-            if(identifer.equals("name"))
+            if(identifer.equals("name")) {
                 client.client_name = it.value.toString()
                 dashboard.binding.apply {
-                    tvWelcomeHome.setText("Welcome, "+client.client_name)
+                    tvWelcomeHome.setText("Welcome, " + client.client_name)
                 }
+            }
             if(identifer.equals("accountValue"))
                 client.client_balance = it.value.toString()
             dashboard.binding.apply {
@@ -118,20 +119,22 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //                client.client_balance = it.value.toString()
                 dashboard.binding.apply {
 //                    tvAccountValueHome.setText("Total Account Value: "+client.client_balance)
-                    Log.d("AccountValuesByDate: ",it.value.toString())
-                    var dataset = it.value as? HashMap<String,String>
+                    Log.d("AccountValuesByDate: ", it.value.toString())
+                    if (it.value != null)
+                    {
+                    var dataset = it.value as? HashMap<String, String>
                     client.clearClientValues()
                     dataset!!.forEach { (key, value) ->
                         var month = key.toString().split("-")[1]
                         var day = key.toString().split("-")[2]
 
 
-                        Log.d("Fragment Client View Model client date",month+"-"+day)
-                        client.addDateToValue(month+"-"+day,value)
+                        Log.d("Fragment Client View Model client date", month + "-" + day)
+                        client.addDateToValue(month + "-" + day, value)
                     }
 //                    var chart = LineChart(dashboard.context)
 //                    val chartTheme = ChartTheme.Builder().build()
-                    Log.d("ClientValues: ",client.dateValues.size.toString())
+                    Log.d("ClientValues: ", client.dateValues.size.toString())
                     val intervalList = client.dates
                     val rangeList = client.dateValues
                     val lineList = arrayListOf<Line>().apply {
@@ -139,16 +142,18 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //                        add(Line("Line 2", Color.RED, listOf(300f, 40f, 38f, 180f, 403f, 201f)))
                         chartHome.setOnClickListener {
 
-                    }
+                        }
                     }
                     chartHome.setData(lineList, intervalList, rangeList)
-
-
-                    Log.d("AccountValuesByDate",dataset!!.get("2022-09-15").toString())
+                    Log.d("AccountValuesByDate", dataset!!.get("2022-09-15").toString())
+                } else {
+                    Log.d("FragmentClientViewmodel","AccountValuesByDate is null")
+                    }
                 }
             }
             if(identifer.equals("unrealizedValue")) {
                 client.client_unrealized_profit = it.value.toString()
+                if(it.value != null) {
                 Log.d("unrealizedValue: ",client.client_unrealized_profit)
                 if(Float.valueOf(client.client_unrealized_profit) > 0f){
                     dashboard.binding.apply {
@@ -164,6 +169,10 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
                     }
                 }
+            }
+                else {
+                    Log.d("FragmentClientVieModel","Unrealized profit is null")
+                }
 
             }
 
@@ -175,7 +184,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             dashboard.binding.pbClientHome.visibility = View.INVISIBLE
             viewModelScope.launch {
 
-            delay(3000)
+            delay(10000)
             init()
             }
         }

@@ -33,11 +33,13 @@ class FragmentSettingsViewModel(db: FirebaseDB, activity: FragmentClientSettings
             var _email = firebaseDB.auth.currentUser!!.email!!.replace(".", "|");
             firebaseDB.mDatabase.child("Clients").child(_email).get().addOnSuccessListener {
                 Log.i("FragmentSettingViewModel", "Got value ${it.value}")
-                var client = Client()
-                client.client_name = (it.child("name").value as? String)!!
-                client.client_email = firebaseDB.auth.currentUser!!.email!!
-                client.client_balance = (it.child("accountValue").value as? String)!!
-                mutableClientFlow.value = listOf(client)
+                if(it.value != null) {
+                    var client = Client()
+                    client.client_name = (it.child("name").value as? String)!!
+                    client.client_email = firebaseDB.auth.currentUser!!.email!!
+                    client.client_balance = (it.child("accountValue").value as? String)!!
+                    mutableClientFlow.value = listOf(client)
+                }
             }.addOnFailureListener {
                 Log.e("FragmentSettingViewModel", "Error getting data", it)
                 Toast.makeText(activity.requireContext(), it.message.toString(), Toast.LENGTH_LONG)

@@ -23,11 +23,13 @@ class ActivitySignupViewModel : ViewModel() {
         //Save user to firebase
         val convertIDToFirebase: String = client.client_email.replace(".", "|")
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
-            .child("name").child(client.client_name).push()
+            .child("name").setValue(client.client_name)
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
-            .child("email").child(client.client_email).push()
-//        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
-//            .child("email").child(client.client_email).push()
+            .child("email").setValue(client.client_email)
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("accountValue").setValue("0.0")
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("unrealizedValue").setValue("0.0")
         var intent = Intent(context,ActivityClient::class.java)
         context.startActivity(intent)
     }
@@ -40,9 +42,10 @@ class ActivitySignupViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val user = firebaseDB.auth.currentUser
 //                    updateUI(user)
                     viewModelScope.launch {
+                        val user = firebaseDB.auth.currentUser
+                        val convertIDToFirebase: String = user!!.email!!.replace(".", "|")
                         updateClientTWS(client,context)
                     }
 

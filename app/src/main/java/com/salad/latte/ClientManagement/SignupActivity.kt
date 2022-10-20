@@ -37,6 +37,8 @@ class SignupActivity: AppCompatActivity() {
                             var client = Client()
                             client.client_name = etFirstname.text.toString()
                             client.client_email = etEmailSignup.text.toString()
+                            client.client_balance = "0.0"
+                            client.client_unrealized_profit = "0.0"
 
                             lifecycleScope.launch {
                                 viewModel.createClient(client, etPasswordSignup.text.toString(), this@SignupActivity)

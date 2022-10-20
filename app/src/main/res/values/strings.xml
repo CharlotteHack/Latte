@@ -12,6 +12,7 @@
     <string name="forgot_hint">Enter your email to reset password.</string>
     <string name="reset">Send Reset</string>
     <string name="cancel_reset">Cancel</string>
+    <string name="confirmation">Please give us 1 to 2 days to confirm your account.</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

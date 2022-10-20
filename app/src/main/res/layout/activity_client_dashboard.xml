@@ -72,6 +72,17 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/client_viewpager"
         android:layout_width="match_parent"
@@ -79,10 +90,23 @@
         app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
 
     </androidx.viewpager2.widget.ViewPager2>
 
+    <TextView
+        android:id="@+id/confirmation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+
+        android:text="@string/confirmation"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar5" />
 <!--    <TextView-->
 <!--        android:id="@+id/tv_toolbar_title"-->
 <!--        android:layout_width="0dp"-->
