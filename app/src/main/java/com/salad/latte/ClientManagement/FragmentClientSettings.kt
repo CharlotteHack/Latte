@@ -49,7 +49,7 @@ class FragmentClientSettings : Fragment() {
 //        var v = inflater.inflate(R.layout.fragment_client_settings,container,false)
         binding = FragmentClientSettingsBinding.inflate(inflater)
         firebaseDB = FirebaseDB()
-        viewModel = FragmentSettingsViewModel(firebaseDB)
+        viewModel = FragmentSettingsViewModel(firebaseDB, this@FragmentClientSettings)
         retrofit = Retrofit.Builder()
             .baseUrl("https://us-central1-latte-d25b7.cloudfunctions.net/")
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -77,11 +77,11 @@ class FragmentClientSettings : Fragment() {
             }
             clientDepositButton.setOnClickListener {
                 //Create transaction and save paymentIntent on firebase.
-                val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693996")
+                val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693996?amount=5")
                 Log.d("FragmentClientSettings","Payment URL: "+url)
                 Toast.makeText(context,"Deposited!",Toast.LENGTH_LONG).show()
                 lifecycleScope.launch {
-                    var deposit = stripeAPI.createDeposit("U4693996")
+                    var deposit = stripeAPI.createDeposit("U4693996",5)
                     Log.d("FragmentClientSettings: ",deposit.toString())
                 }
 

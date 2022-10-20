@@ -8,7 +8,7 @@ import retrofit2.http.Query
 //var stripeKey = "U4693995"
 interface StripeApi  {
     @GET("createACHDeposit")
-    suspend fun createDeposit(@Query("stripeid") key :String) : String
+    suspend fun createDeposit(@Query("stripeid") key :String,@Query("amount") amount :Int) : String
 
 
 
