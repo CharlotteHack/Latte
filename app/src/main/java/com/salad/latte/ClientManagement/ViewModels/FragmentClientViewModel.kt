@@ -31,6 +31,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
     var assetsMutableStateFlow : MutableStateFlow<List<SampleAsset>> = MutableStateFlow(emptyList<SampleAsset>())
     var assetsStateFlow : StateFlow<List<SampleAsset>> = assetsMutableStateFlow.asStateFlow()
 
+
     init {
         viewModelScope.launch {
             firebaseDB = FirebaseDB()
@@ -155,7 +156,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 client.client_unrealized_profit = it.value.toString()
                 if(it.value != null) {
                 Log.d("unrealizedValue: ",client.client_unrealized_profit)
-                if(Float.valueOf(client.client_unrealized_profit) > 0f){
+                if(Float.valueOf(client.client_unrealized_profit) >= 0f){
                     dashboard.binding.apply {
                         tvUrealizedPlHome.setText("Total Net Account Gain "+client.client_unrealized_profit)
                     }

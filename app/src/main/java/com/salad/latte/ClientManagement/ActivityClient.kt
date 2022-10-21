@@ -3,18 +3,23 @@ package com.salad.latte.ClientManagement
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.salad.latte.ClientManagement.ViewModels.ActivityClientViewModel
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.R
+import com.salad.latte.databinding.ActivityClientDashboardBinding
+import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
@@ -25,8 +30,9 @@ class ActivityClient : AppCompatActivity(){
     lateinit var viewPager :ViewPager2
     lateinit var tabLayout :TabLayout
     lateinit var adapter :ClientTabAdapter
+    lateinit var viewModel :ActivityClientViewModel
+    lateinit var binding :ActivityClientDashboardBinding
     val firebaseDB = FirebaseDB()
-    final var stripeID = "U4693996"
 
     override fun onStart() {
         super.onStart()
@@ -37,7 +43,9 @@ class ActivityClient : AppCompatActivity(){
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_client_dashboard)
+        binding = ActivityClientDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel = ActivityClientViewModel()
         viewPager = findViewById(R.id.client_viewpager)
         tabLayout = findViewById(R.id.clientTabLayout)
 //        PaymentConfiguration.init(
@@ -45,8 +53,26 @@ class ActivityClient : AppCompatActivity(){
 //            "pk_test_51LhElXHPhIXe6prQpqIO2xrJt6UFmTK05C0Jf1oR0xqj8x0jcYP9dbuNf416QaAbuUpUAHZGCxLQxQqFoF4mGq9X00eWHCQ8i7"
 //        )
 
-        val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createStripeCustomer?stripeid="+stripeID+"&firstname=Mohamed&lastname=Salad")
 
+        lifecycleScope.launch {
+            viewModel.ibkrClientIDStateFlow.collect {
+                if(it == "none"){
+                    binding.tbClientIbkr.visibility = View.VISIBLE
+                    binding.confirmationText.visibility = View.VISIBLE
+                }
+                else if(it == "") {
+                    binding.tbClientIbkr.visibility = View.VISIBLE
+                    binding.confirmationText.visibility = View.VISIBLE
+
+                }
+                else if(it.length > 0){
+                    binding.tbClientIbkr.visibility = View.INVISIBLE
+                    binding.confirmationText.visibility = View.INVISIBLE
+
+
+                }
+            }
+        }
 
 
         

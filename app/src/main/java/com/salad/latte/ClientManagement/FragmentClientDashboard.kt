@@ -36,6 +36,7 @@ class FragmentClientDashboard : Fragment() {
                 Log.d("FragmentClientDashboard","Assets size: "+it.size.toString())
             }
 
+
         }
         return binding.root;
     }

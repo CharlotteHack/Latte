@@ -30,6 +30,8 @@ class ActivitySignupViewModel : ViewModel() {
             .child("accountValue").setValue("0.0")
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
             .child("unrealizedValue").setValue("0.0")
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("accountID").setValue("none")
         var intent = Intent(context,ActivityClient::class.java)
         context.startActivity(intent)
     }

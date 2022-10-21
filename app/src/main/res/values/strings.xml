@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Latte — Automate Investments</string>
+    <string name="app_name">Latte — Automate Trading</string>
     <string name="forgot">Forgot Password? Click here</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
@@ -7,12 +7,14 @@
     <string name="cancel">Cancel</string>
     <string name="assets">Assets we invest in</string>
     <string name="asset_img">--</string>
-    <string name="toolbar">Latte — Automate Investments</string>
+    <string name="toolbar">Latte — Automated Trading</string>
     <string name="slogan">Automate your investments.</string>
     <string name="forgot_hint">Enter your email to reset password.</string>
     <string name="reset">Send Reset</string>
     <string name="cancel_reset">Cancel</string>
+    <string name="invoice_disclaimer">Enter the amount you want to deposit. We will send confirmation invoice to your email! Deposits take 4-5 days to clear.</string>
     <string name="confirmation">Please give us 1 to 2 days to confirm your account.</string>
+    <string name="invoice_hint">Enter amount to deposit to your Latte Acct.</string>
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

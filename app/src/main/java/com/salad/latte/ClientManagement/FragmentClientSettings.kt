@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.salad.latte.ClientManagement.ViewModels.FragmentSettingsViewModel
@@ -76,6 +77,17 @@ class FragmentClientSettings : Fragment() {
                 startActivity(intent)
             }
             clientDepositButton.setOnClickListener {
+                var builder = AlertDialog.Builder(this@FragmentClientSettings.requireContext())
+                var customView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_invoice_deposit,null)
+                customView.findViewById<Button>(R.id.invoice_cancel_btn).setOnClickListener{
+                    Toast.makeText(requireContext(),"Dismiss",Toast.LENGTH_LONG).show()
+
+                }
+                builder.setView(customView)
+                builder.create().show()
+
+
+
                 //Create transaction and save paymentIntent on firebase.
                 val url = URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693996?amount=5")
                 Log.d("FragmentClientSettings","Payment URL: "+url)

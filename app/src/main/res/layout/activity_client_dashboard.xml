@@ -6,6 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_client_ibkr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/clientTabLayout"
         android:layout_width="match_parent"
@@ -72,17 +84,6 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/client_viewpager"
         android:layout_width="match_parent"
@@ -104,9 +105,10 @@
 
         android:text="@string/confirmation"
         android:textColor="@color/white"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar5" />
+        app:layout_constraintTop_toTopOf="@+id/tb_client_ibkr" />
 <!--    <TextView-->
 <!--        android:id="@+id/tv_toolbar_title"-->
 <!--        android:layout_width="0dp"-->
