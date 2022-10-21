@@ -79,12 +79,12 @@ class FragmentClientSettings : Fragment() {
             clientDepositButton.setOnClickListener {
                 var builder = AlertDialog.Builder(this@FragmentClientSettings.requireContext())
                 var customView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_invoice_deposit,null)
+                builder.setView(customView)
+                var createdBuilder = builder.create()
                 customView.findViewById<Button>(R.id.invoice_cancel_btn).setOnClickListener{
                     Toast.makeText(requireContext(),"Dismiss",Toast.LENGTH_LONG).show()
-
+                    createdBuilder.dismiss()
                 }
-                builder.setView(customView)
-                builder.create().show()
 
 
 
