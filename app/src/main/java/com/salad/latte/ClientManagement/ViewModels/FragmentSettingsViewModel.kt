@@ -39,6 +39,7 @@ class FragmentSettingsViewModel(db: FirebaseDB, activity: FragmentClientSettings
                         client.client_name = (it.child("name").value as? String)!!
                         client.client_email = firebaseDB.auth.currentUser!!.email!!
                         client.client_balance = (it.child("accountValue").value as? String)!!
+                        client.client_account_number = (it.child("accountValue").value as? String)!!
                         mutableClientFlow.value = listOf(client)
                     }
                 }.addOnFailureListener {

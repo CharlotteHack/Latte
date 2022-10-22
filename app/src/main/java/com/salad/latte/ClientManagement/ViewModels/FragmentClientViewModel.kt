@@ -204,8 +204,9 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             viewModelScope.launch {
 
             delay(10000)
+            displayProgress(true)
             init()
-                getIBKRAccount()
+            getIBKRAccount()
             }
         }
         }

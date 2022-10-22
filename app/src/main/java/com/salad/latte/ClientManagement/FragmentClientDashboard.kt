@@ -38,13 +38,14 @@ class FragmentClientDashboard : Fragment() {
         }
         lifecycleScope.launch {
             viewModel.ibkrClientIDStateFlow.collect {
+                Log.d("FragmentClientDashboard","IBKR Client ID: "+it.toString())
                 if(it == "none"){
                     binding.toolbar4.visibility = View.VISIBLE
                     binding.confirmationText.visibility = View.VISIBLE
                 }
                 else if(it == "") {
-                    binding.toolbar4.visibility = View.VISIBLE
-                    binding.confirmationText.visibility = View.VISIBLE
+                    binding.toolbar4.visibility = View.INVISIBLE
+                    binding.confirmationText.visibility = View.INVISIBLE
 
                 }
                 else if(it.length > 0){
