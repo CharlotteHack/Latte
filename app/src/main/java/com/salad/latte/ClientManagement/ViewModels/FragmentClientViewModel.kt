@@ -30,7 +30,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
     var dashboard = clientDashboard
     var assetsMutableStateFlow : MutableStateFlow<List<SampleAsset>> = MutableStateFlow(emptyList<SampleAsset>())
     var assetsStateFlow : StateFlow<List<SampleAsset>> = assetsMutableStateFlow.asStateFlow()
-
+    var ibkrClientIDMutableStateFlow : MutableStateFlow<String> = MutableStateFlow("")
+    var ibkrClientIDStateFlow = ibkrClientIDMutableStateFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -75,6 +76,9 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         setValue("accountValue")
         setValue("unrealizedValue")
         setValue("accountValueByDates")
+
+        //Call setvalue for the account ID, if value is not none, display listview otherwise hide it
+        setValue("accountID")
     }
     fun displayProgress(isOn :Boolean){
         if(isOn){
@@ -176,6 +180,20 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 }
 
             }
+            if(identifer.equals("accountID")){
+                var accountID = it.value.toString()
+                dashboard.binding.apply {
+                    if(accountID.equals("none")){
+                        tvAssetsWeinvestin.visibility = View.INVISIBLE
+                        rvAssets.visibility = View.INVISIBLE
+                    }
+                    else{
+                        tvAssetsWeinvestin.visibility = View.VISIBLE
+                        rvAssets.visibility = View.VISIBLE
+
+                    }
+                }
+            }
 
 
         }.addOnFailureListener{
@@ -187,8 +205,17 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
             delay(10000)
             init()
+                getIBKRAccount()
             }
         }
+        }
+    }
+
+    suspend fun getIBKRAccount(){
+        var convertIDToFirebase = firebaseDB.auth.currentUser!!.email!!.replace(".","|");
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child("accountID").get().addOnSuccessListener {
+            Log.i("ActivityClientViewModel", "Got value ${it.value}")
+            ibkrClientIDMutableStateFlow.value = it.getValue(String::class.java)!!;
         }
     }
 

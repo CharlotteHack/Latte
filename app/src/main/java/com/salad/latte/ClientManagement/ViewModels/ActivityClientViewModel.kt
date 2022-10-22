@@ -10,8 +10,7 @@ import kotlinx.coroutines.launch
 
 class ActivityClientViewModel : ViewModel() {
 
-    var ibkrClientIDMutableStateFlow : MutableStateFlow<String> = MutableStateFlow("false")
-    var ibkrClientIDStateFlow = ibkrClientIDMutableStateFlow.asStateFlow()
+
     lateinit var firebaseDB : FirebaseDB
 
 
@@ -19,16 +18,10 @@ class ActivityClientViewModel : ViewModel() {
         viewModelScope.launch {
             firebaseDB = FirebaseDB()
             if (firebaseDB.auth.currentUser != null){
-            getIBKRAccount()
+
             }
         }
     }
 
-    suspend fun getIBKRAccount(){
-        var convertIDToFirebase = firebaseDB.auth.currentUser!!.email!!.replace(".","|");
-        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child("accountID").get().addOnSuccessListener {
-            Log.i("ActivityClientViewModel", "Got value ${it.value}")
-            ibkrClientIDMutableStateFlow.value = it.getValue(String::class.java)!!;
-        }
-    }
+
 }

@@ -35,8 +35,25 @@ class FragmentClientDashboard : Fragment() {
                 binding.rvAssets.adapter = adapter
                 Log.d("FragmentClientDashboard","Assets size: "+it.size.toString())
             }
+        }
+        lifecycleScope.launch {
+            viewModel.ibkrClientIDStateFlow.collect {
+                if(it == "none"){
+                    binding.toolbar4.visibility = View.VISIBLE
+                    binding.confirmationText.visibility = View.VISIBLE
+                }
+                else if(it == "") {
+                    binding.toolbar4.visibility = View.VISIBLE
+                    binding.confirmationText.visibility = View.VISIBLE
+
+                }
+                else if(it.length > 0){
+                    binding.toolbar4.visibility = View.INVISIBLE
+                    binding.confirmationText.visibility = View.INVISIBLE
 
 
+                }
+            }
         }
         return binding.root;
     }

@@ -55,23 +55,7 @@ class ActivityClient : AppCompatActivity(){
 
 
         lifecycleScope.launch {
-            viewModel.ibkrClientIDStateFlow.collect {
-                if(it == "none"){
-                    binding.tbClientIbkr.visibility = View.VISIBLE
-                    binding.confirmationText.visibility = View.VISIBLE
-                }
-                else if(it == "") {
-                    binding.tbClientIbkr.visibility = View.VISIBLE
-                    binding.confirmationText.visibility = View.VISIBLE
 
-                }
-                else if(it.length > 0){
-                    binding.tbClientIbkr.visibility = View.INVISIBLE
-                    binding.confirmationText.visibility = View.INVISIBLE
-
-
-                }
-            }
         }
 
 

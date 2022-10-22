@@ -13,8 +13,12 @@
     <string name="reset">Send Reset</string>
     <string name="cancel_reset">Cancel</string>
     <string name="invoice_disclaimer">Enter the amount you want to deposit. We will send confirmation invoice to your email! Deposits take 4-5 days to clear.</string>
+    <string name="withdrawal_disclaimer">Enter the amount you want to withdraw. Withdrawals take 4-5 days to clear.</string>
+
     <string name="confirmation">Please give us 1 to 2 days to confirm your account.</string>
-    <string name="invoice_hint">Enter amount to deposit to your Latte Acct.</string>
+    <string name="invoice_hint">Enter amount to deposit.</string>
+    <string name="withdrawal_hint">Enter amount to withdrawal.</string>
+
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

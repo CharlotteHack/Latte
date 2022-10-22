@@ -86,10 +86,37 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_assets"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar4"
         app:layout_constraintEnd_toEndOf="@+id/chart_home"
         app:layout_constraintStart_toStartOf="@+id/chart_home"
         app:layout_constraintTop_toBottomOf="@+id/tv_assets_weinvestin" />
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/confirmation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/confirmation"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

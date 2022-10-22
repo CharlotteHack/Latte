@@ -6,17 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_client_ibkr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/clientTabLayout"
@@ -48,30 +37,9 @@
             android:text="Account" />
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView92"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Latte App"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 <!--    <androidx.appcompat.widget.Toolbar-->
 <!--        android:id="@+id/toolbar5"-->
@@ -97,27 +65,4 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
-    <TextView
-        android:id="@+id/confirmation_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-
-        android:text="@string/confirmation"
-        android:textColor="@color/white"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/clientTabLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tb_client_ibkr" />
-<!--    <TextView-->
-<!--        android:id="@+id/tv_toolbar_title"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:text="@string/toolbar"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/toolbar5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
