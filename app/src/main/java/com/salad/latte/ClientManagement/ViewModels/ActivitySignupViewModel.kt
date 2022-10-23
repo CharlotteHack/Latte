@@ -18,7 +18,9 @@ class ActivitySignupViewModel : ViewModel() {
         firebaseDB = FirebaseDB()
     }
 
+    suspend fun createStripeClient(){
 
+    }
     suspend fun updateClientTWS(client: Client,context : SignupActivity){
         //Save user to firebase
         val convertIDToFirebase: String = client.client_email.replace(".", "|")

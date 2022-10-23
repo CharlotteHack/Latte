@@ -54,7 +54,7 @@
 
     <view
         android:id="@+id/chart_home"
-        class="com.naqdi.chart.ChainChartView"
+        class="com.anychart.AnyChartView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="16dp"

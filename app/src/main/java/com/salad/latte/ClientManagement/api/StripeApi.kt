@@ -10,10 +10,10 @@ interface StripeApi  {
     @GET("createACHDeposit")
     suspend fun createDeposit(@Query("stripeid") key :String,@Query("amount") amount :Int) : String
 
-    @GET("createInvoiceItem")
-    suspend fun createInvoiceItem(@Query("amount") amount :Float, @Query("customerID") cust_id :String, @Query("stripeid") stripeid :String)
-
     @POST("createInvoice")
-    suspend fun createInvoice(@Query("customerID") cust_id: String)
+    suspend fun createInvoice(@Query("customerID") cust_id: String,@Query("amount") amount :Int,@Query("env") env :String)
+
+    @POST("createWithdrawal")
+    suspend fun createWithdrawal(@Query("customerID") cust_id: String, @Query("amount") amount :Float)
 
 }

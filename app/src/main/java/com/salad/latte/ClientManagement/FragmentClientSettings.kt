@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -33,12 +34,12 @@ import retrofit2.create
 //import retrofit2.Retrofit
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.lang.Float
 import java.net.URL
 
 //import retrofit2.converter.gson.GsonConverterFactory
 
 class FragmentClientSettings : Fragment() {
-    final var stripeID = "U4693996"
     lateinit var firebaseDB :FirebaseDB
     lateinit var stripeAPI : StripeApi
     lateinit var retrofit : Retrofit
@@ -100,11 +101,11 @@ class FragmentClientSettings : Fragment() {
 
                               //Create transaction and save paymentIntent on firebase.
                               val url =
-                                  URL("https://us-central1-latte-d25b7.cloudfunctions.net/createACHDeposit?stripeid=U4693996?amount=5")
+                                  URL("https://us-central1-latte-d25b7.cloudfunctions.net/createInvoice?stripeid="+client.client_account_number+"&amount=5&env=prod")
                               Log.d("FragmentClientSettings", "Payment URL: " + url)
                               Toast.makeText(context, "Deposited!", Toast.LENGTH_LONG).show()
                               lifecycleScope.launch {
-                                  var deposit = stripeAPI.createDeposit("U4693996", 5)
+                                  var deposit = stripeAPI.createInvoice(client.client_account_number, 5,"prod")
                                   Log.d("FragmentClientSettings: ", deposit.toString())
                               }
                           } else {
@@ -127,12 +128,29 @@ class FragmentClientSettings : Fragment() {
                                   .inflate(R.layout.dialog_client_withdraw, null)
                               builder.setView(customView)
                               var createdBuilder = builder.create()
+                              var withdrawlAmount = customView.findViewById<EditText>(R.id.et_invoice_amount_withdrawal)
                               customView.findViewById<Button>(R.id.withdrawal_cancel_btn)
                                   .setOnClickListener {
                                       Toast.makeText(requireContext(), "Dismiss", Toast.LENGTH_LONG)
                                           .show()
                                       createdBuilder.dismiss()
                                   }
+                              customView.findViewById<Button>(R.id.invoice_withdrawal_btn).setOnClickListener {
+                                  var amount = Float(client.client_balance)
+                                  var balance = Float.parseFloat(withdrawlAmount.text!!.toString())
+                                  if(amount > balance) {
+                                      Toast.makeText(this@FragmentClientSettings.requireContext(),"Amount to withdraw is more then holdings available.",Toast.LENGTH_LONG).show()
+                                      }
+                                  else if (amount <= balance){
+                                      //Make withdrawal request
+                                      lifecycleScope.launch {
+                                          var withdrawal = stripeAPI.createWithdrawal(client.client_account_number, balance)
+                                          Toast.makeText(this@FragmentClientSettings.requireContext(),"Your withdrawal request has been sent!.",Toast.LENGTH_LONG).show()
+
+                                      }
+
+                                  }
+                              }
                               createdBuilder.show()
 
                           } else {
