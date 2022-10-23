@@ -12,6 +12,14 @@ class Client {
     var dateValues = ArrayList<String>()
     var dateValuesAsFloat = ArrayList<Float>()
 
+    //IBKR
+    var client_bank_account_number = ""
+    var client_routing_number = ""
+    var client_isibkr_linked = false
+    var client_isTwoSumsRequested = false
+    var verfiedSums = listOf(0,0)
+
+
     init {
 
     }
