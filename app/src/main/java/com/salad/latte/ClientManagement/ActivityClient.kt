@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.salad.latte.ClientManagement.ViewModels.ActivityClientViewModel
 import com.salad.latte.DailyWatchlistFragment
 import com.salad.latte.Database.FirebaseDB
+import com.salad.latte.NewsFragment
 import com.salad.latte.R
 import com.salad.latte.databinding.ActivityClientDashboardBinding
 import kotlinx.coroutines.launch
@@ -84,15 +85,15 @@ class ActivityClient : AppCompatActivity(){
                 tab.text = "Home"
             }
             else if(position == 1){
-                tab.text = "History"
+                tab.text = "Transactions"
 
             }
             else if(position == 2){
                 tab.text = "Account"
             }
-//            else{
-//                tab.text = "Latte"
-//            }
+            else{
+                tab.text = "News"
+            }
         }.attach()
 
     }
@@ -105,7 +106,7 @@ class ActivityClient : AppCompatActivity(){
 
 
         override fun getItemCount(): Int {
-            return 3;
+            return 4;
         }
 
         override fun createFragment(position: Int): Fragment {
@@ -119,8 +120,8 @@ class ActivityClient : AppCompatActivity(){
             else if (position == 2) {
                 return FragmentClientSettings()
             }
-            else {
-                return DailyWatchlistFragment()
+            else (position == 3) {
+                return NewsFragment()
             }
         }
 

@@ -34,6 +34,18 @@ class ActivitySignupViewModel : ViewModel() {
             .child("unrealizedValue").setValue("0.0")
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
             .child("accountID").setValue("none")
+
+
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("isIBKRLinked").setValue(false)
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("isTwoSumsRequested").setValue(false)
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("twoSumsVerification").setValue(listOf(0,0))
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("userBankAccountNumber").setValue("0")
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase)
+            .child("userRoutingNumber").setValue("0")
         var intent = Intent(context,ActivityClient::class.java)
         context.startActivity(intent)
     }
@@ -56,7 +68,7 @@ class ActivitySignupViewModel : ViewModel() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(context, "Authentication failed.",
+                    Toast.makeText(context, task.exception!!.message.toString(),
                         Toast.LENGTH_SHORT).show()
 //                    updateUI(null)
                 }
