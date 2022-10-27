@@ -45,7 +45,7 @@ class FragmentClientSettings : Fragment() {
     lateinit var retrofit : Retrofit
     lateinit var viewModel : FragmentSettingsViewModel
     lateinit var binding : FragmentClientSettingsBinding
-    var isAccountIBKRVerified = false
+    var doesUserHaveAccountID = false
 
 //    private lateinit var braintreeClient: BraintreeClient
 
@@ -70,11 +70,11 @@ class FragmentClientSettings : Fragment() {
                   binding.etClientFirstname.setText(client.client_name)
                   binding.tvClientEmailSettings.setText("Email: "+client.client_email)
                  if(client.client_account_number.equals("none")) {
-                     isAccountIBKRVerified = false
+                     doesUserHaveAccountID = false
                  } else {
-                     isAccountIBKRVerified = true
+                     doesUserHaveAccountID = true
                  }
-                  Log.d("FragmentClientSettings","Is Account IBKR Verified: "+isAccountIBKRVerified)
+                  Log.d("FragmentClientSettings","Is Account ID Verified: "+doesUserHaveAccountID)
                   binding.apply {
 //                      automaticDepositsBtn.visibility = View.INVISIBLE
 //                      tvAutomaticInvestTitle.visibility = View.INVISIBLE
@@ -84,29 +84,44 @@ class FragmentClientSettings : Fragment() {
                           startActivity(intent)
                       }
                       clientDepositButton.setOnClickListener {
-                          if (isAccountIBKRVerified) {
-                              var builder =
-                                  AlertDialog.Builder(this@FragmentClientSettings.requireContext())
-                              var customView = LayoutInflater.from(requireContext())
-                                  .inflate(R.layout.dialog_invoice_deposit, null)
-                              builder.setView(customView)
-                              var createdBuilder = builder.create()
-                              customView.findViewById<Button>(R.id.invoice_cancel_btn)
-                                  .setOnClickListener {
-                                      Toast.makeText(requireContext(), "Dismiss", Toast.LENGTH_LONG)
-                                          .show()
-                                      createdBuilder.dismiss()
-                                  }
-                              createdBuilder.show()
+                          if (doesUserHaveAccountID) {
+                              if(client.client_isibkr_linked) {
+                                  var builder =
+                                      AlertDialog.Builder(this@FragmentClientSettings.requireContext())
+                                  var customView = LayoutInflater.from(requireContext())
+                                      .inflate(R.layout.dialog_invoice_deposit, null)
+                                  builder.setView(customView)
+                                  var createdBuilder = builder.create()
+                                  customView.findViewById<Button>(R.id.invoice_cancel_btn)
+                                      .setOnClickListener {
+                                          Toast.makeText(
+                                              requireContext(),
+                                              "Dismiss",
+                                              Toast.LENGTH_LONG
+                                          )
+                                              .show()
+                                          createdBuilder.dismiss()
+                                      }
+                                  createdBuilder.show()
 
-                              //Create transaction and save paymentIntent on firebase.
-                              val url =
-                                  URL("https://us-central1-latte-d25b7.cloudfunctions.net/createInvoice?stripeid="+client.client_account_number+"&amount=5&env=prod")
-                              Log.d("FragmentClientSettings", "Payment URL: " + url)
-                              Toast.makeText(context, "Deposited!", Toast.LENGTH_LONG).show()
-                              lifecycleScope.launch {
-                                  var deposit = stripeAPI.createInvoice(client.client_account_number, 5,"prod")
-                                  Log.d("FragmentClientSettings: ", deposit.toString())
+                                  //Create transaction and save paymentIntent on firebase.
+                                  val url =
+                                      URL("https://us-central1-latte-d25b7.cloudfunctions.net/createInvoice?stripeid=" + client.client_account_number + "&amount=5&env=prod")
+                                  Log.d("FragmentClientSettings", "Payment URL: " + url)
+                                  Toast.makeText(context, "Deposited!", Toast.LENGTH_LONG).show()
+                                  lifecycleScope.launch {
+                                      var deposit = stripeAPI.createInvoice(
+                                          client.client_account_number,
+                                          5,
+                                          "prod"
+                                      )
+                                      Log.d("FragmentClientSettings: ", deposit.toString())
+                                  }
+                              }
+                              else {
+//                                  Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
+                              //Deposit is not confimed, start deposit activity
+
                               }
                           } else {
                               Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
@@ -121,7 +136,7 @@ class FragmentClientSettings : Fragment() {
 //                          Toast.makeText(context,"Automatic deposits are not rolled out yet",Toast.LENGTH_LONG).show()
 //                      }
                       btnWithdrawalSettings.setOnClickListener {
-                          if (isAccountIBKRVerified) {
+                          if (doesUserHaveAccountID) {
                               var builder =
                                   AlertDialog.Builder(this@FragmentClientSettings.requireContext())
                               var customView = LayoutInflater.from(requireContext())

@@ -19,6 +19,15 @@
     <string name="invoice_hint">Enter amount to deposit.</string>
     <string name="withdrawal_hint">Enter amount to withdrawal.</string>
 
+    <string name="verify_confirm">Confirm your bank account</string>
+    <string name="verify_confirm_2">Before we can accept any deposits, we need to verify you through your bank first.</string>
+    <string name="verify_confirm_3">Please enter Bank Account Number &amp; Routing Number</string>
+    <string name="verify_confirm_4">Almost there, within 1–2 business days we will deposit 2 small amounts into your bank account. Please confirm those amounts below over the next few days.</string>
+    <string name="verify_sums_confirm">Verify</string>
+    <string name="verify_sums_cancel">Close</string>
+    <string name="verify_ban_confirm">Confirm</string>
+    <string name="verify_ban_close">Close</string>
+
     <string-array name="daily_watch">
     </string-array>
     <string-array name="spinner">

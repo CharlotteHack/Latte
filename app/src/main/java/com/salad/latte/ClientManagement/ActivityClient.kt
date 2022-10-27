@@ -85,7 +85,7 @@ class ActivityClient : AppCompatActivity(){
                 tab.text = "Home"
             }
             else if(position == 1){
-                tab.text = "Transactions"
+                tab.text = "Trans."
 
             }
             else if(position == 2){
