@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             binding.btnLogin.setOnClickListener {
                 var email = binding.etEmail.text.toString()
                 var password = binding.etPassword.text.toString()
-                if(loginViewModel.runChecks()){
+                if(loginViewModel.runChecks(this@LoginActivity.baseContext,email, password)){
                     loginViewModel.firebaseDB.auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
                             if (task.isSuccessful) {

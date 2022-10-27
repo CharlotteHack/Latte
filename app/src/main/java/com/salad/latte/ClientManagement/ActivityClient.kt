@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.salad.latte.ClientManagement.ViewModels.ActivityClientViewModel
+import com.salad.latte.DailyWatchlistFragment
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.R
 import com.salad.latte.databinding.ActivityClientDashboardBinding
@@ -83,13 +84,15 @@ class ActivityClient : AppCompatActivity(){
                 tab.text = "Home"
             }
             else if(position == 1){
-                tab.text = "Transactions"
+                tab.text = "History"
 
             }
-            else{
+            else if(position == 2){
                 tab.text = "Account"
-
             }
+//            else{
+//                tab.text = "Latte"
+//            }
         }.attach()
 
     }
@@ -113,8 +116,11 @@ class ActivityClient : AppCompatActivity(){
             else if(position == 1){
                 return FragmentClientTransactions()
             }
-            else {
+            else if (position == 2) {
                 return FragmentClientSettings()
+            }
+            else {
+                return DailyWatchlistFragment()
             }
         }
 
