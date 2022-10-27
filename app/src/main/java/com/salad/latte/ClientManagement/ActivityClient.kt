@@ -120,7 +120,7 @@ class ActivityClient : AppCompatActivity(){
             else if (position == 2) {
                 return FragmentClientSettings()
             }
-            else (position == 3) {
+            else  {
                 return NewsFragment()
             }
         }

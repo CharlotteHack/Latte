@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.salad.latte.ArticleActivity
+import com.salad.latte.ClientManagement.ActivityClient
 import com.salad.latte.MainActivity
 import com.salad.latte.NewsFragment
 import com.salad.latte.Objects.News
@@ -42,7 +43,7 @@ class NewsAdapter2(itemsIn :ArrayList<News>, ctxIn :Context) : RecyclerView.Adap
             Log.d("NewsAdapter2","Clicked item: "+holder.title.text.toString())
             var articleIntent = Intent(ctx,ArticleActivity::class.java)
             articleIntent.putExtra("article",items.get(position).article_url)
-            (ctx as MainActivity).startActivity(articleIntent)
+            (ctx as ActivityClient).startActivity(articleIntent)
 
         })
 
