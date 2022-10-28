@@ -134,23 +134,25 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_account_title"
+                    android:id="@+id/withdraw_routing_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Account Number"
+                    android:text="Routing Number: 1234567890"
                     app:layout_constraintStart_toEndOf="@+id/imageView9"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_account_value"
+                    android:id="@+id/withdraw_ban_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="000123456789"
-                    app:layout_constraintStart_toStartOf="@+id/tv_account_title"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_account_title" />
+                    android:layout_marginEnd="8dp"
+                    android:text="Account Number: 1231231231"
+                    app:layout_constraintEnd_toStartOf="@+id/checkBox"
+                    app:layout_constraintStart_toStartOf="@+id/withdraw_routing_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/withdraw_routing_tv" />
 
                 <CheckBox
                     android:id="@+id/checkBox"
@@ -160,9 +162,9 @@
                     android:layout_marginBottom="13dp"
                     android:checked="true"
                     android:clickable="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_account_value"
+                    app:layout_constraintBottom_toBottomOf="@+id/withdraw_ban_tv"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_account_title" />
+                    app:layout_constraintTop_toTopOf="@+id/withdraw_routing_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

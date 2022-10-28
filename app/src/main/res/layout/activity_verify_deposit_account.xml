@@ -7,85 +7,104 @@
 
     <TextView
         android:id="@+id/textView78"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/verify_confirm"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView79"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="62dp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/verify_confirm_2"
+        app:layout_constraintEnd_toEndOf="@+id/textView78"
+        app:layout_constraintStart_toStartOf="@+id/textView78"
+        app:layout_constraintTop_toBottomOf="@+id/textView78" />
 
     <TextView
         android:id="@+id/textView83"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/verify_confirm_3"
+        app:layout_constraintEnd_toEndOf="@+id/textView79"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="99dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView79" />
 
     <TextView
         android:id="@+id/textView87"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:layout_marginTop="32dp"
+        android:text="Routing Number:"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="157dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView83" />
 
     <TextView
-        android:id="@+id/textView89"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="252dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/verify_ban_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:layout_marginTop="16dp"
+        android:text="Bank Account Number"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="187dp" />
+        app:layout_constraintTop_toBottomOf="@+id/verify_routing_et" />
+
+    <EditText
+        android:id="@+id/verify_routing_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Enter Routing Number"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView87" />
 
     <EditText
         android:id="@+id/editTextTextPersonName5"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
+        android:hint="Bank Account Number"
         android:inputType="textPersonName"
-        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="287dp" />
+        app:layout_constraintTop_toBottomOf="@+id/verify_ban_et" />
 
     <LinearLayout
         android:id="@+id/linearLayout16"
-        android:layout_width="409dp"
-        android:layout_height="120dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5">
 
         <Button
             android:id="@+id/confirm_ban_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_weight="1"
             android:text="@string/verify_ban_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -95,6 +114,7 @@
             android:id="@+id/close_ban_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_weight="1"
             android:text="@string/verify_ban_close"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -102,80 +122,81 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="208dp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout16"
-        tools:layout_editor_absoluteX="1dp">
+        android:id="@+id/constraintLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout16">
 
         <EditText
-            android:id="@+id/editTextTextPersonName7"
-            android:layout_width="wrap_content"
+            android:id="@+id/verify_amount_two_et"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginTop="17dp"
             android:ems="10"
+            android:hint="Enter Amount Two"
             android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="287dp" />
+            app:layout_constraintEnd_toEndOf="@+id/verify_amount_one_et"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/verify_amount_one_et"
+            app:layout_constraintTop_toBottomOf="@+id/verify_amount_one_et" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName6"
-            android:layout_width="wrap_content"
+            android:id="@+id/verify_amount_one_et"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:ems="10"
+            android:hint="Enter Amount One"
             android:inputType="textPersonName"
-            android:text="Name"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="130dp" />
+            app:layout_constraintEnd_toEndOf="@+id/textView92"
+            app:layout_constraintStart_toStartOf="@+id/textView92"
+            app:layout_constraintTop_toBottomOf="@+id/textView92" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            tools:layout_editor_absoluteX="23dp"
-            tools:layout_editor_absoluteY="87dp" />
+        <LinearLayout
+            android:id="@+id/linearLayout17"
+            android:layout_width="0dp"
+            android:layout_height="69dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/verify_amount_two_et"
+            app:layout_constraintStart_toStartOf="@+id/verify_amount_two_et"
+            app:layout_constraintTop_toBottomOf="@+id/verify_amount_two_et">
 
-        <EditText
-            android:id="@+id/editTextTextPersonName9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            tools:layout_editor_absoluteX="23dp"
-            tools:layout_editor_absoluteY="87dp" />
+            <Button
+                android:id="@+id/twosums_verify_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@string/verify_sums_confirm" />
+
+            <Button
+                android:id="@+id/twosums_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@string/verify_sums_cancel" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView92"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/verify_confirm_4"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="22dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="69dp"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="661dp">
-
-        <Button
-            android:id="@+id/twosums_verify_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/verify_sums_confirm"/>
-
-        <Button
-            android:id="@+id/twosums_close_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/verify_sums_cancel" />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
