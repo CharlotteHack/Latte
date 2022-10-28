@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.salad.latte.ActivityLogin;
 import com.salad.latte.Adapters.CustomDailyHistoricalAdapter;
 import com.salad.latte.Adapters.DailyWatchlistAdapter;
@@ -41,6 +42,7 @@ import com.salad.latte.Adapters.HistoricalAdapter;
 import com.salad.latte.Adapters.RecentsAdapter;
 import com.salad.latte.Adapters.SuperInvestorAdapter;
 import com.salad.latte.Adapters.WatchListAdapter;
+import com.salad.latte.MainActivity;
 import com.salad.latte.Objects.Client;
 import com.salad.latte.Objects.DailyWatchlistHistoricalItem;
 import com.salad.latte.Objects.DailyWatchlistItem;
@@ -54,6 +56,7 @@ import com.salad.latte.Objects.SuperInvestor.SIActivity;
 import com.salad.latte.Objects.SuperInvestor.SuperInvestor;
 import com.salad.latte.Objects.Watchlist;
 import com.salad.latte.PennyFragment;
+import com.salad.latte.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1445,4 +1448,27 @@ public class FirebaseDB {
     public static float getEntryPriceForStock(String ticker){
         return 0.0f;
     }
+
+    public void addToRequestQueue(String action, String email){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        String key = mDatabase.push().getKey();
+                        HashMap<String,String> hashy = new HashMap<>();
+                        hashy.put("action",action);
+                        hashy.put("email",email);
+                        hashy.put("token",token);
+                        mDatabase.child("RequestQueue").child(key).setValue(hashy);
+                    }
+                });
+    }
+
 }

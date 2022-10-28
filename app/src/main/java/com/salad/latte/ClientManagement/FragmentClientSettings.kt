@@ -23,6 +23,7 @@ import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.R
 import com.salad.latte.databinding.FragmentClientSettingsBinding
 import com.salad.latte.databinding.FragmentSettingsBinding
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -92,16 +93,31 @@ class FragmentClientSettings : Fragment() {
                                       .inflate(R.layout.dialog_invoice_deposit, null)
                                   builder.setView(customView)
                                   var createdBuilder = builder.create()
+                                  //If user clicks cancel
                                   customView.findViewById<Button>(R.id.invoice_cancel_btn)
                                       .setOnClickListener {
-                                          Toast.makeText(
-                                              requireContext(),
-                                              "Dismiss",
-                                              Toast.LENGTH_LONG
-                                          )
-                                              .show()
-                                          createdBuilder.dismiss()
+                                          lifecycleScope.launch {
+//                                          // Just a test but start an activity
+                                              Toast.makeText(
+                                                  requireContext(),
+                                                  "Clicked dismiss!",
+                                                  Toast.LENGTH_LONG
+                                              )
+                                                  .show()
+                                              delay(5000)
+                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
+                                              startActivity(intent)
+
+//                                          createdBuilder.dismiss()
+                                          }
+
                                       }
+                                  //User deposit inside of deposit class
+                                  customView.findViewById<Button>(R.id.invoice_deposit_btn).setOnClickListener {
+
+                                  }
+
+                                  //If user clicks
                                   createdBuilder.show()
 
                                   //Create transaction and save paymentIntent on firebase.
@@ -110,18 +126,27 @@ class FragmentClientSettings : Fragment() {
                                   Log.d("FragmentClientSettings", "Payment URL: " + url)
                                   Toast.makeText(context, "Deposited!", Toast.LENGTH_LONG).show()
                                   lifecycleScope.launch {
-                                      var deposit = stripeAPI.createInvoice(
-                                          client.client_account_number,
-                                          5,
-                                          "prod"
-                                      )
-                                      Log.d("FragmentClientSettings: ", deposit.toString())
+//                                      var deposit = stripeAPI.createInvoice(
+//                                          client.client_account_number,
+//                                          5,
+//                                          "prod"
+//                                      )
+//                                      Log.d("FragmentClientSettings: ", deposit.toString())
                                   }
                               }
+                              //Else client checking account is not verified, so take them to verification page
                               else {
 //                                  Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
                               //Deposit is not confimed, start deposit activity
+                                var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityVerifyDepositAccount::class.java)
+                                //Add extras
+                                  //Routing Number
+                                  //Bank account number
+                                  //Confirm Amount 1
+                                  //Confirm Amount 2
+                                  intent.putExtra("email",client.client_email)
 
+                                  startActivity(intent)
                               }
                           } else {
                               Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
@@ -137,6 +162,7 @@ class FragmentClientSettings : Fragment() {
 //                      }
                       btnWithdrawalSettings.setOnClickListener {
                           if (doesUserHaveAccountID) {
+                              if(client.client_isibkr_linked){
                               var builder =
                                   AlertDialog.Builder(this@FragmentClientSettings.requireContext())
                               var customView = LayoutInflater.from(requireContext())
@@ -165,11 +191,20 @@ class FragmentClientSettings : Fragment() {
                                       }
 
                                   }
+
                               }
                               createdBuilder.show()
 
-                          } else {
+
+                             }   //else client has not verified IBKR Checking account
+                              else {
+                              Toast.makeText(requireContext(),"Cannot withdraw until deposit account is verified.",Toast.LENGTH_LONG).show()
+                                }
+                          }
+                           //Else user does not have IBKR Client ID
+                           else {
                               Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
+
                           }
                       }
                   }

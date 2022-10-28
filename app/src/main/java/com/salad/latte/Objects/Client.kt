@@ -17,7 +17,7 @@ class Client {
     var client_routing_number = ""
     var client_isibkr_linked = false
     var client_isTwoSumsRequested = false
-    var verfiedSums = listOf(0,0)
+    var verfiedSums = listOf(0.0,0.0)
 
 
     init {
