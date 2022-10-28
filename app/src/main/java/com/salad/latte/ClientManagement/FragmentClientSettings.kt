@@ -17,6 +17,7 @@ import com.salad.latte.ClientManagement.ViewModels.FragmentSettingsViewModel
 import com.salad.latte.ClientManagement.ViewModels.TAG
 import com.salad.latte.ClientManagement.api.StripeApi
 import com.salad.latte.Database.FirebaseDB
+import com.salad.latte.Objects.ClientTransaction
 //import com.braintreepayments.api.BraintreeClient
 //import com.braintreepayments.api.ClientTokenCallback
 //import com.braintreepayments.api.ClientTokenProvider
@@ -35,6 +36,7 @@ import retrofit2.create
 //import retrofit2.Retrofit
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.lang.Double
 import java.lang.Float
 import java.net.URL
 
@@ -87,12 +89,15 @@ class FragmentClientSettings : Fragment() {
                       clientDepositButton.setOnClickListener {
                           if (doesUserHaveAccountID) {
                               if(client.client_isibkr_linked) {
+                                  //User is fully verified, show them the deposit dialog
                                   var builder =
                                       AlertDialog.Builder(this@FragmentClientSettings.requireContext())
                                   var customView = LayoutInflater.from(requireContext())
                                       .inflate(R.layout.dialog_invoice_deposit, null)
                                   builder.setView(customView)
                                   var createdBuilder = builder.create()
+                                  var deposit_et = customView.findViewById<EditText>(R.id.et_invoice_amount)
+
                                   //If user clicks cancel
                                   customView.findViewById<Button>(R.id.invoice_cancel_btn)
                                       .setOnClickListener {
@@ -104,40 +109,38 @@ class FragmentClientSettings : Fragment() {
                                                   Toast.LENGTH_LONG
                                               )
                                                   .show()
-                                              delay(5000)
-                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
-                                              startActivity(intent)
 
-//                                          createdBuilder.dismiss()
+                                          createdBuilder.dismiss()
                                           }
 
                                       }
                                   //User deposit inside of deposit class
                                   customView.findViewById<Button>(R.id.invoice_deposit_btn).setOnClickListener {
+                                        //Write the deposit request to firebase, if it succeeds then navigate to deposit success page
+                                      lifecycleScope.launch {
+                                          //Not only do u add to request Queue, but u also need to add to transactions
 
+                                          if(isDepositValid(deposit_et.text.toString())){
+//                                              delay(5000)
+                                              //First add the item to list of transactions
+                                              var transactions = HashMap<String,ClientTransaction>()
+                                              var ts = System.currentTimeMillis()
+                                              var amount = Double(deposit_et.text.toString())
+                                              var status = "pending"
+                                              var type = ""
+//                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
+//                                              startActivity(intent)
+
+                                          }
+
+                                      }
                                   }
-
                                   //If user clicks
                                   createdBuilder.show()
-
-                                  //Create transaction and save paymentIntent on firebase.
-                                  val url =
-                                      URL("https://us-central1-latte-d25b7.cloudfunctions.net/createInvoice?stripeid=" + client.client_account_number + "&amount=5&env=prod")
-                                  Log.d("FragmentClientSettings", "Payment URL: " + url)
-                                  Toast.makeText(context, "Deposited!", Toast.LENGTH_LONG).show()
-                                  lifecycleScope.launch {
-//                                      var deposit = stripeAPI.createInvoice(
-//                                          client.client_account_number,
-//                                          5,
-//                                          "prod"
-//                                      )
-//                                      Log.d("FragmentClientSettings: ", deposit.toString())
-                                  }
                               }
                               //Else client checking account is not verified, so take them to verification page
                               else {
-//                                  Toast.makeText(requireContext(),"Account not verified yet.",Toast.LENGTH_LONG).show()
-                              //Deposit is not confimed, start deposit activity
+                              //Deposit is not confirmed, start deposit activity
                                 var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityVerifyDepositAccount::class.java)
                                 //Add extras
                                   //Routing Number
@@ -145,7 +148,6 @@ class FragmentClientSettings : Fragment() {
                                   //Confirm Amount 1
                                   //Confirm Amount 2
                                   intent.putExtra("email",client.client_email)
-
                                   startActivity(intent)
                               }
                           } else {
@@ -216,6 +218,24 @@ class FragmentClientSettings : Fragment() {
         return binding.root;
 
     }
+
+    fun isDepositValid(value :String) : Boolean{
+        if(value == ""){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Deposit field cannot be empty",Toast.LENGTH_LONG).show()
+            return false
+        }
+        var sumOneDouble = value.toDoubleOrNull()
+
+        if(sumOneDouble == null){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Please enter a valid number",Toast.LENGTH_LONG).show()
+            return false
+
+        }
+        return true
+
+    }
+
+
 
 
 

@@ -165,7 +165,15 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
         mDatabase.child("Clients").child(emailKey).child("twoSumsVerification").setValue(listOf(amoOne,amoTwo)).addOnSuccessListener {
             firebaseDB.addToRequestQueue("User is trying to verify two sums, update IBKR with that info. Set isIBKRLinked to true, then send push notification if successful",email)
             binding.verifyTwosumsFinalTv.visibility = View.VISIBLE
-        }
+        }.addOnSuccessListener {
+            mDatabase.child("Clients").child(emailKey).child("isTwoSumsRequested").setValue(true).addOnSuccessListener {
+            }.addOnFailureListener {
+                //Failed to set isTwoSumsRequested to false
+                Toast.makeText(this,"Failed to verify two amounts. Pleae try again",Toast.LENGTH_LONG).show()
+
+            }
+
+            }
             .addOnFailureListener {
                 Toast.makeText(this,"Failed to verify two amounts",Toast.LENGTH_LONG).show()
 
