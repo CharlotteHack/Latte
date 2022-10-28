@@ -1,5 +1,13 @@
 package com.salad.latte.ClientManagement
 
+//import com.braintreepayments.api.BraintreeClient
+//import com.braintreepayments.api.ClientTokenCallback
+//import com.braintreepayments.api.ClientTokenProvider
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
+//import retrofit2.Retrofit
+import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,32 +21,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import com.salad.latte.ClientManagement.ViewModels.FragmentSettingsViewModel
-import com.salad.latte.ClientManagement.ViewModels.TAG
 import com.salad.latte.ClientManagement.api.StripeApi
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.ClientTransaction
-//import com.braintreepayments.api.BraintreeClient
-//import com.braintreepayments.api.ClientTokenCallback
-//import com.braintreepayments.api.ClientTokenProvider
 import com.salad.latte.R
 import com.salad.latte.databinding.FragmentClientSettingsBinding
-import com.salad.latte.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.create
-//import retrofit2.Call
-//import retrofit2.Callback
-//import retrofit2.Response
-//import retrofit2.Retrofit
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.lang.Double
 import java.lang.Float
-import java.net.URL
+import kotlin.Any
+import kotlin.Boolean
+import kotlin.String
+import kotlin.apply
+import kotlin.toString
 
 //import retrofit2.converter.gson.GsonConverterFactory
 
@@ -123,11 +126,61 @@ class FragmentClientSettings : Fragment() {
                                           if(isDepositValid(deposit_et.text.toString())){
 //                                              delay(5000)
                                               //First add the item to list of transactions
+
+                                              var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
+                                              var emailKey = email.replace(".", "|")
                                               var transactions = HashMap<String,ClientTransaction>()
                                               var ts = System.currentTimeMillis()
-                                              var amount = Double(deposit_et.text.toString())
+                                              var amount = Double.valueOf(deposit_et.text.toString())
                                               var status = "pending"
-                                              var type = ""
+                                              var type = "deposit"
+                                              var clientTransaction = ClientTransaction()
+                                              clientTransaction.amount = amount
+                                              clientTransaction.status = status
+                                              clientTransaction.type = type
+                                              clientTransaction.timestamp = ts
+                                              transactions.put(ts.toString(),clientTransaction)
+                                              firebaseDB.mDatabase.child("Clients").child(emailKey).child("transactions").updateChildren(
+                                                  transactions as Map<String, Any>
+                                              ).addOnSuccessListener {
+                                                    //Successfully added transaction request to firebase, now i have to make request queue call
+                                                  //Logic to add to RequestQueue
+                                                  FirebaseMessaging.getInstance().token
+                                                      .addOnCompleteListener(OnCompleteListener { task ->
+                                                          if (!task.isSuccessful) {
+                                                              Log.w(
+                                                                  ContentValues.TAG,
+                                                                  "Fetching FCM registration token failed",
+                                                                  task.exception
+                                                              )
+                                                              return@OnCompleteListener
+                                                          }
+                                                          // Get new FCM registration token
+                                                          val token = task.result
+                                                          val key: String =
+                                                              firebaseDB.mDatabase.push().getKey()!!
+                                                          val hashy =
+                                                              java.util.HashMap<String, String?>()
+                                                          hashy["action"] = "Client requested deposit of "+amount.toString()+" . Implement transaction on IBKR and send push notification if successful"
+                                                          hashy["email"] = email
+                                                          hashy["token"] = token
+                                                          firebaseDB.mDatabase.child("RequestQueue").child(key)
+                                                              .setValue(hashy).addOnSuccessListener {
+                                                                  //The request succeeded, now u can show user success page
+                                                                  lifecycleScope.launch {
+                                                                      delay(4000)
+                                                                      var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityDepositSuccessful::class.java)
+                                                                      startActivity(intent)
+                                                                  }
+                                                              }.addOnFailureListener {
+                                                                  Toast.makeText(requireContext(),"Failed to record deposit transaction. Please visit our discord",Toast.LENGTH_LONG).show()
+                                                              }
+                                                      })
+                                              }.addOnFailureListener {
+                                                  //Failed to add the tranaction to firebase. Print out why here
+                                                  Toast.makeText(this@FragmentClientSettings.requireContext(),"Failed to make deposit. Please try again later",Toast.LENGTH_LONG).show()
+                                              }
+
 //                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
 //                                              startActivity(intent)
 
