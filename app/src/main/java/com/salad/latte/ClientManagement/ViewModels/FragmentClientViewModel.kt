@@ -293,11 +293,11 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     it
                 )
                 if ("Client is offline" in it.message.toString()) {
-//            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again in 3 seconds",Toast.LENGTH_LONG).show()
+            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
                     dashboard.binding.pbClientHome.visibility = View.INVISIBLE
                     viewModelScope.launch {
 
-                        delay(10000)
+                        delay(5000)
                         displayProgress(true)
                         init()
                         getIBKRAccount()

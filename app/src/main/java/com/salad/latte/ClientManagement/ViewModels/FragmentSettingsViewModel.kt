@@ -43,7 +43,7 @@ class FragmentSettingsViewModel(db: FirebaseDB, activity: FragmentClientSettings
                         mutableClientFlow.value = listOf(client)
                     }
                 }.addOnFailureListener {
-                    Log.e("FragmentSettingViewModel", "Error getting data", it)
+                    Log.e("FragmentSettingViewModel", "Error getting data, retrying..", it)
                     Toast.makeText(
                         activity.requireContext(),
                         it.message.toString(),
