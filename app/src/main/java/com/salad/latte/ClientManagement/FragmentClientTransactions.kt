@@ -28,7 +28,7 @@ class FragmentClientTransactions : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.fragment_client_transactions,container,false)
         transactionsRv = v.findViewById(R.id.client_transactions_rv)
-        transactionsViewModel = FragmentClientTransactionsViewModel()
+        transactionsViewModel = FragmentClientTransactionsViewModel(this)
         lifecycleScope.launch {
             transactionsViewModel.immutableTransactions.collect() {
                 transactionsRv.layoutManager = LinearLayoutManager(activity)

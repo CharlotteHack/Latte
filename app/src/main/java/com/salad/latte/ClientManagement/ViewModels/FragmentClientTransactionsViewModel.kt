@@ -1,17 +1,23 @@
 package com.salad.latte.ClientManagement.ViewModels
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.salad.latte.ClientManagement.FragmentClientTransactions
 import com.salad.latte.ClientManagement.SampleAsset
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.Objects.ClientTransaction
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.Double
 
-class FragmentClientTransactionsViewModel : ViewModel() {
+class FragmentClientTransactionsViewModel(fct : FragmentClientTransactions) : ViewModel() {
 
     var mutableTransactions: MutableStateFlow<List<ClientTransaction>> =  MutableStateFlow(emptyList<ClientTransaction>())
     var immutableTransactions = mutableTransactions.asStateFlow()
@@ -24,26 +30,49 @@ class FragmentClientTransactionsViewModel : ViewModel() {
             var id = firebaseDB.auth.currentUser!!.email
             convertIDToFirebase = id!!.replace(".", "|");
             firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child("transactions")
-                .get().addOnSuccessListener {
-                var transactionsList = mutableListOf<ClientTransaction>()
-                    var transactions = it.value as? HashMap<*, *>
-                Log.d("(29) FragmentClientTransactionsViewModel", "Transactions: " + transactions)
+                .addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        var transactionsList = mutableListOf<ClientTransaction>()
 //                    var saving = SampleAsset()
-                if ( transactions != null) {
-
-                    transactions.forEach { (key, value) ->
-                        var transaction = value as HashMap<String, *>
-                        var type = transaction.get("type") as String
-                        var amount = Double.valueOf((transaction.get("amount") as Long).toString())
-                        var status = transaction.get("status") as String
-                        var timestamp = transaction.get("timestamp") as Long
-                        Log.d("(39) FragmentClientTransactionsViewModel", "Amount: " + amount)
-                        transactionsList.add(ClientTransaction(type, amount, status, timestamp))
+                        if(snapshot.childrenCount.toInt() == 0 ){
+                            //No Transactions
+                        }
+                    else {
+                            for (ds in snapshot.children) {
+                                        var type = ds.child("type").getValue(String::class.java)
+                                        var amount =
+                                            Double.valueOf(ds.child("amount").getValue(Long::class.java).toString())
+                                        var status = ds.child("status").getValue(String::class.java)
+                                        var timestamp = ds.child("timestamp").getValue(Long::class.java)
+                                        Log.d(
+                                            "(39) FragmentClientTransactionsViewModel",
+                                            "Amount: " + amount
+                                        )
+                                        transactionsList.add(
+                                            ClientTransaction(
+                                                type!!,
+                                                amount,
+                                                status!!,
+                                                timestamp!!
+                                            )
+                                        )
+                                    }
+                            mutableTransactions.value = transactionsList
+                        }
                     }
-                    mutableTransactions.value = transactionsList
-                }
 
-            }
+                    override fun onCancelled(error: DatabaseError) {
+                        viewModelScope.launch {
+                            delay(10000)
+                            Toast.makeText(fct.requireContext(),error.message,Toast.LENGTH_LONG).show()
+//                    }
+                        }
+                    }
+
+                })
 
         }
     }

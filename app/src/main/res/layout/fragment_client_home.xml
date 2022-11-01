@@ -68,7 +68,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:text="@string/assets"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/chart_home"
         app:layout_constraintTop_toBottomOf="@+id/chart_home" />
 
@@ -121,23 +122,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar4" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/nosavings_view"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="visible">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/nosavings_view"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:visibility="gone">-->
 
-        <TextView
-            android:id="@+id/textView98"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nosavings" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView98"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/nosavings" />-->
 
-        <ImageView
-            android:id="@+id/imageView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/saving" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView12"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:srcCompat="@drawable/saving" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,10 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.enums.Anchor
 import com.anychart.enums.MarkerType
 import com.anychart.enums.TooltipPositionMode
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.naqdi.chart.model.Line
 import com.salad.latte.ClientManagement.FragmentClientDashboard
 import com.salad.latte.ClientManagement.LoginActivity
@@ -75,13 +79,14 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //    }
 
     suspend fun init() {
+        Log.d("(78) FragmentClientViewModel","Init called")
         displayProgress(true)
         var id = firebaseDB.auth.currentUser!!.email
         convertIDToFirebase = id!!.replace(".", "|");
         client = Client()
         setValue("name")
         setValue("accountValue")
-        setValue("unrealizedValue")
+//        setValue("unrealizedValue")
         setValue("accountValueByDates")
         setValue("savings")
 
@@ -112,146 +117,183 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             }
         }
     }
+
+//        fun toggleIdentifier(identifer: String, toggle :Boolean) {
+//            setValue("name")
+//            setValue("accountValue")
+////        setValue("unrealizedValue")
+//            setValue("accountValueByDates")
+//            setValue("savings")
+//
+//            //Call setvalue for the account ID, if value is not none, display listview otherwise hide it
+//            setValue("accountID")
+//            if(identifer == ""){
+//
+//            }
+//        if (isOn) {
+//            dashboard.binding.apply {
+//                tvAccountValueHome.visibility = View.GONE
+//                tvWelcomeHome.visibility = View.GONE
+//                tvUrealizedPlHome.visibility = View.GONE
+//                chartHome.visibility = View.GONE
+//                tvAssetsWeinvestin.visibility = View.GONE
+//                rvAssets.visibility = View.GONE
+//                pbClientHome.visibility = View.VISIBLE
+//            }
+//        } else {
+//            dashboard.binding.apply {
+//                tvAccountValueHome.visibility = View.VISIBLE
+//                tvWelcomeHome.visibility = View.VISIBLE
+//                tvUrealizedPlHome.visibility = View.VISIBLE
+//                chartHome.visibility = View.VISIBLE
+//                tvAssetsWeinvestin.visibility = View.VISIBLE
+//                rvAssets.visibility = View.VISIBLE
+//                pbClientHome.visibility = View.GONE
+//            }
+//        }
+//    }
     fun currencyFormat(amount: String): String? {
         val formatter = DecimalFormat("###,###,##0.00")
         return formatter.format(amount.toDouble())
     }
     suspend fun setValue(identifer: String) {
-        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child(identifer).get()
-            .addOnSuccessListener {
-                Log.i("firebase", "Got value ${it.value}")
+        firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child(identifer).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+//                Log.i("firebase", "Got value ${it.value}")
                 if (identifer.equals("name")) {
-                    client.client_name = it.value.toString()
+                    client.client_name = snapshot.getValue(String::class.java).toString()
                     dashboard.binding.apply {
+                        Log.d(" (165) FragmentClientViewModel","Name: "+client.client_name)
+
                         tvWelcomeHome.setText("Welcome, " + client.client_name)
                     }
                 }
                 if (identifer.equals("accountValue")) {
-                    Log.d(" (153) FragmentClientViewModel","Account Value: "+it.value.toString())
-                    client.client_balance = it.value.toString()
+                    client.client_balance = snapshot.getValue(String::class.java).toString()
+                    Log.d(" (172) FragmentClientViewModel","Snapshot: "+snapshot.toString())
+                    Log.d(" (173) FragmentClientViewModel","Account Value: "+client.client_balance)
+
                     dashboard.binding.apply {
 //                        if ("." in client.client_balance) {
-                            tvAccountValueHome.setText("Account Value: $" + client.currencyFormat(client.client_balance))
+                        tvAccountValueHome.setText("Account Value: $" + client.currencyFormat(client.client_balance))
 //                        }
                     }
                 }
                 if (identifer.equals("savings")) {
                     var totalSavings = 0.0
                     var savingsList = mutableListOf<SampleAsset>()
-                    var savings = it.value as? HashMap<*, *>
-                    Log.d(" (135) FragmentClientViewModel","Savings: "+savings)
-//                    var saving = SampleAsset()
-                    if(savings != null) {
-                        savings.forEach { (key, value) ->
-                            var saving = value as HashMap<String,*>
-                            var amount = saving.get("amount") as Double
-                            var date = saving.get("date") as String
-                            var ts = saving.get("timestamp") as Long
-                            totalSavings = totalSavings + amount
-                            Log.d(" (147) FragmentClientViewModel","Amount: "+amount)
-                            savingsList.add(SampleAsset("",amount,date,ts))
-
-                        }
-                        assetsMutableStateFlow.value = savingsList
-
-
+                    if(snapshot.childrenCount.toInt() == 0){
                         dashboard.binding.apply {
-                            nosavingsView.visibility = View.INVISIBLE
-                            rvAssets.visibility = View.VISIBLE
-                            tvUrealizedPlHome.text = "Savings earned: $"+currencyFormat(totalSavings.toString())
-                        }
-                    }
-                    else {
-                        //No savings for this user
-                        dashboard.binding.apply {
-                            nosavingsView.visibility = View.VISIBLE
+//                            nosavingsView.visibility = View.VISIBLE
                             rvAssets.visibility = View.INVISIBLE
                             tvUrealizedPlHome.text = "Savings earned: $0.00";
                         }
                     }
+                    else {
+                        for (ds in snapshot.children) {
+//                    var saving = SampleAsset()
+                                    var amount = ds.child("amount").getValue(Double::class.java)!!
+                                    var date = ds.child("date").getValue(String::class.java)!!
+                                    var ts = ds.child("timestamp").getValue(Long::class.java)!!
+                                    totalSavings = totalSavings + amount
+                                    Log.d(" (147) FragmentClientViewModel", "Amount: " + amount)
+                                    savingsList.add(SampleAsset("", amount, date, ts))
+                                assetsMutableStateFlow.value = savingsList
+
+
+                                dashboard.binding.apply {
+//                            nosavingsView.visibility = View.INVISIBLE
+                            rvAssets.visibility = View.VISIBLE
+                            tvUrealizedPlHome.text = "Savings earned: $"+currencyFormat(totalSavings.toString())
+                            }
+                        }
+                    }
+
                 }
                 if (identifer.equals("accountValueByDates")) {
 //                client.client_balance = it.value.toString()
                     dashboard.binding.apply {
 //                    tvAccountValueHome.setText("Total Account Value: "+client.client_balance)
-                        Log.d("AccountValuesByDate: ", it.value.toString())
-                        if (it.value != null) {
-                            var dataset = it.value as? HashMap<String, String>
-                            client.clearClientValues()
-                            dataset!!.forEach { (key, value) ->
-                                var month = key.toString().split("-")[1]
-                                var day = key.toString().split("-")[2]
+//                        var accountValues = snapshot.getValue(HashMap::class.java)
+                        client.clearClientValues()
+                        for (ds in snapshot.children) {
+//                            Log.d("AccountValuesByDate: ", accountValues.toString())
+                                var month = ds.key.toString().split("-")[1]
+                                var day = ds.key.toString().split("-")[2]
 
 
-                                Log.d("Fragment Client View Model client date", month + "-" + day)
-                                client.addDateToValue(month + "-" + day, value)
-                            }
-                            var chart = AnyChartView(dashboard.context)
-                            var cartesian = AnyChart.line()
-                            cartesian.animation(true)
+                                Log.d(
+                                    "Fragment Client View Model client date",
+                                    month + "-" + day
+                                )
+                                client.addDateToValue(month + "-" + day, ds.getValue(String::class.java)!!)
+                                var chart = AnyChartView(dashboard.context)
+                                var cartesian = AnyChart.line()
+                                cartesian.animation(true)
 
-                            cartesian.padding(10.0, 20.0, 5.0, 20.0)
+                                cartesian.padding(10.0, 20.0, 5.0, 20.0)
 
-                            cartesian.crosshair().enabled(true)
-                            cartesian.crosshair()
-                                .yLabel(true) // TODO ystroke
-                                .yStroke()
+                                cartesian.crosshair().enabled(true)
+                                cartesian.crosshair()
+                                    .yLabel(true) // TODO ystroke
+                                    .yStroke()
 
-                            cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
+                                cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
 
-                            cartesian.title("Trend of Sales of the Most Popular Products of ACME Corp.")
+                                cartesian.title("Trend of Sales of the Most Popular Products of ACME Corp.")
 
-                            cartesian.yAxis(0).title("Number of Bottles Sold (thousands)")
-                            cartesian.xAxis(0).labels().padding(5.0, 5.0, 5.0, 5.0)
+                                cartesian.yAxis(0).title("Number of Bottles Sold (thousands)")
+                                cartesian.xAxis(0).labels().padding(5.0, 5.0, 5.0, 5.0)
 
-                            val seriesData: MutableList<DataEntry> = ArrayList()
-                            seriesData.add(CustomDataEntry("1986", 3.6, 2.3, 2.8))
-                            seriesData.add(CustomDataEntry("1987", 7.1, 4.0, 4.1))
-                            seriesData.add(CustomDataEntry("1988", 8.5, 6.2, 5.1))
-                            seriesData.add(CustomDataEntry("1989", 9.2, 11.8, 6.5))
-                            seriesData.add(CustomDataEntry("1990", 10.1, 13.0, 12.5))
-                            seriesData.add(CustomDataEntry("1991", 11.6, 13.9, 18.0))
-                            seriesData.add(CustomDataEntry("1992", 16.4, 18.0, 21.0))
-                            seriesData.add(CustomDataEntry("1993", 18.0, 23.3, 20.3))
-                            seriesData.add(CustomDataEntry("1994", 13.2, 24.7, 19.2))
-                            seriesData.add(CustomDataEntry("1995", 12.0, 18.0, 14.4))
-                            seriesData.add(CustomDataEntry("1996", 3.2, 15.1, 9.2))
-                            seriesData.add(CustomDataEntry("1997", 4.1, 11.3, 5.9))
-                            seriesData.add(CustomDataEntry("1998", 6.3, 14.2, 5.2))
-                            seriesData.add(CustomDataEntry("1999", 9.4, 13.7, 4.7))
-                            seriesData.add(CustomDataEntry("2000", 11.5, 9.9, 4.2))
-                            seriesData.add(CustomDataEntry("2001", 13.5, 12.1, 1.2))
-                            seriesData.add(CustomDataEntry("2002", 14.8, 13.5, 5.4))
-                            seriesData.add(CustomDataEntry("2003", 16.6, 15.1, 6.3))
-                            seriesData.add(CustomDataEntry("2004", 18.1, 17.9, 8.9))
-                            seriesData.add(CustomDataEntry("2005", 17.0, 18.9, 10.1))
-                            seriesData.add(CustomDataEntry("2006", 16.6, 20.3, 11.5))
-                            seriesData.add(CustomDataEntry("2007", 14.1, 20.7, 12.2))
-                            seriesData.add(CustomDataEntry("2008", 15.7, 21.6, 10))
-                            seriesData.add(CustomDataEntry("2009", 12.0, 22.5, 8.9))
+                                val seriesData: MutableList<DataEntry> = ArrayList()
+                                seriesData.add(CustomDataEntry("1986", 3.6, 2.3, 2.8))
+                                seriesData.add(CustomDataEntry("1987", 7.1, 4.0, 4.1))
+                                seriesData.add(CustomDataEntry("1988", 8.5, 6.2, 5.1))
+                                seriesData.add(CustomDataEntry("1989", 9.2, 11.8, 6.5))
+                                seriesData.add(CustomDataEntry("1990", 10.1, 13.0, 12.5))
+                                seriesData.add(CustomDataEntry("1991", 11.6, 13.9, 18.0))
+                                seriesData.add(CustomDataEntry("1992", 16.4, 18.0, 21.0))
+                                seriesData.add(CustomDataEntry("1993", 18.0, 23.3, 20.3))
+                                seriesData.add(CustomDataEntry("1994", 13.2, 24.7, 19.2))
+                                seriesData.add(CustomDataEntry("1995", 12.0, 18.0, 14.4))
+                                seriesData.add(CustomDataEntry("1996", 3.2, 15.1, 9.2))
+                                seriesData.add(CustomDataEntry("1997", 4.1, 11.3, 5.9))
+                                seriesData.add(CustomDataEntry("1998", 6.3, 14.2, 5.2))
+                                seriesData.add(CustomDataEntry("1999", 9.4, 13.7, 4.7))
+                                seriesData.add(CustomDataEntry("2000", 11.5, 9.9, 4.2))
+                                seriesData.add(CustomDataEntry("2001", 13.5, 12.1, 1.2))
+                                seriesData.add(CustomDataEntry("2002", 14.8, 13.5, 5.4))
+                                seriesData.add(CustomDataEntry("2003", 16.6, 15.1, 6.3))
+                                seriesData.add(CustomDataEntry("2004", 18.1, 17.9, 8.9))
+                                seriesData.add(CustomDataEntry("2005", 17.0, 18.9, 10.1))
+                                seriesData.add(CustomDataEntry("2006", 16.6, 20.3, 11.5))
+                                seriesData.add(CustomDataEntry("2007", 14.1, 20.7, 12.2))
+                                seriesData.add(CustomDataEntry("2008", 15.7, 21.6, 10))
+                                seriesData.add(CustomDataEntry("2009", 12.0, 22.5, 8.9))
 
-                            var set = com.anychart.data.Set.instantiate()
-                            set.data(seriesData);
-                            var series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
+                                var set = com.anychart.data.Set.instantiate()
+                                set.data(seriesData);
+                                var series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
 
-                            var series1 = cartesian.line(series1Mapping);
-                            series1.name("Brandy");
-                            series1.hovered().markers().enabled(true);
-                            series1.hovered().markers()
-                                .type(MarkerType.CIRCLE)
-                                .size(4);
-                            series1.tooltip()
-                                .position("right")
-                                .anchor(Anchor.LEFT_CENTER)
-                                .offsetX(5)
-                                .offsetY(5);
+                                var series1 = cartesian.line(series1Mapping);
+                                series1.name("Brandy");
+                                series1.hovered().markers().enabled(true);
+                                series1.hovered().markers()
+                                    .type(MarkerType.CIRCLE)
+                                    .size(4);
+                                series1.tooltip()
+                                    .position("right")
+                                    .anchor(Anchor.LEFT_CENTER)
+                                    .offsetX(5)
+                                    .offsetY(5);
 
 
-                            cartesian.legend().enabled(true);
-                            cartesian.legend().fontSize(13);
-                            cartesian.legend().padding(0, 0, 10, 0);
+                                cartesian.legend().enabled(true);
+                                cartesian.legend().fontSize(13);
+                                cartesian.legend().padding(0, 0, 10, 0);
 
-                            chart.setChart(cartesian);
+                                chart.setChart(cartesian);
+
                         }
 
 
@@ -280,7 +322,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //
 //                }
                 if (identifer.equals("accountID")) {
-                    var accountID = it.value.toString()
+                    var accountID = snapshot.getValue(String::class.java).toString()
                     dashboard.binding.apply {
                         Log.d("FragmentClientViewModel", "Account ID: "+accountID)
                         if (accountID.equals("none")) {
@@ -296,25 +338,44 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                         }
                     }
                 }
-            }.addOnFailureListener {
-                Log.e(
-                    "firebase",
-                    "Error getting account " + identifer + " -- email: " + convertIDToFirebase,
-                    it
-                )
-                if ("Client is offline" in it.message.toString()) {
+            }
 
-//            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
-                    dashboard.binding.pbClientHome.visibility = View.INVISIBLE
-                    viewModelScope.launch {
+            override fun onCancelled(error: DatabaseError) {
+                viewModelScope.launch {
 
-                        delay(5000)
-                        displayProgress(true)
-                        init()
+                        delay(3000)
+                        //displayProgress(true)
+//                        toggleIdentifier(identifer)
+                        setValue(identifer)
 
                     }
-                }
             }
+
+
+        })
+//            .addOnSuccessListener {
+//
+//                displayProgress(false)
+//            }.addOnFailureListener {
+//                Log.e(
+//                    "firebase",
+//                    "Error getting account " + identifer + " -- email: " + convertIDToFirebase,
+//
+//                )
+//                if ("Client is offline" in it.message.toString()) {
+//
+////            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
+//                    dashboard.binding.pbClientHome.visibility = View.INVISIBLE
+//                    viewModelScope.launch {
+//
+//                        delay(3000)
+//                        //displayProgress(true)
+//                        toggleIdentifier(identifer)
+//                        setValue(identifer)
+//
+//                    }
+//                }
+//            }
 
     }
 
