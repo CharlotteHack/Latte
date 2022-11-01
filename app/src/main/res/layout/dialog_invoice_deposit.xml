@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Routing Number: 12312321"
+                android:text="--"
                 app:layout_constraintEnd_toStartOf="@+id/checkBox2"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
                 app:layout_constraintTop_toTopOf="@+id/imageView10" />
@@ -117,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="The deposit will come from the following account"
-                app:layout_constraintEnd_toEndOf="@+id/et_invoice_amount"
-                app:layout_constraintStart_toStartOf="@+id/et_invoice_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_invoice_amount" />
 
             <TextView
@@ -126,7 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Routing Number: 12312321"
+                android:text="--"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView10"
                 app:layout_constraintEnd_toEndOf="@+id/deposit_routing_tv"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
@@ -138,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:clickable="false"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView10"
                 app:layout_constraintEnd_toEndOf="@+id/textView97"
                 app:layout_constraintTop_toTopOf="@+id/imageView10" />

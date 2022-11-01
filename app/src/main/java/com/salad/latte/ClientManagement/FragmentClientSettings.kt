@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -103,17 +104,25 @@ class FragmentClientSettings : Fragment() {
                                       .setOnClickListener {
                                           lifecycleScope.launch {
 //                                          // Just a test but start an activity
-                                              Toast.makeText(
-                                                  requireContext(),
-                                                  "Clicked dismiss!",
-                                                  Toast.LENGTH_LONG
-                                              )
-                                                  .show()
+//                                              Toast.makeText(
+//                                                  requireContext(),
+//                                                  "Clicked dismiss!",
+//                                                  Toast.LENGTH_LONG
+//                                              )
+//                                                  .show()
 
                                           createdBuilder.dismiss()
                                           }
 
                                       }
+                                    Log.d("(118) FragmentClientSettings"," Bank #: "+client.client_bank_account_number)
+                                  //Get Users Account Number
+                                  customView.findViewById<TextView>(R.id.deposit_ban_tv).setText("Bank Acct. #: "+client.client_bank_account_number)
+                                  //Get Users Routing Number
+                                  customView.findViewById<TextView>(R.id.deposit_routing_tv).setText("Routing #: "+client.client_routing_number)
+
+
+
                                   //User deposit inside of deposit class
                                   customView.findViewById<Button>(R.id.invoice_deposit_btn).setOnClickListener {
                                         //Write the deposit request to firebase, if it succeeds then navigate to deposit success page
@@ -142,6 +151,7 @@ class FragmentClientSettings : Fragment() {
                                               ).addOnSuccessListener {
                                                     //Successfully added transaction request to firebase, now i have to make request queue call
                                                   //Logic to add to RequestQueue
+                                                  Toast.makeText(this@FragmentClientSettings.requireContext(),"Deposit is processing!",Toast.LENGTH_LONG).show()
                                                   FirebaseMessaging.getInstance().token
                                                       .addOnCompleteListener(OnCompleteListener { task ->
                                                           if (!task.isSuccessful) {
@@ -165,7 +175,7 @@ class FragmentClientSettings : Fragment() {
                                                               .setValue(hashy).addOnSuccessListener {
                                                                   //The request succeeded, now u can show user success page
                                                                   lifecycleScope.launch {
-                                                                      delay(4000)
+                                                                      delay(3000)
                                                                       var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityDepositSuccessful::class.java)
                                                                       startActivity(intent)
                                                                   }
@@ -228,9 +238,18 @@ class FragmentClientSettings : Fragment() {
 //                                          .show()
                                       createdBuilder.dismiss()
                                   }
+                                  //
+                              //Set Users Account Balance
+                              customView.findViewById<TextView>(R.id.tv_withdrawal_netvalue).setText(client.client_balance)
+                              customView.findViewById<TextView>(R.id.withdraw_ban_tv).setText("Bank Acct. #: "+client.client_bank_account_number)
+                              customView.findViewById<TextView>(R.id.withdraw_routing_tv).setText("Routing #: "+client.client_routing_number)
                               customView.findViewById<Button>(R.id.invoice_withdrawal_btn).setOnClickListener {
-                                  var amount = Float.valueOf(client.client_balance)
-                                  var balance = Float.parseFloat(withdrawlAmount.text!!.toString())
+                                  var balance = Float.valueOf(client.client_balance)
+                                  var amount = Float.parseFloat(withdrawlAmount.text!!.toString())
+                                  if(withdrawlAmount.text!!.toString() == ""){
+                                      Toast.makeText(this@FragmentClientSettings.requireContext(),"Withdraw field cannot be empty.",Toast.LENGTH_LONG).show()
+
+                                  }
                                   if(amount > balance) {
                                       Toast.makeText(this@FragmentClientSettings.requireContext(),"Amount to withdraw is more then holdings available.",Toast.LENGTH_LONG).show()
                                       }
@@ -238,6 +257,7 @@ class FragmentClientSettings : Fragment() {
                                       //Make withdrawal request
                                       lifecycleScope.launch {
                                           //Add the withdrawal request to the transactions
+                                          Toast.makeText(this@FragmentClientSettings.requireContext(),"Withdrawal is processing!",Toast.LENGTH_LONG).show()
 
                                           var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
                                           var emailKey = email.replace(".", "|")
@@ -280,7 +300,7 @@ class FragmentClientSettings : Fragment() {
                                                           .setValue(hashy).addOnSuccessListener {
                                                               //The request succeeded, now u can show user success page
                                                               lifecycleScope.launch {
-                                                                  delay(4000)
+                                                                  delay(3000)
                                                                   var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityWithdrawalSuccessful::class.java)
                                                                   startActivity(intent)
                                                               }
@@ -339,10 +359,35 @@ class FragmentClientSettings : Fragment() {
             return false
 
         }
+        if(sumOneDouble < 1){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Please enter a value greater than $1.00",Toast.LENGTH_LONG).show()
+            return false
+
+        }
         return true
 
     }
 
+    fun isWithdrawalValid(value :String, accountValue : kotlin.Double) : Boolean{
+        if(value == ""){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Deposit field cannot be empty",Toast.LENGTH_LONG).show()
+            return false
+        }
+        var sumOneDouble = value.toDoubleOrNull()
+
+        if(sumOneDouble == null){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Please enter a valid number",Toast.LENGTH_LONG).show()
+            return false
+
+        }
+        if(sumOneDouble < 1){
+            Toast.makeText(this@FragmentClientSettings.requireContext(),"Please enter a value greater than $1.00",Toast.LENGTH_LONG).show()
+            return false
+
+        }
+        return true
+
+    }
 
 
 

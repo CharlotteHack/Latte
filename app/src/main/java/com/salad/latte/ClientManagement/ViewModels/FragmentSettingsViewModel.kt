@@ -40,6 +40,8 @@ class FragmentSettingsViewModel(db: FirebaseDB, activity: FragmentClientSettings
                         client.client_email = firebaseDB.auth.currentUser!!.email!!
                         client.client_balance = (it.child("accountValue").value as? String)!!
                         client.client_account_number = (it.child("accountID").value as? String)!!
+                        client.client_bank_account_number = (it.child("userBankAccountNumber").value as? String)!!
+                        client.client_routing_number = (it.child("userRoutingNumber").value as? String)!!
                         client.client_isibkr_linked = (it.child("isIBKRLinked").value as? Boolean)!!
                         mutableClientFlow.value = listOf(client)
                     }

@@ -106,7 +106,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="2500.00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="@+id/tv_withdrawl_netincome_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_withdrawl_netincome_title" />
@@ -148,9 +147,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:text="Account Number: 1231231231"
-                    app:layout_constraintEnd_toStartOf="@+id/checkBox"
+                    app:layout_constraintStart_toEndOf="@+id/imageView9"
                     app:layout_constraintStart_toStartOf="@+id/withdraw_routing_tv"
                     app:layout_constraintTop_toBottomOf="@+id/withdraw_routing_tv" />
 
@@ -159,11 +157,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="13dp"
                     android:checked="true"
                     android:clickable="false"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/withdraw_ban_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/withdraw_ban_tv"
                     app:layout_constraintTop_toTopOf="@+id/withdraw_routing_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

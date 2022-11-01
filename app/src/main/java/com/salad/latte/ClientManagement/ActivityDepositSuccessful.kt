@@ -1,6 +1,7 @@
 package com.salad.latte.ClientManagement
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,8 @@ class ActivityDepositSuccessful : AppCompatActivity() {
         setContentView(R.layout.activity_deposit_success)
         successBtn = findViewById<Button>(R.id.deposit_success_btn)
             successBtn.setOnClickListener {
-            finish()
+            var intent = Intent(this,ActivityClient::class.java)
+                startActivity(intent)
         }
     }
 }
