@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Latte — Automate Trading</string>
+    <string name="app_name">Latte — Savings</string>
     <string name="forgot">Forgot Password? Click here</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
@@ -7,8 +7,8 @@
     <string name="cancel">Cancel</string>
     <string name="assets">Assets we invest in</string>
     <string name="asset_img">--</string>
-    <string name="toolbar">Latte — Automated Trading</string>
-    <string name="slogan">Automate your investments.</string>
+    <string name="toolbar">Latte — Savings</string>
+    <string name="slogan">Earn the highest yield in the world.</string>
     <string name="forgot_hint">Enter your email to reset password.</string>
     <string name="reset">Send Reset</string>
     <string name="cancel_reset">Cancel</string>

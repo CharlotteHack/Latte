@@ -36,7 +36,7 @@ class LoginActivityViewModel : ViewModel() {
         return true
     }
     fun checkPasswordLength(password :String, context :Context) : Boolean{
-        if(password.length <= 6){
+        if(password.length <= 5){
             Toast.makeText(context,"Password is less then 6 characters",Toast.LENGTH_LONG).show()
             return false
         }

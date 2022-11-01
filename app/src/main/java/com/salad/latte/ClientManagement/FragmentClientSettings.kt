@@ -70,16 +70,12 @@ class FragmentClientSettings : Fragment() {
           var uiUpdate = viewModel.clientStateFlow.collect {
               if(it.size > 0) {
                   var client = it.get(0)
-                  Log.d("FragmentClientSettings","Account: "+client.toString())
+                  Log.d("FragmentClientSettings","Account: "+client.client_email)
 
                   binding.tvClientAccountbalanceSettings.setText("Net Account Value: "+client.formatAccountValue())
                   binding.etClientFirstname.setText(client.client_name)
                   binding.tvClientEmailSettings.setText("Email: "+client.client_email)
-                 if(client.client_account_number.equals("none")) {
-                     doesUserHaveAccountID = false
-                 } else {
-                     doesUserHaveAccountID = true
-                 }
+                  doesUserHaveAccountID = !client.client_account_number.equals("none")
                   Log.d("FragmentClientSettings","Is Account ID Verified: "+doesUserHaveAccountID)
                   binding.apply {
 //                      automaticDepositsBtn.visibility = View.INVISIBLE
@@ -90,6 +86,7 @@ class FragmentClientSettings : Fragment() {
                           startActivity(intent)
                       }
                       clientDepositButton.setOnClickListener {
+                          Log.d("FragmentClientSettings: 93","Button clicked. Does user have Account I?: "+doesUserHaveAccountID+" is user ibkr linked: "+client.client_isibkr_linked)
                           if (doesUserHaveAccountID) {
                               if(client.client_isibkr_linked) {
                                   //User is fully verified, show them the deposit dialog

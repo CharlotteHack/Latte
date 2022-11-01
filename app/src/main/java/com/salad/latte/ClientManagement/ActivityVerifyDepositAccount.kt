@@ -33,25 +33,33 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
 
                 //When firebase is done fetching data
                 viewModel.immutableClient.collect {
-                    Log.i("ActivityVerifyDepositAccount", "Got value ${it}")
-                   if(it.client_bank_account_number != "0"){
-                        binding.verifyBanEt.setText(it.client_bank_account_number)
-                   }
-                    if(it.client_routing_number != "0"){
-                        binding.verifyBanEt.setText(it.client_routing_number)
-                    }
-                    if(it.client_routing_number != "0" && it.client_bank_account_number != "0"){
-                        binding.constraintLayout13.visibility = View.VISIBLE
-                    }
-                    if(it.verfiedSums[0] != 0.0){
-                        binding.verifyAmountOneEt.setText(it.verfiedSums[0].toString())
-                    }
-                    if(it.verfiedSums[1] != 0.0){
-                        binding.verifyAmountTwoEt.setText(it.verfiedSums[1].toString())
-                    }
-                    if(it.verfiedSums[0] != 0.0 && it.verfiedSums[1] != 0.0){
-                        binding.verifyTwosumsFinalTv.visibility = View.VISIBLE
+                    Log.i("ActivityVerifyDepositAccount -- ", "Got value ${it.client_name}")
+                    if (it.client_routing_number != "" && it.client_bank_account_number != "") {
+                        if (it.client_bank_account_number != "0") {
+                            binding.verifyBanEt.setText(it.client_bank_account_number)
+                        }
+                        if (it.client_routing_number != "0") {
+                            binding.verifyRoutingEt.setText(it.client_routing_number)
+                        }
+                        if (it.client_routing_number != "0" && it.client_bank_account_number != "0") {
+                            Log.i(
+                                "ActivityVerifyDepositAccount Bank #",
+                                it.client_bank_account_number
+                            )
+                            Log.i("ActivityVerifyDepositAccount Bank #", it.client_routing_number)
 
+                            binding.constraintLayout13.visibility = View.VISIBLE
+                        }
+                        if (it.verfiedSums[0] != 0.0) {
+                            binding.verifyAmountOneEt.setText(it.verfiedSums[0].toString())
+                        }
+                        if (it.verfiedSums[1] != 0.0) {
+                            binding.verifyAmountTwoEt.setText(it.verfiedSums[1].toString())
+                        }
+                        if (it.verfiedSums[0] != 0.0 && it.verfiedSums[1] != 0.0) {
+                            binding.verifyTwosumsFinalTv.visibility = View.VISIBLE
+
+                        }
                     }
                 }
             }
@@ -87,6 +95,7 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
                     //Unhide the view that tells users its safe to close the page
                 }
 
+
             }
         }
 
@@ -103,6 +112,11 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
             Toast.makeText(this,"Routing Number must be atleast 6 numbers",Toast.LENGTH_LONG).show()
             return false
         }
+        else if(binding.verifyRoutingEt.text.toString().toDoubleOrNull() == null){
+
+            Toast.makeText(this,"Routing Number must be a number.",Toast.LENGTH_LONG).show()
+            return false
+        }
         return true
     }
 
@@ -114,6 +128,11 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
         else if(binding.verifyBanEt.text.toString().length < 6){
 
             Toast.makeText(this,"Account Number must be atleast 6 numbers",Toast.LENGTH_LONG).show()
+            return false
+        }
+        else if(binding.verifyBanEt.text.toString().toDoubleOrNull() == null){
+
+            Toast.makeText(this,"Bank Account must be a number.",Toast.LENGTH_LONG).show()
             return false
         }
         return true
@@ -169,7 +188,7 @@ class ActivityVerifyDepositAccount : AppCompatActivity(){
             mDatabase.child("Clients").child(emailKey).child("isTwoSumsRequested").setValue(true).addOnSuccessListener {
             }.addOnFailureListener {
                 //Failed to set isTwoSumsRequested to false
-                Toast.makeText(this,"Failed to verify two amounts. Pleae try again",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Failed to verify two amounts. Please try again",Toast.LENGTH_LONG).show()
 
             }
 

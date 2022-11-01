@@ -38,7 +38,7 @@ class FragmentClientDashboard : Fragment() {
         }
         lifecycleScope.launch {
             viewModel.ibkrClientIDStateFlow.collect {
-                Log.d("FragmentClientDashboard","IBKR Client ID: "+it.toString())
+                Log.d("FragmentClientDashboard","Account ID: "+it.toString())
                 if(it == "none"){
                     binding.toolbar4.visibility = View.VISIBLE
                     binding.confirmationText.visibility = View.VISIBLE

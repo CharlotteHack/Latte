@@ -277,12 +277,16 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 if (identifer.equals("accountID")) {
                     var accountID = it.value.toString()
                     dashboard.binding.apply {
+                        Log.d("FragmentClientViewModel", "Account ID: "+accountID)
                         if (accountID.equals("none")) {
                             tvAssetsWeinvestin.visibility = View.INVISIBLE
                             rvAssets.visibility = View.INVISIBLE
+                            ibkrClientIDMutableStateFlow.value = "none"
+
                         } else {
                             tvAssetsWeinvestin.visibility = View.VISIBLE
                             rvAssets.visibility = View.VISIBLE
+                            ibkrClientIDMutableStateFlow.value = accountID
 
                         }
                     }
@@ -302,7 +306,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                         delay(5000)
                         displayProgress(true)
                         init()
-                        getIBKRAccount()
+
                     }
                 }
             }
@@ -314,7 +318,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
     suspend fun getIBKRAccount(){
         var convertIDToFirebase = firebaseDB.auth.currentUser!!.email!!.replace(".","|");
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child("accountID").get().addOnSuccessListener {
-            Log.i("ActivityClientViewModel", "Got value ${it.value}")
+            Log.i("FragmentClientViewModel", "Got value ${it.value}")
             ibkrClientIDMutableStateFlow.value = it.getValue(String::class.java)!!;
         }
     }

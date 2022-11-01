@@ -27,10 +27,22 @@ class ActivityVerifyDepositAccountViewModel(email :String) : ViewModel() {
                 var mDatabase = firebaseDB.mDatabase
                 mDatabase.child("Clients").child(emailKey).get().addOnSuccessListener {
                     Log.i("ActivityVerifyDepositAccountViewModel", "Got value ${it.value}")
+                    var client = Client()
+                    client.client_bank_account_number = it.child("userBankAccountNumber").value as String
+                    client.client_account_number = it.child("accountID").value as String
+                    client.client_unrealized_profit = it.child("unrealizedValue").toString()
+                    client.client_balance = (it.child("accountValue").value).toString()
+                    client.client_isibkr_linked = it.child("isIBKRLinked").value as Boolean
+                    client.client_isTwoSumsRequested = it.child("isTwoSumsRequested").value as Boolean
+                    client.verfiedSums = it.child("twoSumsVerification").value as List<Double>
+                    client.client_name = it.child("name").value as String
+                    client.client_routing_number = it.child("userRoutingNumber").value as String
+                    client.client_email = it.child("email").value as String
+                    mutableClient.value = client
+
                 }.addOnFailureListener {
                     Log.e("ActivityVerifyDepositAccountViewModel", "Error getting data", it)
                 }
-                mutableClient.value = Client()
             } catch (e: Exception) {
                 Log.d("ActivityVerifyDepositAccountViewModel", e.message!!.toString())
             }
