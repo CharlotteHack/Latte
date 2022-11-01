@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.salad.latte.ClientManagement.ViewModels.FragmentClientTransactionsViewModel
 import com.salad.latte.Objects.ClientTransaction
 import com.salad.latte.R
+import com.salad.latte.databinding.CustomClientTransactionBinding
+import com.salad.latte.databinding.FragmentClientTransactionsBinding
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -20,26 +22,24 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FragmentClientTransactions : Fragment() {
-    lateinit var transactionsRv :RecyclerView
-    lateinit var transactions :ArrayList<Transaction>
     lateinit var clientTransactionAdapter :ClientTransactionsAdapter
     lateinit var transactionsViewModel: FragmentClientTransactionsViewModel
+    lateinit var transactionBinding: FragmentClientTransactionsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var v = inflater.inflate(R.layout.fragment_client_transactions,container,false)
-        transactionsRv = v.findViewById(R.id.client_transactions_rv)
+        transactionBinding = FragmentClientTransactionsBinding.bind(layoutInflater.inflate(R.layout.fragment_client_transactions,container,false))
         transactionsViewModel = FragmentClientTransactionsViewModel(this)
         lifecycleScope.launch {
             transactionsViewModel.immutableTransactions.collect() {
-                transactionsRv.layoutManager = LinearLayoutManager(activity)
+                transactionBinding.clientTransactionsRv.layoutManager = LinearLayoutManager(activity)
                 clientTransactionAdapter = ClientTransactionsAdapter(it,requireContext(),R.layout.custom_client_transaction)
-                transactionsRv.adapter = clientTransactionAdapter
+                transactionBinding.clientTransactionsRv.adapter = clientTransactionAdapter
                 clientTransactionAdapter.notifyDataSetChanged()
 
             }
         }
 
-        return v
+        return transactionBinding.root
     }
 
     public class ClientTransactionsAdapter(trans: List<ClientTransaction>, con : Context, rootLayout :Int) : RecyclerView.Adapter<ClientTransactionsViewHolder>() {

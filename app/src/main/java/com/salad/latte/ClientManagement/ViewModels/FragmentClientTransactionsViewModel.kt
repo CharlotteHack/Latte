@@ -2,6 +2,7 @@ package com.salad.latte.ClientManagement.ViewModels
 
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.DataSnapshot
@@ -29,6 +30,11 @@ class FragmentClientTransactionsViewModel(fct : FragmentClientTransactions) : Vi
             firebaseDB = FirebaseDB()
             var id = firebaseDB.auth.currentUser!!.email
             convertIDToFirebase = id!!.replace(".", "|");
+            fct.transactionBinding.apply {
+                transactionsPb.isVisible = true
+                clientTransactionsRv.isVisible = false
+                notransactionsView.isVisible = false
+            }
             firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child("transactions")
                 .addListenerForSingleValueEvent(object :
                     ValueEventListener {
@@ -39,6 +45,11 @@ class FragmentClientTransactionsViewModel(fct : FragmentClientTransactions) : Vi
 //                    var saving = SampleAsset()
                         if(snapshot.childrenCount.toInt() == 0 ){
                             //No Transactions
+                            fct.transactionBinding.apply {
+                                transactionsPb.isVisible = false
+                                clientTransactionsRv.isVisible = false
+                                notransactionsView.isVisible = true
+                            }
                         }
                     else {
                             for (ds in snapshot.children) {
@@ -60,14 +71,20 @@ class FragmentClientTransactionsViewModel(fct : FragmentClientTransactions) : Vi
                                             )
                                         )
                                     }
+                            fct.transactionBinding.apply {
+                                transactionsPb.isVisible = false
+                                clientTransactionsRv.isVisible = true
+                                notransactionsView.isVisible = false
+                            }
                             mutableTransactions.value = transactionsList
                         }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
                         viewModelScope.launch {
-                            delay(10000)
+//                            delay(10000)
                             Toast.makeText(fct.requireContext(),error.message,Toast.LENGTH_LONG).show()
+
 //                    }
                         }
                     }

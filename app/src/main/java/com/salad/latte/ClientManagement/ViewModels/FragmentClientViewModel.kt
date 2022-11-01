@@ -79,8 +79,15 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //    }
 
     suspend fun init() {
-        Log.d("(78) FragmentClientViewModel","Init called")
-        displayProgress(true)
+        Log.d("(82) FragmentClientViewModel","Init called")
+
+        //ON init, PB needs to be on,
+        //Other views all off
+        dashboard.binding.apply {
+            pbClientHome.visibility = View.VISIBLE
+            chartHome.visibility = View.INVISIBLE
+        }
+
         var id = firebaseDB.auth.currentUser!!.email
         convertIDToFirebase = id!!.replace(".", "|");
         client = Client()
@@ -94,29 +101,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         setValue("accountID")
     }
 
-    fun displayProgress(isOn: Boolean) {
-        if (isOn) {
-            dashboard.binding.apply {
-                tvAccountValueHome.visibility = View.GONE
-                tvWelcomeHome.visibility = View.GONE
-                tvUrealizedPlHome.visibility = View.GONE
-                chartHome.visibility = View.GONE
-                tvAssetsWeinvestin.visibility = View.GONE
-                rvAssets.visibility = View.GONE
-                pbClientHome.visibility = View.VISIBLE
-            }
-        } else {
-            dashboard.binding.apply {
-                tvAccountValueHome.visibility = View.VISIBLE
-                tvWelcomeHome.visibility = View.VISIBLE
-                tvUrealizedPlHome.visibility = View.VISIBLE
-                chartHome.visibility = View.VISIBLE
-                tvAssetsWeinvestin.visibility = View.VISIBLE
-                rvAssets.visibility = View.VISIBLE
-                pbClientHome.visibility = View.GONE
-            }
-        }
-    }
+
 
 //        fun toggleIdentifier(identifer: String, toggle :Boolean) {
 //            setValue("name")
@@ -216,7 +201,16 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //                    tvAccountValueHome.setText("Total Account Value: "+client.client_balance)
 //                        var accountValues = snapshot.getValue(HashMap::class.java)
                         client.clearClientValues()
-                        for (ds in snapshot.children) {
+                        if(snapshot.childrenCount.toInt() > 0){
+                            //No chart items
+                            pbClientHome.visibility = View.INVISIBLE
+                            chartHome.visibility = View.INVISIBLE
+                        }
+                        else {
+
+                            pbClientHome.visibility = View.INVISIBLE
+                            chartHome.visibility = View.VISIBLE
+                            for (ds in snapshot.children) {
 //                            Log.d("AccountValuesByDate: ", accountValues.toString())
                                 var month = ds.key.toString().split("-")[1]
                                 var day = ds.key.toString().split("-")[2]
@@ -226,7 +220,10 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                                     "Fragment Client View Model client date",
                                     month + "-" + day
                                 )
-                                client.addDateToValue(month + "-" + day, ds.getValue(String::class.java)!!)
+                                client.addDateToValue(
+                                    month + "-" + day,
+                                    ds.getValue(String::class.java)!!
+                                )
                                 var chart = AnyChartView(dashboard.context)
                                 var cartesian = AnyChart.line()
                                 cartesian.animation(true)
@@ -294,6 +291,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
                                 chart.setChart(cartesian);
 
+                            }
                         }
 
 
@@ -344,8 +342,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                 viewModelScope.launch {
 
                         delay(3000)
-                        //displayProgress(true)
-//                        toggleIdentifier(identifer)
+                        Toast.makeText(dashboard.requireContext(),error.message,Toast.LENGTH_LONG).show()
                         setValue(identifer)
 
                     }
@@ -353,29 +350,6 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
 
         })
-//            .addOnSuccessListener {
-//
-//                displayProgress(false)
-//            }.addOnFailureListener {
-//                Log.e(
-//                    "firebase",
-//                    "Error getting account " + identifer + " -- email: " + convertIDToFirebase,
-//
-//                )
-//                if ("Client is offline" in it.message.toString()) {
-//
-////            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
-//                    dashboard.binding.pbClientHome.visibility = View.INVISIBLE
-//                    viewModelScope.launch {
-//
-//                        delay(3000)
-//                        //displayProgress(true)
-//                        toggleIdentifier(identifer)
-//                        setValue(identifer)
-//
-//                    }
-//                }
-//            }
 
     }
 
