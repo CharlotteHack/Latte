@@ -5,6 +5,7 @@ package com.salad.latte.ClientManagement.ViewModels
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anychart.AnyChart
@@ -293,7 +294,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     it
                 )
                 if ("Client is offline" in it.message.toString()) {
-            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
+
+//            Toast.makeText(dashboard.requireContext(),"Client is offline, trying again..",Toast.LENGTH_LONG).show()
                     dashboard.binding.pbClientHome.visibility = View.INVISIBLE
                     viewModelScope.launch {
 

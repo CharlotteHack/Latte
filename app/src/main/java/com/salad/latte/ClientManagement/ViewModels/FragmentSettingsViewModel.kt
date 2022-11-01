@@ -44,12 +44,12 @@ class FragmentSettingsViewModel(db: FirebaseDB, activity: FragmentClientSettings
                     }
                 }.addOnFailureListener {
                     Log.e("FragmentSettingViewModel", "Error getting data, retrying..", it)
-                    Toast.makeText(
-                        activity.requireContext(),
-                        it.message.toString(),
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+//                    Toast.makeText(
+//                        activity.requireContext(),
+//                        it.message.toString(),
+//                        Toast.LENGTH_LONG
+//                    )
+//                        .show()
                     viewModelScope.launch {
                         delay(10000)
                         initClient()
