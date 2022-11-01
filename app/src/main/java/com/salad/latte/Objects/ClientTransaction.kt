@@ -1,8 +1,7 @@
 package com.salad.latte.Objects
 
-class ClientTransaction {
-    var type = ""
-    var amount = 0.0
-    var status = ""
-    var timestamp = 0L
+import java.sql.Timestamp
+
+data class ClientTransaction(val type :String, val amount :Double, val status :String, val timestamp: Long) {
+
 }

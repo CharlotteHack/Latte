@@ -5,7 +5,7 @@
     <string name="signup">Sign Up</string>
     <string name="logout">Logout</string>
     <string name="cancel">Cancel</string>
-    <string name="assets">Assets we invest in</string>
+    <string name="assets">Savings you have earned</string>
     <string name="asset_img">--</string>
     <string name="toolbar">Latte — Savings</string>
     <string name="slogan">Earn the highest yield in the world.</string>
@@ -27,6 +27,7 @@
     <string name="verify_sums_cancel">Close</string>
     <string name="verify_ban_confirm">Confirm</string>
     <string name="verify_ban_close">Close</string>
+    <string name="nosavings">You haven\'t earned any savings with Latte yet. Savings are paid out on the 1st of every month.</string>
 
     <string-array name="daily_watch">
     </string-array>

@@ -141,11 +141,11 @@ class FragmentClientSettings : Fragment() {
                                               var amount = Double.valueOf(deposit_et.text.toString())
                                               var status = "pending"
                                               var type = "deposit"
-                                              var clientTransaction = ClientTransaction()
-                                              clientTransaction.amount = amount
-                                              clientTransaction.status = status
-                                              clientTransaction.type = type
-                                              clientTransaction.timestamp = ts
+                                              var clientTransaction = ClientTransaction(type,amount,status,ts)
+//                                              clientTransaction.amount = amount
+//                                              clientTransaction.status = status
+//                                              clientTransaction.type = type
+//                                              clientTransaction.timestamp = ts
                                               transactions.put(ts.toString(),clientTransaction)
                                               firebaseDB.mDatabase.child("Clients").child(emailKey).child("transactions").updateChildren(
                                                   transactions as Map<String, Any>
@@ -271,11 +271,11 @@ class FragmentClientSettings : Fragment() {
                                               var amount = Double.valueOf(balance.toString())
                                               var status = "pending"
                                               var type = "withdrawal"
-                                              var clientTransaction = ClientTransaction()
-                                              clientTransaction.amount = amount
-                                              clientTransaction.status = status
-                                              clientTransaction.type = type
-                                              clientTransaction.timestamp = ts
+                                              var clientTransaction = ClientTransaction(type,amount,status,ts)
+//                                              clientTransaction.amount = amount
+//                                              clientTransaction.status = status
+//                                              clientTransaction.type = type
+//                                              clientTransaction.timestamp = ts
                                               transactions.put(ts.toString(),clientTransaction)
                                               firebaseDB.mDatabase.child("Clients").child(emailKey).child("transactions").updateChildren(
                                                   transactions as Map<String, Any>

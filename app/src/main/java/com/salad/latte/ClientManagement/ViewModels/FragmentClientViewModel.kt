@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.Float
+import java.text.DecimalFormat
 import kotlin.Boolean
 import kotlin.String
 import kotlin.apply
@@ -49,7 +50,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             firebaseDB = FirebaseDB()
             if (firebaseDB.auth.currentUser != null) {
                 init()
-                initAssets()
+//                initAssets()
             } else {
                 var intent = Intent(clientDashboard.context, LoginActivity::class.java)
                 clientDashboard.startActivity(intent)
@@ -58,24 +59,23 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
     }
 
     //Used to retrive the assets we are invested in
-    suspend fun initAssets() {
-        viewModelScope.launch {
-            var emp_list = listOf(
-                SampleAsset(
-                    "https://getlogovector.com/wp-content/uploads/2020/03/proshares-logo-vector.png",
-                    "TQQQ",
-                    date = "10/12/2025",
-                    timestamp = 100000
-                )
-            )
-            assetsMutableStateFlow.value = emp_list
-        }
-
-    }
+//    suspend fun initAssets() {
+//        viewModelScope.launch {
+//            var emp_list = listOf(
+//                SampleAsset(
+//                    "https://getlogovector.com/wp-content/uploads/2020/03/proshares-logo-vector.png",
+//                    "TQQQ",
+//                    date = "10/12/2025",
+//                    timestamp = 100000
+//                )
+//            )
+//
+//        }
+//
+//    }
 
     suspend fun init() {
         displayProgress(true)
-        firebaseDB = FirebaseDB()
         var id = firebaseDB.auth.currentUser!!.email
         convertIDToFirebase = id!!.replace(".", "|");
         client = Client()
@@ -112,7 +112,10 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             }
         }
     }
-
+    fun currencyFormat(amount: String): String? {
+        val formatter = DecimalFormat("###,###,##0.00")
+        return formatter.format(amount.toDouble())
+    }
     suspend fun setValue(identifer: String) {
         firebaseDB.mDatabase.child("Clients").child(convertIDToFirebase).child(identifer).get()
             .addOnSuccessListener {
@@ -133,14 +136,38 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     }
                 }
                 if (identifer.equals("savings")) {
+                    var totalSavings = 0.0
+                    var savingsList = mutableListOf<SampleAsset>()
                     var savings = it.value as? HashMap<*, *>
                     Log.d(" (135) FragmentClientViewModel","Savings: "+savings)
 //                    var saving = SampleAsset()
-                    var amount = savings!!.get("amount") as Double
-                    var date = savings!!.get("date") as String
-                    var ts = savings!!.get("timestamp") as Long
-                    dashboard.binding.apply {
+                    if(savings != null) {
+                        savings.forEach { (key, value) ->
+                            var saving = value as HashMap<String,*>
+                            var amount = saving.get("amount") as Double
+                            var date = saving.get("date") as String
+                            var ts = saving.get("timestamp") as Long
+                            totalSavings = totalSavings + amount
+                            Log.d(" (147) FragmentClientViewModel","Amount: "+amount)
+                            savingsList.add(SampleAsset("",amount,date,ts))
 
+                        }
+                        assetsMutableStateFlow.value = savingsList
+
+
+                        dashboard.binding.apply {
+                            nosavingsView.visibility = View.INVISIBLE
+                            rvAssets.visibility = View.VISIBLE
+                            tvUrealizedPlHome.text = "Savings earned: $"+currencyFormat(totalSavings.toString())
+                        }
+                    }
+                    else {
+                        //No savings for this user
+                        dashboard.binding.apply {
+                            nosavingsView.visibility = View.VISIBLE
+                            rvAssets.visibility = View.INVISIBLE
+                            tvUrealizedPlHome.text = "Savings earned: $0.00";
+                        }
                     }
                 }
                 if (identifer.equals("accountValueByDates")) {
@@ -238,20 +265,20 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                         }
                     }
                 }
-                if (identifer.equals("unrealizedValue")) {
-                    client.client_unrealized_profit = it.value.toString()
-                    if (it.value != null) {
-                        Log.d("unrealizedValue: ", client.client_unrealized_profit)
-
-                        dashboard.binding.apply {
-                            tvUrealizedPlHome.setText("Savings earned $" + client.currencyFormat(client.client_unrealized_profit))
-                        }
-                        displayProgress(false)
-                    } else {
-                        Log.d("FragmentClientVieModel", "Unrealized profit is null")
-                    }
-
-                }
+//                if (identifer.equals("unrealizedValue")) {
+//                    client.client_unrealized_profit = it.value.toString()
+//                    if (it.value != null) {
+//                        Log.d("unrealizedValue: ", client.client_unrealized_profit)
+//
+//                        dashboard.binding.apply {
+//                            tvUrealizedPlHome.setText("Savings earned $" + client.currencyFormat(client.client_unrealized_profit))
+//                        }
+//                        displayProgress(false)
+//                    } else {
+//                        Log.d("FragmentClientVieModel", "Unrealized profit is null")
+//                    }
+//
+//                }
                 if (identifer.equals("accountID")) {
                     var accountID = it.value.toString()
                     dashboard.binding.apply {

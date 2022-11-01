@@ -13,12 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.salad.latte.ClientManagement.ViewModels.FragmentClientViewModel
-import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.R
 import com.salad.latte.databinding.FragmentClientHomeBinding
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class FragmentClientDashboard : Fragment() {
 
@@ -61,13 +60,13 @@ class FragmentClientDashboard : Fragment() {
 
     class AssetsViewHolder(itemView :View) : RecyclerView.ViewHolder(itemView){
 
-        lateinit var ticker : TextView
+        lateinit var amount : TextView
         lateinit var img :ImageView
         lateinit var pb :ProgressBar
         lateinit var date : TextView
 
         init {
-            ticker = itemView.findViewById(R.id.tv_ticker_asset)
+            amount = itemView.findViewById(R.id.tv_amount_asset)
             img = itemView.findViewById(R.id.iv_image_asset)
             pb = itemView.findViewById(R.id.pb_assets)
             date = itemView.findViewById(R.id.tv_date_asset)
@@ -85,7 +84,7 @@ class FragmentClientDashboard : Fragment() {
 
         override fun onBindViewHolder(holder: AssetsViewHolder, position: Int) {
             var item = items.get(position)
-            holder.ticker.setText(item.ticker)
+            holder.amount.setText(currencyFormat(item.amount.toString()))
             holder.date.setText(item.date)
 //            holder.img.load(item.imgurl) {
 //                placeholder(R.drawable.loading)
@@ -94,6 +93,11 @@ class FragmentClientDashboard : Fragment() {
 
         override fun getItemCount(): Int {
             return items.size
+        }
+
+        fun currencyFormat(amount: String): String? {
+            val formatter = DecimalFormat("###,###,##0.00")
+            return formatter.format(amount.toDouble())
         }
     }
 
