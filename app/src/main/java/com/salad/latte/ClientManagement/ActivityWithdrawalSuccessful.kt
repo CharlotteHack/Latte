@@ -13,8 +13,8 @@ class ActivityWithdrawalSuccessful : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_deposit_success)
-        successBtn = findViewById<Button>(R.id.deposit_success_btn)
+        setContentView(R.layout.activity_withdraw_success)
+        successBtn = findViewById<Button>(R.id.w_success_btn2)
         successBtn.setOnClickListener {
             var intent = Intent(this,ActivityClient::class.java)
             startActivity(intent)

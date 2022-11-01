@@ -1,5 +1,7 @@
 package com.salad.latte.Objects
 
+import java.text.DecimalFormat
+
 class Client {
     var client_account_number = ""
      var client_name = ""
@@ -41,5 +43,10 @@ class Client {
         dates.add(date)
         dateValues.add(value)
         dateValuesAsFloat.add(value.toFloat())
+    }
+
+    fun currencyFormat(amount: String): String? {
+        val formatter = DecimalFormat("###,###,##0.00")
+        return formatter.format(amount.toDouble())
     }
 }

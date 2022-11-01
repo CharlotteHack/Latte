@@ -38,6 +38,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.create
 import java.lang.Double
 import java.lang.Float
+import java.text.DecimalFormat
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.String
@@ -73,7 +74,7 @@ class FragmentClientSettings : Fragment() {
                   var client = it.get(0)
                   Log.d("FragmentClientSettings","Account: "+client.client_email)
 
-                  binding.tvClientAccountbalanceSettings.setText("Net Account Value: "+client.formatAccountValue())
+                  binding.tvClientAccountbalanceSettings.setText("Net Account Value: $"+client.currencyFormat(client.client_balance))
                   binding.etClientFirstname.setText(client.client_name)
                   binding.tvClientEmailSettings.setText("Email: "+client.client_email)
                   doesUserHaveAccountID = !client.client_account_number.equals("none")
@@ -152,6 +153,8 @@ class FragmentClientSettings : Fragment() {
                                                     //Successfully added transaction request to firebase, now i have to make request queue call
                                                   //Logic to add to RequestQueue
                                                   Toast.makeText(this@FragmentClientSettings.requireContext(),"Deposit is processing!",Toast.LENGTH_LONG).show()
+                                                  customView.findViewById<Button>(R.id.invoice_deposit_btn).isClickable = false
+                                                  customView.findViewById<Button>(R.id.invoice_deposit_btn).isEnabled = false
                                                   FirebaseMessaging.getInstance().token
                                                       .addOnCompleteListener(OnCompleteListener { task ->
                                                           if (!task.isSuccessful) {
@@ -240,86 +243,89 @@ class FragmentClientSettings : Fragment() {
                                   }
                                   //
                               //Set Users Account Balance
-                              customView.findViewById<TextView>(R.id.tv_withdrawal_netvalue).setText(client.client_balance)
+                              customView.findViewById<TextView>(R.id.tv_withdrawal_netvalue).setText("$"+client.currencyFormat(client.client_balance))
                               customView.findViewById<TextView>(R.id.withdraw_ban_tv).setText("Bank Acct. #: "+client.client_bank_account_number)
                               customView.findViewById<TextView>(R.id.withdraw_routing_tv).setText("Routing #: "+client.client_routing_number)
                               customView.findViewById<Button>(R.id.invoice_withdrawal_btn).setOnClickListener {
-                                  var balance = Float.valueOf(client.client_balance)
-                                  var amount = Float.parseFloat(withdrawlAmount.text!!.toString())
                                   if(withdrawlAmount.text!!.toString() == ""){
                                       Toast.makeText(this@FragmentClientSettings.requireContext(),"Withdraw field cannot be empty.",Toast.LENGTH_LONG).show()
 
                                   }
-                                  if(amount > balance) {
-                                      Toast.makeText(this@FragmentClientSettings.requireContext(),"Amount to withdraw is more then holdings available.",Toast.LENGTH_LONG).show()
-                                      }
-                                  else if (amount <= balance){
-                                      //Make withdrawal request
-                                      lifecycleScope.launch {
-                                          //Add the withdrawal request to the transactions
-                                          Toast.makeText(this@FragmentClientSettings.requireContext(),"Withdrawal is processing!",Toast.LENGTH_LONG).show()
-
-                                          var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
-                                          var emailKey = email.replace(".", "|")
-                                          var transactions = HashMap<String,ClientTransaction>()
-                                          var ts = System.currentTimeMillis()
-                                          var amount = Double.valueOf(balance.toString())
-                                          var status = "pending"
-                                          var type = "withdrawal"
-                                          var clientTransaction = ClientTransaction()
-                                          clientTransaction.amount = amount
-                                          clientTransaction.status = status
-                                          clientTransaction.type = type
-                                          clientTransaction.timestamp = ts
-                                          transactions.put(ts.toString(),clientTransaction)
-                                          firebaseDB.mDatabase.child("Clients").child(emailKey).child("transactions").updateChildren(
-                                              transactions as Map<String, Any>
-                                          ).addOnSuccessListener {
-                                              //Successfully added transaction request to firebase, now i have to make request queue call
-                                              //Logic to add to RequestQueue
-                                              FirebaseMessaging.getInstance().token
-                                                  .addOnCompleteListener(OnCompleteListener { task ->
-                                                      if (!task.isSuccessful) {
-                                                          Log.w(
-                                                              ContentValues.TAG,
-                                                              "Fetching FCM registration token failed",
-                                                              task.exception
-                                                          )
-                                                          return@OnCompleteListener
-                                                      }
-                                                      // Get new FCM registration token
-                                                      val token = task.result
-                                                      val key: String =
-                                                          firebaseDB.mDatabase.push().getKey()!!
-                                                      val hashy =
-                                                          java.util.HashMap<String, String?>()
-                                                      hashy["action"] = "Client requested withdrawal of "+amount.toString()+" . Implement transaction on IBKR and send push notification if successful"
-                                                      hashy["email"] = email
-                                                      hashy["token"] = token
-                                                      firebaseDB.mDatabase.child("RequestQueue").child(key)
-                                                          .setValue(hashy).addOnSuccessListener {
-                                                              //The request succeeded, now u can show user success page
-                                                              lifecycleScope.launch {
-                                                                  delay(3000)
-                                                                  var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityWithdrawalSuccessful::class.java)
-                                                                  startActivity(intent)
-                                                              }
-                                                          }.addOnFailureListener {
-                                                              Toast.makeText(requireContext(),"Failed to record withdrawal transaction. Please visit our discord",Toast.LENGTH_LONG).show()
+                                  else {
+                                      var balance = Float.valueOf(client.client_balance)
+                                      var amount = Float.parseFloat(withdrawlAmount.text!!.toString())
+                                      if(amount > balance) {
+                                          Toast.makeText(this@FragmentClientSettings.requireContext(),"Amount to withdraw is more then holdings available.",Toast.LENGTH_LONG).show()
+                                          }
+                                      else if (amount <= balance){
+                                          //Make withdrawal request
+                                          lifecycleScope.launch {
+                                              //Add the withdrawal request to the transactions
+                                              Toast.makeText(this@FragmentClientSettings.requireContext(),"Withdrawal is processing!",Toast.LENGTH_LONG).show()
+                                              customView.findViewById<Button>(R.id.invoice_withdrawal_btn).isClickable = false
+                                              customView.findViewById<Button>(R.id.invoice_withdrawal_btn).isEnabled = false
+                                              var email = FirebaseAuth.getInstance().currentUser!!.email.toString()
+                                              var emailKey = email.replace(".", "|")
+                                              var transactions = HashMap<String,ClientTransaction>()
+                                              var ts = System.currentTimeMillis()
+                                              var amount = Double.valueOf(balance.toString())
+                                              var status = "pending"
+                                              var type = "withdrawal"
+                                              var clientTransaction = ClientTransaction()
+                                              clientTransaction.amount = amount
+                                              clientTransaction.status = status
+                                              clientTransaction.type = type
+                                              clientTransaction.timestamp = ts
+                                              transactions.put(ts.toString(),clientTransaction)
+                                              firebaseDB.mDatabase.child("Clients").child(emailKey).child("transactions").updateChildren(
+                                                  transactions as Map<String, Any>
+                                              ).addOnSuccessListener {
+                                                  //Successfully added transaction request to firebase, now i have to make request queue call
+                                                  //Logic to add to RequestQueue
+                                                  FirebaseMessaging.getInstance().token
+                                                      .addOnCompleteListener(OnCompleteListener { task ->
+                                                          if (!task.isSuccessful) {
+                                                              Log.w(
+                                                                  ContentValues.TAG,
+                                                                  "Fetching FCM registration token failed",
+                                                                  task.exception
+                                                              )
+                                                              return@OnCompleteListener
                                                           }
-                                                  })
-                                          }.addOnFailureListener {
-                                              //Failed to add the transaction to firebase. Print out why here
-                                              Toast.makeText(this@FragmentClientSettings.requireContext(),"Failed to make withdrawal. Please try again later",Toast.LENGTH_LONG).show()
+                                                          // Get new FCM registration token
+                                                          val token = task.result
+                                                          val key: String =
+                                                              firebaseDB.mDatabase.push().getKey()!!
+                                                          val hashy =
+                                                              java.util.HashMap<String, String?>()
+                                                          hashy["action"] = "Client requested withdrawal of "+amount.toString()+" . Implement transaction on IBKR and send push notification if successful"
+                                                          hashy["email"] = email
+                                                          hashy["token"] = token
+                                                          firebaseDB.mDatabase.child("RequestQueue").child(key)
+                                                              .setValue(hashy).addOnSuccessListener {
+                                                                  //The request succeeded, now u can show user success page
+                                                                  lifecycleScope.launch {
+                                                                      delay(3000)
+                                                                      var intent = Intent(this@FragmentClientSettings.requireContext(),ActivityWithdrawalSuccessful::class.java)
+                                                                      startActivity(intent)
+                                                                  }
+                                                              }.addOnFailureListener {
+                                                                  Toast.makeText(requireContext(),"Failed to record withdrawal transaction. Please visit our discord",Toast.LENGTH_LONG).show()
+                                                              }
+                                                      })
+                                              }.addOnFailureListener {
+                                                  //Failed to add the transaction to firebase. Print out why here
+                                                  Toast.makeText(this@FragmentClientSettings.requireContext(),"Failed to make withdrawal. Please try again later",Toast.LENGTH_LONG).show()
+                                              }
+
+    //                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
+    //                                              startActivity(intent)
+
+
+
                                           }
 
-//                                              var intent = Intent(requireContext(),ActivityVerifyDepositAccount::class.java)
-//                                              startActivity(intent)
-
-
-
                                       }
-
                                   }
 
                               }
@@ -388,6 +394,8 @@ class FragmentClientSettings : Fragment() {
         return true
 
     }
+
+
 
 
 

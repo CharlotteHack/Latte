@@ -64,11 +64,13 @@ class FragmentClientDashboard : Fragment() {
         lateinit var ticker : TextView
         lateinit var img :ImageView
         lateinit var pb :ProgressBar
+        lateinit var date : TextView
 
         init {
             ticker = itemView.findViewById(R.id.tv_ticker_asset)
             img = itemView.findViewById(R.id.iv_image_asset)
             pb = itemView.findViewById(R.id.pb_assets)
+            date = itemView.findViewById(R.id.tv_date_asset)
         }
 
     }
@@ -84,9 +86,10 @@ class FragmentClientDashboard : Fragment() {
         override fun onBindViewHolder(holder: AssetsViewHolder, position: Int) {
             var item = items.get(position)
             holder.ticker.setText(item.ticker)
-            holder.img.load(item.imgurl) {
-                placeholder(R.drawable.loading)
-            }
+            holder.date.setText(item.date)
+//            holder.img.load(item.imgurl) {
+//                placeholder(R.drawable.loading)
+//            }
         }
 
         override fun getItemCount(): Int {

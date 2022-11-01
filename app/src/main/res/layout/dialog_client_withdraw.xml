@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Routing Number: 1234567890"
+                    android:text="Routing Number: "
                     app:layout_constraintStart_toEndOf="@+id/imageView9"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Account Number: 1231231231"
+                    android:text="Account Number: "
                     app:layout_constraintStart_toEndOf="@+id/imageView9"
                     app:layout_constraintStart_toStartOf="@+id/withdraw_routing_tv"
                     app:layout_constraintTop_toBottomOf="@+id/withdraw_routing_tv" />

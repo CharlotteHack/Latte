@@ -63,36 +63,9 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
             var emp_list = listOf(
                 SampleAsset(
                     "https://getlogovector.com/wp-content/uploads/2020/03/proshares-logo-vector.png",
-                    "TQQQ"
-                ),
-                SampleAsset(
-                    "https://p.kindpng.com/picc/s/127-1270696_bank-of-america-logo-icon-hd-png-download.png",
-                    "BAC"
-                ),
-                SampleAsset(
-                    "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/yti8ctzowi1vnl6jzvab",
-                    "SWK"
-                ),
-                SampleAsset(
-                    "https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png",
-                    "AAPL"
-                ),
-                SampleAsset(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png",
-                    "MSFT"
-                ),
-                SampleAsset("https://www.freepnglogos.com/uploads/tesla-logo-png-25.png", "TSLA"),
-                SampleAsset(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Occidental-Petroleum-Logo.svg/1200px-Occidental-Petroleum-Logo.svg.png",
-                    "OXY"
-                ),
-                SampleAsset(
-                    "https://s21.q4cdn.com/616071541/files/multimedia-gallery/assets/Logos/american-airlines/THUMB-aa_aa__vrt_rgb_grd_pos.png",
-                    "AAL"
-                ),
-                SampleAsset(
-                    "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png",
-                    "GOOG"
+                    "TQQQ",
+                    date = "10/12/2025",
+                    timestamp = 100000
                 )
             )
             assetsMutableStateFlow.value = emp_list
@@ -110,6 +83,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         setValue("accountValue")
         setValue("unrealizedValue")
         setValue("accountValueByDates")
+        setValue("savings")
 
         //Call setvalue for the account ID, if value is not none, display listview otherwise hide it
         setValue("accountID")
@@ -150,11 +124,23 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     }
                 }
                 if (identifer.equals("accountValue")) {
+                    Log.d(" (153) FragmentClientViewModel","Account Value: "+it.value.toString())
                     client.client_balance = it.value.toString()
                     dashboard.binding.apply {
-                        if ("." in client.client_balance) {
-                            tvAccountValueHome.setText("Total Account Value: " + client.formatAccountValue())
-                        }
+//                        if ("." in client.client_balance) {
+                            tvAccountValueHome.setText("Account Value: $" + client.currencyFormat(client.client_balance))
+//                        }
+                    }
+                }
+                if (identifer.equals("savings")) {
+                    var savings = it.value as? HashMap<*, *>
+                    Log.d(" (135) FragmentClientViewModel","Savings: "+savings)
+//                    var saving = SampleAsset()
+                    var amount = savings!!.get("amount") as Double
+                    var date = savings!!.get("date") as String
+                    var ts = savings!!.get("timestamp") as Long
+                    dashboard.binding.apply {
+
                     }
                 }
                 if (identifer.equals("accountValueByDates")) {
@@ -256,19 +242,11 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     client.client_unrealized_profit = it.value.toString()
                     if (it.value != null) {
                         Log.d("unrealizedValue: ", client.client_unrealized_profit)
-                        if (Float.valueOf(client.client_unrealized_profit) >= 0f) {
-                            dashboard.binding.apply {
-                                tvUrealizedPlHome.setText("Total Net Account Gain " + client.client_unrealized_profit)
-                            }
-                            displayProgress(false)
 
-                        } else {
-                            dashboard.binding.apply {
-                                tvUrealizedPlHome.setText("Total Net Account Loss: " + client.client_unrealized_profit)
-                                displayProgress(false)
-
-                            }
+                        dashboard.binding.apply {
+                            tvUrealizedPlHome.setText("Savings earned $" + client.currencyFormat(client.client_unrealized_profit))
                         }
+                        displayProgress(false)
                     } else {
                         Log.d("FragmentClientVieModel", "Unrealized profit is null")
                     }

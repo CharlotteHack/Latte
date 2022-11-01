@@ -39,18 +39,30 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dollar"
+                app:tint="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/tv_ticker_asset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:paddingBottom="8dp"
                 android:text="@string/asset_img"
                 app:layout_constraintEnd_toEndOf="@+id/iv_image_asset"
                 app:layout_constraintStart_toStartOf="@+id/iv_image_asset"
                 app:layout_constraintTop_toBottomOf="@+id/iv_image_asset" />
+
+            <TextView
+                android:id="@+id/tv_date_asset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="12/22/2022"
+                android:paddingBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ticker_asset" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
