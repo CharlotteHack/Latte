@@ -8,21 +8,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.charts.LineChart
 import com.salad.latte.ClientManagement.ViewModels.FragmentClientViewModel
 import com.salad.latte.R
 import com.salad.latte.databinding.FragmentClientHomeBinding
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
-class FragmentClientDashboard : Fragment() {
+
+class FragmentClientDashboard : Fragment(), OnSeekBarChangeListener {
 
     lateinit var viewModel : FragmentClientViewModel
     lateinit var binding : FragmentClientHomeBinding
+    private val chart: LineChart? = null
+    private val seekBarX: SeekBar? = null
+    private  var seekBarY:SeekBar? = null
+    private val tvX: TextView? = null
+    private  var tvY:TextView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var v = inflater.inflate(R.layout.fragment_client_home,container,false)
         binding = FragmentClientHomeBinding.bind(v);
@@ -50,6 +59,8 @@ class FragmentClientDashboard : Fragment() {
                 }
             }
         }
+
+
         return binding.root;
     }
 
@@ -96,9 +107,17 @@ class FragmentClientDashboard : Fragment() {
         }
     }
 
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        TODO("Not yet implemented")
+    }
 
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+        TODO("Not yet implemented")
+    }
 
-
+    override fun onStopTrackingTouch(p0: SeekBar?) {
+        TODO("Not yet implemented")
+    }
 
 
 }

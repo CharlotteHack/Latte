@@ -15,6 +15,9 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.enums.Anchor
 import com.anychart.enums.MarkerType
 import com.anychart.enums.TooltipPositionMode
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
+import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -164,22 +167,24 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
                 }
                 if (identifer.equals("accountValueByDates")) {
+                    var chartArray = mutableListOf<Double>()
+                    var chartDates = mutableListOf<String>()
 //                client.client_balance = it.value.toString()
                     dashboard.binding.apply {
 //                    tvAccountValueHome.setText("Total Account Value: "+client.client_balance)
 //                        var accountValues = snapshot.getValue(HashMap::class.java)
                         client.clearClientValues()
-                        if(snapshot.childrenCount.toInt() > 0){
+                        if(snapshot.childrenCount.toInt() == 0){
                             //No chart items
                             pbClientHome.visibility = View.INVISIBLE
-                            chartHome.visibility = View.VISIBLE
-                            nochartView.visibility = View.INVISIBLE
+                            chartHome.visibility = View.INVISIBLE
+                            nochartView.visibility = View.VISIBLE
                         }
                         else {
 
                             pbClientHome.visibility = View.INVISIBLE
-                            chartHome.visibility = View.INVISIBLE
-                            nochartView.visibility = View.VISIBLE
+                            chartHome.visibility = View.VISIBLE
+                            nochartView.visibility = View.INVISIBLE
                             for (ds in snapshot.children) {
 //                            Log.d("AccountValuesByDate: ", accountValues.toString())
                                 var month = ds.key.toString().split("-")[1]
@@ -187,81 +192,45 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
 
                                 Log.d(
-                                    "Fragment Client View Model client date",
+                                    "FragmentClientViewModel client date",
                                     month + "-" + day
                                 )
                                 client.addDateToValue(
                                     month + "-" + day,
                                     ds.getValue(String::class.java)!!
                                 )
-                                var chart = AnyChartView(dashboard.context)
-                                var cartesian = AnyChart.line()
-                                cartesian.animation(true)
+                                Log.d(
+                                    "FragmentClientViewModel client value",
+                                    ds.getValue(String::class.java)!!)
+                                var vall = ds.getValue(String::class.java)!!
+                                var cl = Client()
+                                cl.client_balance = vall
 
-                                cartesian.padding(10.0, 20.0, 5.0, 20.0)
+                                chartArray.add(java.lang.Double(cl.formatAccountValue()).toDouble())
+                                chartDates.add(ds.key!!)
 
-                                cartesian.crosshair().enabled(true)
-                                cartesian.crosshair()
-                                    .yLabel(true) // TODO ystroke
-                                    .yStroke()
-
-                                cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
-
-                                cartesian.title("Trend of Sales of the Most Popular Products of ACME Corp.")
-
-                                cartesian.yAxis(0).title("Number of Bottles Sold (thousands)")
-                                cartesian.xAxis(0).labels().padding(5.0, 5.0, 5.0, 5.0)
-
-                                val seriesData: MutableList<DataEntry> = ArrayList()
-                                seriesData.add(CustomDataEntry("1986", 3.6, 2.3, 2.8))
-                                seriesData.add(CustomDataEntry("1987", 7.1, 4.0, 4.1))
-                                seriesData.add(CustomDataEntry("1988", 8.5, 6.2, 5.1))
-                                seriesData.add(CustomDataEntry("1989", 9.2, 11.8, 6.5))
-                                seriesData.add(CustomDataEntry("1990", 10.1, 13.0, 12.5))
-                                seriesData.add(CustomDataEntry("1991", 11.6, 13.9, 18.0))
-                                seriesData.add(CustomDataEntry("1992", 16.4, 18.0, 21.0))
-                                seriesData.add(CustomDataEntry("1993", 18.0, 23.3, 20.3))
-                                seriesData.add(CustomDataEntry("1994", 13.2, 24.7, 19.2))
-                                seriesData.add(CustomDataEntry("1995", 12.0, 18.0, 14.4))
-                                seriesData.add(CustomDataEntry("1996", 3.2, 15.1, 9.2))
-                                seriesData.add(CustomDataEntry("1997", 4.1, 11.3, 5.9))
-                                seriesData.add(CustomDataEntry("1998", 6.3, 14.2, 5.2))
-                                seriesData.add(CustomDataEntry("1999", 9.4, 13.7, 4.7))
-                                seriesData.add(CustomDataEntry("2000", 11.5, 9.9, 4.2))
-                                seriesData.add(CustomDataEntry("2001", 13.5, 12.1, 1.2))
-                                seriesData.add(CustomDataEntry("2002", 14.8, 13.5, 5.4))
-                                seriesData.add(CustomDataEntry("2003", 16.6, 15.1, 6.3))
-                                seriesData.add(CustomDataEntry("2004", 18.1, 17.9, 8.9))
-                                seriesData.add(CustomDataEntry("2005", 17.0, 18.9, 10.1))
-                                seriesData.add(CustomDataEntry("2006", 16.6, 20.3, 11.5))
-                                seriesData.add(CustomDataEntry("2007", 14.1, 20.7, 12.2))
-                                seriesData.add(CustomDataEntry("2008", 15.7, 21.6, 10))
-                                seriesData.add(CustomDataEntry("2009", 12.0, 22.5, 8.9))
-
-                                var set = com.anychart.data.Set.instantiate()
-                                set.data(seriesData);
-                                var series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
-
-                                var series1 = cartesian.line(series1Mapping);
-                                series1.name("Brandy");
-                                series1.hovered().markers().enabled(true);
-                                series1.hovered().markers()
-                                    .type(MarkerType.CIRCLE)
-                                    .size(4);
-                                series1.tooltip()
-                                    .position("right")
-                                    .anchor(Anchor.LEFT_CENTER)
-                                    .offsetX(5)
-                                    .offsetY(5);
-
-
-                                cartesian.legend().enabled(true);
-                                cartesian.legend().fontSize(13);
-                                cartesian.legend().padding(0, 0, 10, 0);
-
-                                chart.setChart(cartesian);
 
                             }
+                            Log.d(
+                                "FragmentClientViewModel Chart Size:",
+                                chartArray.size.toString())
+
+                            //Time to plot on chart
+                            val aaChartModel : AAChartModel = AAChartModel()
+                                .chartType(AAChartType.Line)
+                                .title("Account Value By Month")
+                                .backgroundColor("#FFFFFF")
+                                .dataLabelsEnabled(true)
+                                .series(arrayOf(
+                                    AASeriesElement()
+                                        .name("Account")
+                                        .data(chartArray.toTypedArray())
+                                ))
+
+                                .categories(
+                                    chartDates.toTypedArray()
+                                )
+                            dashboard.binding.chartHome.aa_drawChartWithChartModel(aaChartModel)
                         }
 
 

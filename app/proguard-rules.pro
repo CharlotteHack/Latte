@@ -20,3 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keepclassmembers class com.salad.latte.Objects.Feedback { *; }
+-keep class com.github.aachartmodel.aainfographics.** { *; }
