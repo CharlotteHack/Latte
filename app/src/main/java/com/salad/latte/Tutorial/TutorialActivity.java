@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class TutorialActivity extends FragmentActivity {
 
     TutorialAdapter pagerAdapter = null;
-    String PREFS_FILENAME = "com.tutorial";
     SharedPreferences prefs = null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,13 +29,9 @@ public class TutorialActivity extends FragmentActivity {
         ArrayList<Fragment> fragmentsList = new ArrayList<Fragment>() ;
         fragmentsList.add(new TutorialPageOneFragment());
         fragmentsList.add(new TutorialPageTwoFragment());
-//        fragmentsList.add(new TutorialPageThreeFragment());
+        fragmentsList.add(new TutorialPageThreeFragment());
         pagerAdapter = new TutorialAdapter(getSupportFragmentManager(),getLifecycle(),fragmentsList);
         viewPager2.setAdapter(pagerAdapter);
-        prefs = this.getSharedPreferences(PREFS_FILENAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("didViewTutorial", true);
-        editor.apply();
 
     }
 

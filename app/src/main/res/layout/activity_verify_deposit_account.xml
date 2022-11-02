@@ -107,6 +107,7 @@
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:text="@string/verify_ban_confirm"
+            style="@style/Widget.AppCompat.Button.Colored"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,6 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/verify_ban_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -175,6 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_weight="1"
                 android:text="@string/verify_sums_confirm" />
 
@@ -183,6 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_weight="1"
                 android:text="@string/verify_sums_cancel" />
         </LinearLayout>

@@ -8,41 +8,30 @@
 
     <ImageView
         android:id="@+id/tutorial_pagetwo"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/newtutorialthreee"
+        android:src="@drawable/topchart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="2/2"
-        android:textColor="#000000"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="Enter your total capital and calculate how many shares in each stock you need to buy, with proper allocation."
 
+        android:padding="8dp"
+        android:text="The average savings yield is 0.16%. We offer 6%. Thats 37x times the performance."
         android:textColor="#000000"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="@+id/tutorial_pagetwo"
         app:layout_constraintStart_toStartOf="@+id/tutorial_pagetwo"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
 
     <Button
         android:id="@+id/tutorial_finish_2"
@@ -50,46 +39,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Finish Tutorial"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView55"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="In the example above, a user with 25000 in total capital will buy 16 shares of BMY. Allocating 5% of their total capital to this position"
+        android:text="Sleep safe knowing your savings are growing at a superior rate."
         android:textColor="#000000"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tutorial_pagetwo" />
 
-    <TextView
-        android:id="@+id/textView56"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="25000*.05 = 1250$"
-        android:textColor="#000000"
-        android:textSize="16dp"
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-    <TextView
-        android:id="@+id/textView57"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1250/76.64 ~= 16 shares"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView56" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/web_hi_res_512" />
 </androidx.constraintlayout.widget.ConstraintLayout>

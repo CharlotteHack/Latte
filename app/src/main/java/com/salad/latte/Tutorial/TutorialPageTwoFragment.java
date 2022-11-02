@@ -26,7 +26,8 @@ public class TutorialPageTwoFragment extends Fragment {
         tutorialFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TutorialPageThree","Click Registered");
+                Log.d("TutorialPageTwo","Click Registered");
+
                 getActivity().getSupportFragmentManager().popBackStack();
                 getActivity().finish();
             }

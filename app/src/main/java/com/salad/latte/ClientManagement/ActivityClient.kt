@@ -1,5 +1,6 @@
 package com.salad.latte.ClientManagement
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.salad.latte.DailyWatchlistFragment
 import com.salad.latte.Database.FirebaseDB
 import com.salad.latte.NewsFragment
 import com.salad.latte.R
+import com.salad.latte.Tutorial.TutorialActivity
 import com.salad.latte.databinding.ActivityClientDashboardBinding
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
@@ -50,6 +52,9 @@ class ActivityClient : AppCompatActivity(){
         viewModel = ActivityClientViewModel()
         viewPager = findViewById(R.id.client_viewpager)
         tabLayout = findViewById(R.id.clientTabLayout)
+        val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+
+
 //        PaymentConfiguration.init(
 //            applicationContext,
 //            "pk_test_51LhElXHPhIXe6prQpqIO2xrJt6UFmTK05C0Jf1oR0xqj8x0jcYP9dbuNf416QaAbuUpUAHZGCxLQxQqFoF4mGq9X00eWHCQ8i7"
@@ -57,6 +62,11 @@ class ActivityClient : AppCompatActivity(){
 
 
         lifecycleScope.launch {
+            var didFinishTutorial = sharedPreference.getBoolean("isTutorialComplete",false)
+            if(didFinishTutorial == false){
+                var intent = Intent(this@ActivityClient,TutorialActivity::class.java)
+                startActivity(intent)
+            }
 
         }
 
