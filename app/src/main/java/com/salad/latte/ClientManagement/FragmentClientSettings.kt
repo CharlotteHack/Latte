@@ -268,7 +268,7 @@ class FragmentClientSettings : Fragment() {
                                               var emailKey = email.replace(".", "|")
                                               var transactions = HashMap<String,ClientTransaction>()
                                               var ts = System.currentTimeMillis()
-                                              var amount = Double.valueOf(balance.toString())
+                                              var amount = Double.valueOf(amount.toString())
                                               var status = "pending"
                                               var type = "withdrawal"
                                               var clientTransaction = ClientTransaction(type,amount,status,ts)

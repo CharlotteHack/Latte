@@ -16,7 +16,7 @@ class SignupActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
-        viewModel = ActivitySignupViewModel()
+        viewModel = ActivitySignupViewModel(this)
         setContentView(binding.root)
 
         binding.apply {
@@ -41,6 +41,7 @@ class SignupActivity: AppCompatActivity() {
                             client.client_unrealized_profit = "0.0"
 
                             lifecycleScope.launch {
+                                Toast.makeText(this@SignupActivity,"Creating Account!",Toast.LENGTH_LONG).show()
                                 viewModel.createClient(client, etPasswordSignup.text.toString(), this@SignupActivity)
                             }
 

@@ -41,16 +41,11 @@ class FragmentClientDashboard : Fragment() {
                 if(it == "none"){
                     binding.toolbar4.visibility = View.VISIBLE
                     binding.confirmationText.visibility = View.VISIBLE
+                    binding.nosavingsView.visibility = View.GONE
                 }
                 else if(it == "") {
                     binding.toolbar4.visibility = View.INVISIBLE
                     binding.confirmationText.visibility = View.INVISIBLE
-
-                }
-                else if(it.length > 0){
-                    binding.toolbar4.visibility = View.INVISIBLE
-                    binding.confirmationText.visibility = View.INVISIBLE
-
 
                 }
             }
