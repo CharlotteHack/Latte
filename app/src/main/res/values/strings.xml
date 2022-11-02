@@ -27,7 +27,7 @@
     <string name="verify_sums_cancel">Close</string>
     <string name="verify_ban_confirm">Confirm</string>
     <string name="verify_ban_close">Close</string>
-    <string name="nosavings">You haven\'t earned any savings with Latte yet. Savings are paid out on the 1st of every month.</string>
+    <string name="nosavings">Savings are paid out on the 1st of every month.</string>
 
     <string-array name="daily_watch">
     </string-array>

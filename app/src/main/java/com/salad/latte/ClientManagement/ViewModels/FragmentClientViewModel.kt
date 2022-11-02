@@ -97,7 +97,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         setValue("accountValue")
 //        setValue("unrealizedValue")
         setValue("accountValueByDates")
-        setValue("savings")
+//        setValue("savings")
 
         //Call setvalue for the account ID, if value is not none, display listview otherwise hide it
         setValue("accountID")
@@ -138,6 +138,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                             nosavingsView.visibility = View.VISIBLE
                             rvAssets.visibility = View.INVISIBLE
                             tvUrealizedPlHome.text = "Savings earned: $0.00";
+                            tvAssetsWeinvestin.text = "Monthly Savings Payouts"
                         }
                     }
                     else {
@@ -150,13 +151,14 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                                     Log.d(" (147) FragmentClientViewModel", "Amount: " + amount)
                                     savingsList.add(SampleAsset("", amount, date, ts))
                                 assetsMutableStateFlow.value = savingsList
-
-
-                                dashboard.binding.apply {
+                        }
+                        dashboard.binding.apply {
                             nosavingsView.visibility = View.INVISIBLE
                             rvAssets.visibility = View.VISIBLE
                             tvUrealizedPlHome.text = "Savings earned: $"+currencyFormat(totalSavings.toString())
-                            }
+                        }
+                        dashboard.binding.apply {
+                            tvAssetsWeinvestin.text = "Monthly Savings Payouts"
                         }
                     }
 
@@ -170,14 +172,14 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                         if(snapshot.childrenCount.toInt() > 0){
                             //No chart items
                             pbClientHome.visibility = View.INVISIBLE
-                            chartHome.visibility = View.INVISIBLE
-                            nochartView.visibility = View.VISIBLE
+                            chartHome.visibility = View.VISIBLE
+                            nochartView.visibility = View.INVISIBLE
                         }
                         else {
 
                             pbClientHome.visibility = View.INVISIBLE
-                            chartHome.visibility = View.VISIBLE
-                            nochartView.visibility = View.INVISIBLE
+                            chartHome.visibility = View.INVISIBLE
+                            nochartView.visibility = View.VISIBLE
                             for (ds in snapshot.children) {
 //                            Log.d("AccountValuesByDate: ", accountValues.toString())
                                 var month = ds.key.toString().split("-")[1]
@@ -295,11 +297,18 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 //                            tvAssetsWeinvestin.visibility = View.INVISIBLE
 //                            rvAssets.visibility = View.INVISIBLE
                             ibkrClientIDMutableStateFlow.value = "none"
+                            tvAssetsWeinvestin.text = ""
+                            nochartView.visibility = View.VISIBLE
+                            chartHome.visibility = View.INVISIBLE
+                            tvUrealizedPlHome.text = "Savings earned: $0.00";
 
                         } else {
 //                            tvAssetsWeinvestin.visibility = View.VISIBLE
 //                            rvAssets.visibility = View.VISIBLE
                             ibkrClientIDMutableStateFlow.value = accountID
+                            viewModelScope.launch {
+                                setValue("savings")
+                            }
 
                         }
                     }
