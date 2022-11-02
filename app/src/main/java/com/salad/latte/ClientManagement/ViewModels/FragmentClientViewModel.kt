@@ -86,6 +86,8 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         dashboard.binding.apply {
             pbClientHome.visibility = View.VISIBLE
             chartHome.visibility = View.INVISIBLE
+            nochartView.visibility = View.INVISIBLE
+            nosavingsView.visibility = View.INVISIBLE
         }
 
         var id = firebaseDB.auth.currentUser!!.email
@@ -101,42 +103,6 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
         setValue("accountID")
     }
 
-
-
-//        fun toggleIdentifier(identifer: String, toggle :Boolean) {
-//            setValue("name")
-//            setValue("accountValue")
-////        setValue("unrealizedValue")
-//            setValue("accountValueByDates")
-//            setValue("savings")
-//
-//            //Call setvalue for the account ID, if value is not none, display listview otherwise hide it
-//            setValue("accountID")
-//            if(identifer == ""){
-//
-//            }
-//        if (isOn) {
-//            dashboard.binding.apply {
-//                tvAccountValueHome.visibility = View.GONE
-//                tvWelcomeHome.visibility = View.GONE
-//                tvUrealizedPlHome.visibility = View.GONE
-//                chartHome.visibility = View.GONE
-//                tvAssetsWeinvestin.visibility = View.GONE
-//                rvAssets.visibility = View.GONE
-//                pbClientHome.visibility = View.VISIBLE
-//            }
-//        } else {
-//            dashboard.binding.apply {
-//                tvAccountValueHome.visibility = View.VISIBLE
-//                tvWelcomeHome.visibility = View.VISIBLE
-//                tvUrealizedPlHome.visibility = View.VISIBLE
-//                chartHome.visibility = View.VISIBLE
-//                tvAssetsWeinvestin.visibility = View.VISIBLE
-//                rvAssets.visibility = View.VISIBLE
-//                pbClientHome.visibility = View.GONE
-//            }
-//        }
-//    }
     fun currencyFormat(amount: String): String? {
         val formatter = DecimalFormat("###,###,##0.00")
         return formatter.format(amount.toDouble())
@@ -169,7 +135,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     var savingsList = mutableListOf<SampleAsset>()
                     if(snapshot.childrenCount.toInt() == 0){
                         dashboard.binding.apply {
-//                            nosavingsView.visibility = View.VISIBLE
+                            nosavingsView.visibility = View.VISIBLE
                             rvAssets.visibility = View.INVISIBLE
                             tvUrealizedPlHome.text = "Savings earned: $0.00";
                         }
@@ -187,7 +153,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
 
                                 dashboard.binding.apply {
-//                            nosavingsView.visibility = View.INVISIBLE
+                            nosavingsView.visibility = View.INVISIBLE
                             rvAssets.visibility = View.VISIBLE
                             tvUrealizedPlHome.text = "Savings earned: $"+currencyFormat(totalSavings.toString())
                             }
@@ -205,11 +171,13 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                             //No chart items
                             pbClientHome.visibility = View.INVISIBLE
                             chartHome.visibility = View.INVISIBLE
+                            nochartView.visibility = View.VISIBLE
                         }
                         else {
 
                             pbClientHome.visibility = View.INVISIBLE
                             chartHome.visibility = View.VISIBLE
+                            nochartView.visibility = View.INVISIBLE
                             for (ds in snapshot.children) {
 //                            Log.d("AccountValuesByDate: ", accountValues.toString())
                                 var month = ds.key.toString().split("-")[1]
@@ -324,13 +292,13 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
                     dashboard.binding.apply {
                         Log.d("FragmentClientViewModel", "Account ID: "+accountID)
                         if (accountID.equals("none")) {
-                            tvAssetsWeinvestin.visibility = View.INVISIBLE
-                            rvAssets.visibility = View.INVISIBLE
+//                            tvAssetsWeinvestin.visibility = View.INVISIBLE
+//                            rvAssets.visibility = View.INVISIBLE
                             ibkrClientIDMutableStateFlow.value = "none"
 
                         } else {
-                            tvAssetsWeinvestin.visibility = View.VISIBLE
-                            rvAssets.visibility = View.VISIBLE
+//                            tvAssetsWeinvestin.visibility = View.VISIBLE
+//                            rvAssets.visibility = View.VISIBLE
                             ibkrClientIDMutableStateFlow.value = accountID
 
                         }
@@ -343,6 +311,7 @@ class FragmentClientViewModel(clientDashboard: FragmentClientDashboard) : ViewMo
 
                         delay(3000)
                         Toast.makeText(dashboard.requireContext(),error.message,Toast.LENGTH_LONG).show()
+                        Toast.makeText(dashboard.requireContext(),"Error, trying again.",Toast.LENGTH_SHORT).show()
                         setValue(identifer)
 
                     }
